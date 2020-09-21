@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  layout: 'fixtures'
+  layout: 'fixtures',
 }
 </script>
