@@ -14,7 +14,7 @@
       </nuxt-link>
 
       <!-- Sport Menu -->
-      <v-menu left bottom>
+      <v-menu left bottom offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" title="Sport Menu">
             <v-icon>mdi-apps</v-icon>
@@ -25,7 +25,7 @@
         <v-list>
           <!-- NOTE: Only place three v-btn per v-list-item -->
           <v-list-item>
-            <v-btn class="sport-menu-button" icon title="Athletics">
+            <v-btn nuxt icon to="/athletics" class="sport-menu-button" title="Athletics">
               <v-icon>mdi-run</v-icon>
             </v-btn>
           </v-list-item>
@@ -36,10 +36,10 @@
       <v-spacer></v-spacer>
 
       <!-- Settings Menu -->
-      <v-menu left bottom>
+      <v-menu left bottom offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" title="Settings Menu">
-            <v-icon>mdi-dots-horizontal</v-icon>
+            <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
 
@@ -67,10 +67,7 @@
             class="menu-buymecoffee"
             style="display: block; height: 62px; background-color: #ff804d"
           >
-            <img
-              src="https://cdn.buymeacoffee.com/buttons/v2/default-orange.png"
-              alt="Buy Me A Coffee"
-            />
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-orange.png" alt="Buy Me A Coffee" />
           </a>
         </v-list>
       </v-menu>
