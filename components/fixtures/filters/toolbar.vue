@@ -26,6 +26,16 @@
 <script>
 export default {
   name: 'toolbar',
+  props: {
+    selectAllMonth: {
+      type: Boolean,
+      required: true,
+    },
+    dropdownState: {
+      type: Boolean,
+      required: true,
+    },
+  },
 }
 </script>
 

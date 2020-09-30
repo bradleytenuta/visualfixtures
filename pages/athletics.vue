@@ -1,5 +1,5 @@
 <template>
-  <calendar />
+  <calendar :countries="countries" />
 </template>
 
 <script>
@@ -9,6 +9,19 @@ export default {
   layout: 'fixtures',
   components: {
     calendar,
+  },
+  data() {
+    return {
+      countries: [
+        {
+          countryCode: 'GBR',
+          urls: [
+            'https://file.opentrack.run/live/euroath/domestic_calendar_gbr_2020.json',
+            'https://file.opentrack.run/live/euroath/domestic_calendar_gbr_2021.json',
+          ],
+        },
+      ],
+    }
   },
 }
 </script>

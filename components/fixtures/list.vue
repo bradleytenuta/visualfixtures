@@ -1,5 +1,6 @@
 <template>
   <v-container class="comp-calendar" id="competition-calendar" v-scroll.self="calendarScrollHandler">
+    <!-- Displays Fixtures -->
     <template v-for="viewableBranch in viewableBranches.slice(0, infiniteLoaderCounter)">
       <!-- Month Header -->
       <h3 class="comp-month-header">{{ viewableBranch.month }}</h3>
@@ -24,7 +25,7 @@
     <v-snackbar v-model="snackbar" timeout="2000">
       Copied to clipboard.
       <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="snackbar = false"> Close </v-btn>
+        <v-btn dark text v-bind="attrs" @click="snackbar = false">Close</v-btn>
       </template>
     </v-snackbar>
   </v-container>
@@ -36,6 +37,43 @@ export default {
   name: 'list',
   components: {
     card,
+  },
+  props: {
+    infiniteLoaderCounter: {
+      type: Number,
+      required: true,
+    },
+    viewableBranches: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      snackbar: false,
+    }
+  },
+  methods: {
+    /**
+     * This function is the scroll handler for the competition calendar.
+     * It can also be called directly instead of waiting for the handler to self
+     * execute. This function loads additional fixtures to the competition calendar.
+     * This infinite scroll was created as the performace for rendering a large amount of html elements
+     * was very taxing. The actual computation is fast but the rendering of elements was slow. An infinite
+     * scroll was created to break down this long computation to much smaller ones.
+     */
+    calendarScrollHandler() {
+      // Gets element by ID instead of using target so other buttons
+      // can use this function.
+      const element = document.getElementById('competition-calendar')
+
+      // If the user has scrolled to the button then increment counter.
+      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        if (this.viewableBranches.length > this.infiniteLoaderCounter) {
+          this.infiniteLoaderCounter++
+        }
+      }
+    },
   },
 }
 </script>

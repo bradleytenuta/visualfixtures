@@ -36,6 +36,54 @@
 <script>
 export default {
   name: 'dropdown',
+  props: {
+    countries: {
+      type: Array,
+      required: true,
+    },
+    months: {
+      type: Array,
+      required: true,
+    },
+    searchText: {
+      type: String,
+      required: true,
+    },
+    selectedMonth: {
+      type: String,
+      required: true,
+    },
+    selectedCountry: {
+      type: Object,
+      required: true,
+    },
+    selectedSort: {
+      type: Number,
+      required: true,
+    },
+    selectAllMonth: {
+      type: Boolean,
+      required: true,
+    },
+    dropdownState: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      sortOptions: [
+        {
+          text: 'Ascending',
+          value: 1,
+        },
+        {
+          text: 'Descending',
+          value: 2,
+        },
+      ],
+    }
+  },
 }
 </script>
 

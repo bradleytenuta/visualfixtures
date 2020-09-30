@@ -6,11 +6,11 @@
       <v-list-item-avatar class="comp-date-container" color="grey lighten-3">
         <p>
           <span class="comp-date-day">
-            {{ moment(competition.date).format('DD') }}
+            {{ $moment(competition.date).format('DD') }}
           </span>
           <br />
           <span class="comp-date-month">
-            {{ moment(competition.date).format('MMM') }}
+            {{ $moment(competition.date).format('MMM') }}
           </span>
         </p>
       </v-list-item-avatar>
@@ -49,7 +49,7 @@
           v-if="!isFinishDateSame(competition)"
           icon="mdi-information-outline"
           tooltip="Start date is different to finish date!"
-          :text="moment(competition.finish_date).format('DD/MM/YY')"
+          :text="$moment(competition.finish_date).format('DD/MM/YY')"
           :divider="true"
         ></text>
 
@@ -136,14 +136,14 @@ export default {
      */
     hasExpired(competition) {
       // compares to the nearest day.
-      return moment(competition.finish_date).isBefore(moment(), 'day')
+      return this.$moment(competition.finish_date).isBefore(this.$moment(), 'day')
     },
     /**
      * This function checks if a given competiton will become past by the end of today.
      */
     expiresToday(competition) {
       // compares to the nearest day.
-      return moment(competition.finish_date).isSame(moment(), 'day')
+      return this.$moment(competition.finish_date).isSame(this.$moment(), 'day')
     },
     /**
      * This function checks if a given competition is currently on now.
@@ -151,8 +151,8 @@ export default {
     isOnNow(competition) {
       // Expires today or in the future, and it has started in the past.
       return (
-        (this.expiresToday(competition) || moment(competition.finish_date).isAfter(moment(), 'day')) &&
-        moment(competition.date).isBefore(moment(), 'day')
+        (this.expiresToday(competition) || this.$moment(competition.finish_date).isAfter(this.$moment(), 'day')) &&
+        this.$moment(competition.date).isBefore(this.$moment(), 'day')
       )
     },
     /**
@@ -160,7 +160,22 @@ export default {
      * start date.
      */
     isFinishDateSame(competition) {
-      return moment(competition.date).isSame(moment(competition.finish_date), 'day')
+      return this.$moment(competition.date).isSame(this.$moment(competition.finish_date), 'day')
+    },
+    /**
+     * Copies the given string of information to the clipboard.
+     * Then displays a snackbar to tell the user something has happened.
+     */
+    copyToClipboard(info_string) {
+      navigator.clipboard
+        .writeText(info_string)
+        .then(() => {
+          // Makes the snackbar visible.
+          this.snackbar = true
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
   },
 }
