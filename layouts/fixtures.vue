@@ -9,6 +9,7 @@
 </template>
 <script>
 import navbar from '~/components/fixtures/navbar.vue'
+
 export default {
   name: 'fixtures',
   components: {

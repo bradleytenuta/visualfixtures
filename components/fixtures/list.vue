@@ -33,6 +33,7 @@
 
 <script>
 import card from '~/components/fixtures/list/card.vue'
+
 export default {
   name: 'list',
   components: {

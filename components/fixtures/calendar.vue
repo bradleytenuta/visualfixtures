@@ -19,6 +19,7 @@
 <script>
 import filters from '~/components/fixtures/filters.vue'
 import list from '~/components/fixtures/list.vue'
+import moment from 'moment'
 
 export default {
   name: 'calendar',
@@ -138,10 +139,10 @@ export default {
       // Months - Ascending
       if (itemValue == 1) {
         competitions.sort(function (x, y) {
-          if (this.$moment(x.date).isBefore(this.$moment(y.date))) {
+          if (moment(x.date).isBefore(moment(y.date))) {
             return -1
           }
-          if (this.$moment(x.date).isAfter(this.$moment(y.date))) {
+          if (moment(x.date).isAfter(moment(y.date))) {
             return 1
           }
           return 0
@@ -150,10 +151,10 @@ export default {
         // Months - Descending
       } else if (itemValue == 2) {
         competitions.sort(function (x, y) {
-          if (this.$moment(y.date).isBefore(this.$moment(x.date))) {
+          if (moment(y.date).isBefore(moment(x.date))) {
             return -1
           }
-          if (this.$moment(y.date).isAfter(this.$moment(x.date))) {
+          if (moment(y.date).isAfter(moment(x.date))) {
             return 1
           }
           return 0
@@ -168,10 +169,10 @@ export default {
       // Ascending
       if (itemValue == 1) {
         branches.sort(function (x, y) {
-          if (this.$moment(x.month, 'MMMM YYYY').isBefore(this.$moment(y.month, 'MMMM YYYY', 'month'))) {
+          if (moment(x.month, 'MMMM YYYY').isBefore(moment(y.month, 'MMMM YYYY', 'month'))) {
             return -1
           }
-          if (this.$moment(x.month, 'MMMM YYYY').isAfter(this.$moment(y.month, 'MMMM YYYY', 'month'))) {
+          if (moment(x.month, 'MMMM YYYY').isAfter(moment(y.month, 'MMMM YYYY', 'month'))) {
             return 1
           }
           return 0
@@ -180,10 +181,10 @@ export default {
         // Descending
       } else if (itemValue == 2) {
         branches.sort(function (x, y) {
-          if (this.$moment(y.month, 'MMMM YYYY').isBefore(this.$moment(x.month, 'MMMM YYYY', 'month'))) {
+          if (moment(y.month, 'MMMM YYYY').isBefore(moment(x.month, 'MMMM YYYY', 'month'))) {
             return -1
           }
-          if (this.$moment(y.month, 'MMMM YYYY').isAfter(this.$moment(x.month, 'MMMM YYYY', 'month'))) {
+          if (moment(y.month, 'MMMM YYYY').isAfter(moment(x.month, 'MMMM YYYY', 'month'))) {
             return 1
           }
           return 0
@@ -215,7 +216,7 @@ export default {
           // If the competition month is the same as the current filtered month
           // and the competition name matches the search text or the search text is empty
           // then add it to its branch.
-          if (this.$moment(competition.date).isSame(this.$moment(month, 'MMMM YYYY'), 'month')) {
+          if (moment(competition.date).isSame(moment(month, 'MMMM YYYY'), 'month')) {
             if (
               this.searchText == null ||
               competition.full_name.toLowerCase().includes(this.searchText.toLowerCase()) ||
@@ -254,7 +255,7 @@ export default {
      */
     setUpFilters(competitions) {
       // Adds the current month to list of available months.
-      this.selectedMonth = this.$moment().format('MMMM YYYY')
+      this.selectedMonth = moment().format('MMMM YYYY')
       if (!this.months.includes(this.selectedMonth)) {
         this.months.push(this.selectedMonth)
       }
@@ -262,7 +263,7 @@ export default {
       // Adds all the available months and countries from list.
       competitions.forEach((competition) => {
         // Adds available months.
-        var month = this.$moment(competition.date).format('MMMM YYYY')
+        var month = moment(competition.date).format('MMMM YYYY')
         if (!this.months.includes(month)) {
           this.months.push(month)
         }
@@ -272,7 +273,7 @@ export default {
       this.countries.sort()
 
       // Sorts the months in calendar order.
-      this.months.sort((x, y) => this.$moment(x, 'MMMM YYYY') - this.$moment(y, 'MMMM YYYY'))
+      this.months.sort((x, y) => moment(x, 'MMMM YYYY') - moment(y, 'MMMM YYYY'))
     },
   },
 }

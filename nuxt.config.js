@@ -38,15 +38,10 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    // https://momentjs.com/
-    '@nuxtjs/moment',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
-
-  // Momentjs moudle configuration
-  moment: {},
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {

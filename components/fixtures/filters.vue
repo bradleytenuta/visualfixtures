@@ -20,6 +20,7 @@
 <script>
 import toolbar from '~/components/fixtures/filters/toolbar.vue'
 import dropdown from '~/components/fixtures/filters/dropdown.vue'
+
 export default {
   name: 'filters',
   components: {
