@@ -5,8 +5,6 @@
       :countries="countries"
       :months="months"
       :searchText="searchText"
-      :selectedMonth="selectedMonth"
-      :selectedCountry="selectedCountry"
       :selectedSort="selectedSort"
       :selectAllMonth="selectAllMonth"
     />
@@ -40,9 +38,8 @@ export default {
       infiniteLoaderCounter: 1,
       months: [],
       searchText: '',
-      selectedMonth: null,
-      selectedCountry: null,
       selectedSort: 1,
+      moment: moment,
     }
   },
   watch: {
@@ -80,6 +77,22 @@ export default {
 
       return viewableBranches
     },
+    selectedMonth: {
+      get() {
+        return this.$store.getters.selectedMonth
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSelectedMonth', newValue)
+      },
+    },
+    selectedCountry: {
+      get() {
+        return this.$store.getters.selectedCountry
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSelectedCountry', newValue)
+      },
+    },
   },
   /**
    * This function is called once the vue instance has been created.
@@ -87,7 +100,7 @@ export default {
    */
   created() {
     // Sets the current country to the first country in the list.
-    this.selectedCountry = this.countries[0]
+    this.$store.dispatch('changeSelectedCountry', this.countries[0])
   },
   methods: {
     /**
@@ -255,7 +268,7 @@ export default {
      */
     setUpFilters(competitions) {
       // Adds the current month to list of available months.
-      this.selectedMonth = moment().format('MMMM YYYY')
+      this.$store.dispatch('changeSelectedMonth', moment().format('MMMM YYYY'))
       if (!this.months.includes(this.selectedMonth)) {
         this.months.push(this.selectedMonth)
       }

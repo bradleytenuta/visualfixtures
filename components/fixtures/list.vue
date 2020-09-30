@@ -7,7 +7,8 @@
 
       <!-- Competition Cards -->
       <div class="d-flex comp-month-card-container">
-        <card v-for="competition in viewableBranch.competitions" :key="competition.id" />
+        <!--  :key="competition.id" -->
+        <card v-for="competition in viewableBranch.competitions" :key="competition.id" :competition="competition" />
       </div>
     </template>
 

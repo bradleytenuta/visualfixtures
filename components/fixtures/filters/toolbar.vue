@@ -8,13 +8,13 @@
       <v-spacer></v-spacer>
 
       <!-- Filter Button Mobile -->
-      <v-btn class="filter-top-bar-filter-button-mobile" color="gray" small icon @click="dropdownState = !dropdownState">
+      <v-btn class="filter-top-bar-filter-button-mobile" color="gray" small icon @click="toggleDropdown">
         <v-icon v-if="!dropdownState">mdi-filter-menu</v-icon>
         <v-icon v-else>mdi-filter-menu-outline</v-icon>
       </v-btn>
 
       <!-- Filter Button Desktop -->
-      <v-btn class="filter-top-bar-filter-button-desktop" small text @click="dropdownState = !dropdownState">
+      <v-btn class="filter-top-bar-filter-button-desktop" small text @click="toggleDropdown">
         <span>Filter</span>
         <v-icon right v-if="!dropdownState">mdi-filter-menu</v-icon>
         <v-icon right v-else>mdi-filter-menu-outline</v-icon>
@@ -34,6 +34,11 @@ export default {
     dropdownState: {
       type: Boolean,
       required: true,
+    },
+  },
+  methods: {
+    toggleDropdown() {
+      this.$emit('updateDropdownState')
     },
   },
 }

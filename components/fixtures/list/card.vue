@@ -4,7 +4,7 @@
     <v-list-item>
       <!-- Calendar Style Date -->
       <v-list-item-avatar class="comp-date-container" color="grey lighten-3">
-        <p>
+        <div>
           <span class="comp-date-day">
             {{ moment(competition.date).format('DD') }}
           </span>
@@ -12,7 +12,7 @@
           <span class="comp-date-month">
             {{ moment(competition.date).format('MMM') }}
           </span>
-        </p>
+        </div>
       </v-list-item-avatar>
 
       <!-- Competition Title Info -->
@@ -35,7 +35,7 @@
       <chip
         v-if="competition.num_competitors > 0"
         color="green darken-1"
-        :text="competition.num_competitors"
+        :text="competition.num_competitors.toString()"
         tooltip="Competition is over"
         icon="mdi-account-group"
       ></chip>
@@ -123,14 +123,25 @@
 
 <script>
 import chip from '~/components/fixtures/list/chip.vue'
-import text from '~/components/fixtures/list/text.vue'
+import cardText from '~/components/fixtures/list/card-text.vue'
 import moment from 'moment'
 
 export default {
   name: 'card',
   components: {
     chip,
-    text,
+    'card-text': cardText,
+  },
+  props: {
+    competition: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      moment: moment,
+    }
   },
   methods: {
     /**
@@ -207,7 +218,7 @@ export default {
   cursor: default;
 }
 
-.comp-date-container > p {
+.comp-date-container > div {
   margin: 0px;
   line-height: 0.75;
 }

@@ -49,14 +49,6 @@ export default {
       type: String,
       required: true,
     },
-    selectedMonth: {
-      type: String,
-      required: true,
-    },
-    selectedCountry: {
-      type: Object,
-      required: true,
-    },
     selectedSort: {
       type: Number,
       required: true,
@@ -83,6 +75,24 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    selectedMonth: {
+      get() {
+        return this.$store.getters.selectedMonth
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSelectedMonth', newValue)
+      },
+    },
+    selectedCountry: {
+      get() {
+        return this.$store.getters.selectedCountry
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSelectedCountry', newValue)
+      },
+    },
   },
 }
 </script>

@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'text',
+  name: 'card-text',
   props: {
     text: {
       type: String,
@@ -28,7 +28,7 @@ export default {
     icon: {
       type: String,
       required: false,
-      default: false,
+      default: '',
     },
     divider: {
       type: Boolean,

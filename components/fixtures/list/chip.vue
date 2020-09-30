@@ -31,7 +31,7 @@ export default {
     icon: {
       type: String,
       required: false,
-      default: false,
+      default: '',
     },
   },
 }
