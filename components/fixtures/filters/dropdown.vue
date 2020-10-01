@@ -11,7 +11,8 @@
           single-line
           label="Find..."
           prepend-inner-icon="mdi-magnify"
-          v-model="searchText"
+          :value="searchText"
+          @input="updateSearchText"
         ></v-text-field>
       </v-col>
 
@@ -100,6 +101,11 @@ export default {
       set(newValue) {
         this.$store.dispatch('changeSelectSort', newValue)
       },
+    },
+  },
+  methods: {
+    updateSearchText(newText) {
+      this.$emit('SearchTextChange', newText)
     },
   },
 }

@@ -4,7 +4,7 @@
     <toolbar :dropdownState="dropdownState" v-on:updateDropdownState="dropdownState = !dropdownState" />
 
     <!-- Dropdown Component -->
-    <dropdown :countries="countries" :months="months" :searchText="searchText" :dropdownState="dropdownState" />
+    <dropdown :countries="countries" :months="months" :searchText="searchText" :dropdownState="dropdownState" v-on="$listeners" />
   </div>
 </template>
 

@@ -2,7 +2,7 @@
   <!-- TODO: Remove once on Vue3 as Vue3 supports multiple roots -->
   <div style="height: 100%; display: flex; flex-direction: column">
     <!-- Filters Menu -->
-    <filters :countries="countries" :months="months" :searchText="searchText" />
+    <filters :countries="countries" :months="months" :searchText="searchText" v-on:SearchTextChange="updateSearchText" />
 
     <!-- Fixture List -->
     <list :scrollCounter="scrollCounter" :viewableBranches="viewableBranches" v-on:incrementScrollCounter="scrollCounter++" />
@@ -295,6 +295,9 @@ export default {
 
       // Sorts the months in calendar order.
       this.months.sort((x, y) => moment(x, 'MMMM YYYY') - moment(y, 'MMMM YYYY'))
+    },
+    updateSearchText(newText) {
+      this.searchText = newText
     },
   },
 }
