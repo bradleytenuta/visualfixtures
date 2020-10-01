@@ -213,14 +213,6 @@ export default {
   line-height: 0 !important;
 }
 
-.compcard .v-btn:not(.v-btn--round).v-size--default {
-  padding: 0 8px;
-}
-
-.compcard .v-btn__content {
-  width: 100%;
-}
-
 .compcard .v-chip-group .v-chip {
   cursor: default;
 }

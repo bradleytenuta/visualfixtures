@@ -1,6 +1,5 @@
 <template>
-  <!-- TODO: Remove once on Vue3 as Vue3 supports multiple roots -->
-  <div style="height: 100%; display: flex; flex-direction: column">
+  <div class="calendar-main-container">
     <!-- Filters Menu -->
     <filters :countries="countries" :months="months" :searchText="searchText" v-on:SearchTextChange="updateSearchText" />
 
@@ -302,3 +301,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.calendar-main-container {
+  height: calc(100% - 56px);
+  display: flex;
+  flex-direction: column;
+}
+</style>

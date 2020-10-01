@@ -1,21 +1,15 @@
 <template>
-  <v-app-bar flat>
+  <v-app-bar flat class="fixture-navbar">
     <!-- Logo -->
     <!-- img src needs the require tag as vuetify img vue container does not support nuxt asset images -->
     <nuxt-link to="/">
-      <v-img
-        class="mx-2"
-        :src="require('~/assets/logos/android-chrome-maskable-192x192.png')"
-        max-height="40"
-        max-width="40"
-        contain
-      ></v-img>
+      <v-img :src="require('~/assets/logos/android-chrome-maskable-192x192.png')" max-height="40" max-width="40" contain></v-img>
     </nuxt-link>
 
     <!-- Sport Menu -->
     <v-menu left bottom offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" title="Sport Menu">
+        <v-btn icon v-bind="attrs" v-on="on" title="Sports Menu" class="mx-2">
           <v-icon>mdi-apps</v-icon>
         </v-btn>
       </template>
@@ -80,6 +74,12 @@ export default {
 </script>
 
 <style scoped>
+.fixture-navbar {
+  height: 56px !important;
+  display: flex;
+  flex-direction: column;
+}
+
 .sport-menu-button {
   background-color: lightgray;
   border-radius: 0;

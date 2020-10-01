@@ -40,4 +40,12 @@ body {
   font-family: roboto;
   height: 100%;
 }
+
+.compcard .v-btn:not(.v-btn--round).v-size--default {
+  padding: 0 8px;
+}
+
+.compcard .v-btn__content {
+  width: 100%;
+}
 </style>

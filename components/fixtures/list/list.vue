@@ -91,6 +91,7 @@ export default {
   /* Firefox scrollbar styling - webkit scrollbar works for all other browsers */
   scrollbar-width: thin;
   scrollbar-color: #cdcdcd transparent;
+  padding: 0px;
 }
 
 .comp-month-header {
