@@ -2,7 +2,7 @@
   <v-container>
     <div class="filter-top-bar">
       <!-- Select All Checkbox -->
-      <v-checkbox v-model="selectAllMonth" label="Display All" class="filter-top-bar-checkbox"></v-checkbox>
+      <v-checkbox v-model="displayAll" label="Display All" class="filter-top-bar-checkbox"></v-checkbox>
 
       <!-- Spacer -->
       <v-spacer></v-spacer>
@@ -27,10 +27,6 @@
 export default {
   name: 'toolbar',
   props: {
-    selectAllMonth: {
-      type: Boolean,
-      required: true,
-    },
     dropdownState: {
       type: Boolean,
       required: true,
@@ -39,6 +35,16 @@ export default {
   methods: {
     toggleDropdown() {
       this.$emit('updateDropdownState')
+    },
+  },
+  computed: {
+    displayAll: {
+      get() {
+        return this.$store.getters.displayAll
+      },
+      set(newValue) {
+        this.$store.dispatch('changeDisplayAll', newValue)
+      },
     },
   },
 }
@@ -62,6 +68,14 @@ export default {
   color: rgba(0, 0, 0, 0.54) !important; /* Same colour as icon buttons */
 }
 
+.filter-top-bar-checkbox {
+  width: fit-content;
+  margin: 0;
+  display: inline-flex;
+  padding-top: 0px;
+  height: 24px;
+}
+
 @media only screen and (min-width: 960px) {
   .filter-top-bar-filter-button-desktop {
     display: flex;
@@ -69,12 +83,5 @@ export default {
   .filter-top-bar-filter-button-mobile {
     display: none;
   }
-}
-
-.filter-top-bar-checkbox {
-  width: fit-content;
-  margin: 0;
-  display: inline-flex;
-  padding-top: 0px;
 }
 </style>

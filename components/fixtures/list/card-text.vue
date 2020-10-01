@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: Remove once on Vue3 as Vue3 supports multiple roots -->
   <div>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">

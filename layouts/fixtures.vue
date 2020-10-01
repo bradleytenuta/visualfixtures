@@ -28,6 +28,14 @@ body {
   height: 100%;
 }
 
+#__nuxt {
+  height: 100%;
+}
+
+#__layout {
+  height: 100%;
+}
+
 #app {
   font-family: roboto;
   height: 100%;

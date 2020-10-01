@@ -1,7 +1,7 @@
 <template>
   <v-container class="comp-calendar" id="competition-calendar" v-scroll.self="calendarScrollHandler">
     <!-- Displays Fixtures -->
-    <template v-for="viewableBranch in viewableBranches.slice(0, infiniteLoaderCounter)">
+    <template v-for="viewableBranch in viewableBranches.slice(0, scrollCounter)">
       <!-- Month Header -->
       <h3 class="comp-month-header">{{ viewableBranch.month }}</h3>
 
@@ -13,7 +13,7 @@
     </template>
 
     <!-- Infinite Scroller - Load More Button -->
-    <div v-if="infiniteLoaderCounter < viewableBranches.length" class="comp-load-more-container">
+    <div v-if="scrollCounter < viewableBranches.length" class="comp-load-more-container">
       <v-btn @click="calendarScrollHandler">Load More...</v-btn>
     </div>
 
@@ -41,7 +41,7 @@ export default {
     card,
   },
   props: {
-    infiniteLoaderCounter: {
+    scrollCounter: {
       type: Number,
       required: true,
     },
@@ -67,12 +67,13 @@ export default {
     calendarScrollHandler() {
       // Gets element by ID instead of using target so other buttons
       // can use this function.
+      // TODO: improve this by passing in the element to function instead of using id and finding it that way.
       const element = document.getElementById('competition-calendar')
 
       // If the user has scrolled to the button then increment counter.
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-        if (this.viewableBranches.length > this.infiniteLoaderCounter) {
-          this.infiniteLoaderCounter++
+        if (this.viewableBranches.length > this.scrollCounter) {
+          this.$emit('incrementScrollCounter')
         }
       }
     },
@@ -82,6 +83,8 @@ export default {
 
 <style scoped>
 .comp-calendar {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;

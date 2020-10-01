@@ -1,22 +1,17 @@
 <template>
-  <div>
+  <!-- TODO: Remove once on Vue3 as Vue3 supports multiple roots -->
+  <div style="height: 100%; display: flex; flex-direction: column">
     <!-- Filters Menu -->
-    <filters
-      :countries="countries"
-      :months="months"
-      :searchText="searchText"
-      :selectedSort="selectedSort"
-      :selectAllMonth="selectAllMonth"
-    />
+    <filters :countries="countries" :months="months" :searchText="searchText" />
 
     <!-- Fixture List -->
-    <list :infiniteLoaderCounter="infiniteLoaderCounter" :viewableBranches="viewableBranches" />
+    <list :scrollCounter="scrollCounter" :viewableBranches="viewableBranches" v-on:incrementScrollCounter="scrollCounter++" />
   </div>
 </template>
 
 <script>
-import filters from '~/components/fixtures/filters.vue'
-import list from '~/components/fixtures/list.vue'
+import filters from '~/components/fixtures/filters/filters.vue'
+import list from '~/components/fixtures/list/list.vue'
 import moment from 'moment'
 
 export default {
@@ -34,12 +29,9 @@ export default {
   data() {
     return {
       competitions: [],
-      selectAllMonth: false,
-      infiniteLoaderCounter: 1,
+      scrollCounter: 1,
       months: [],
       searchText: '',
-      selectedSort: 1,
-      moment: moment,
     }
   },
   watch: {
@@ -60,7 +52,7 @@ export default {
       // Populates the viewableBranches by filtering out unselected months.
       tempCompTree.forEach((branch) => {
         // If the branch month matches the selected month then add it to viewableBranches.
-        if (this.selectAllMonth || branch.month == this.selectedMonth) {
+        if (this.displayAll || branch.month == this.selectedMonth) {
           viewableBranches.push(branch)
         }
       })
@@ -73,7 +65,7 @@ export default {
       this.sortBranches(this.selectedSort, viewableBranches)
 
       // Resets the infinite loader counter to 1.
-      this.infiniteLoaderCounter = 1
+      this.scrollCounter = 1
 
       return viewableBranches
     },
@@ -91,6 +83,22 @@ export default {
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedCountry', newValue)
+      },
+    },
+    displayAll: {
+      get() {
+        return this.$store.getters.displayAll
+      },
+      set(newValue) {
+        this.$store.dispatch('changeDisplayAll', newValue)
+      },
+    },
+    selectedSort: {
+      get() {
+        return this.$store.getters.selectedSort
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSelectSort', newValue)
       },
     },
   },

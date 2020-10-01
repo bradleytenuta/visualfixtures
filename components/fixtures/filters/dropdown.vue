@@ -17,7 +17,7 @@
 
       <!-- Month Select -->
       <v-col class="d-flex select-container" cols="12" md="3" lg="3">
-        <v-select :items="months" label="Month" v-model="selectedMonth" outlined :disabled="selectAllMonth"></v-select>
+        <v-select :items="months" label="Month" v-model="selectedMonth" outlined :disabled="displayAll"></v-select>
       </v-col>
 
       <!-- Sort By Select -->
@@ -47,14 +47,6 @@ export default {
     },
     searchText: {
       type: String,
-      required: true,
-    },
-    selectedSort: {
-      type: Number,
-      required: true,
-    },
-    selectAllMonth: {
-      type: Boolean,
       required: true,
     },
     dropdownState: {
@@ -93,16 +85,27 @@ export default {
         this.$store.dispatch('changeSelectedCountry', newValue)
       },
     },
+    displayAll: {
+      get() {
+        return this.$store.getters.displayAll
+      },
+      set(newValue) {
+        this.$store.dispatch('changeDisplayAll', newValue)
+      },
+    },
+    selectedSort: {
+      get() {
+        return this.$store.getters.selectedSort
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSelectSort', newValue)
+      },
+    },
   },
 }
 </script>
 
 <style scoped>
-.filter-container {
-  flex-direction: column;
-  border-bottom: 1px lightgray solid;
-}
-
 .filter-dropdown-container {
   padding-top: 0px;
   padding-bottom: 0px;

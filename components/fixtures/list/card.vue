@@ -6,11 +6,11 @@
       <v-list-item-avatar class="comp-date-container" color="grey lighten-3">
         <div>
           <span class="comp-date-day">
-            {{ moment(competition.date).format('DD') }}
+            {{ formatDate(competition.date, 'DD') }}
           </span>
           <br />
           <span class="comp-date-month">
-            {{ moment(competition.date).format('MMM') }}
+            {{ formatDate(competition.date, 'MMM') }}
           </span>
         </div>
       </v-list-item-avatar>
@@ -26,43 +26,48 @@
     <!-- Competition Extra Information -->
     <v-chip-group column class="px-6">
       <!-- If It is currently on now -->
-      <chip v-if="isOnNow(competition)" color="green darken-1" text="On Now" tooltip="Competition is on now"></chip>
+      <card-chip v-if="isOnNow(competition)" color="green darken-1" text="On Now" tooltip="Competition is on now"></card-chip>
 
       <!-- If Has Expired -->
-      <chip v-if="hasExpired(competition)" color="red darken-1" text="Expired" tooltip="Competition is over"></chip>
+      <card-chip v-if="hasExpired(competition)" color="red darken-1" text="Expired" tooltip="Competition is over"></card-chip>
 
       <!-- No. of participants -->
-      <chip
+      <card-chip
         v-if="competition.num_competitors > 0"
         color="green darken-1"
         :text="competition.num_competitors.toString()"
         tooltip="Competition is over"
         icon="mdi-account-group"
-      ></chip>
+      ></card-chip>
     </v-chip-group>
 
     <!-- Competition Info - No Action -->
     <v-card-text class="py-0">
       <div class="comp-info-card-text pb-2">
         <!-- Finish Date if on different to start date -->
-        <text
+        <card-text
           v-if="!isFinishDateSame(competition)"
           icon="mdi-information-outline"
           tooltip="Start date is different to finish date!"
-          :text="moment(competition.finish_date).format('DD/MM/YY')"
+          :text="formatDate(competition.finish_date, 'DD/MM/YY')"
           :divider="true"
-        ></text>
+        ></card-text>
 
         <!-- Competition Type -->
-        <text
+        <card-text
           v-if="competition.type"
           tooltip="Competition type"
           :text="competition.type.charAt(0) + competition.type.toLowerCase().slice(1)"
           :divider="true"
-        ></text>
+        ></card-text>
 
         <!-- Competition Age Group -->
-        <text v-if="competition.age_groups" tooltip="Competition age groups" :text="competition.age_groups" :divider="false"></text>
+        <card-text
+          v-if="competition.age_groups"
+          tooltip="Competition age groups"
+          :text="competition.age_groups"
+          :divider="false"
+        ></card-text>
       </div>
     </v-card-text>
 
@@ -122,14 +127,14 @@
 </template>
 
 <script>
-import chip from '~/components/fixtures/list/chip.vue'
+import cardChip from '~/components/fixtures/list/card-chip.vue'
 import cardText from '~/components/fixtures/list/card-text.vue'
 import moment from 'moment'
 
 export default {
   name: 'card',
   components: {
-    chip,
+    'card-chip': cardChip,
     'card-text': cardText,
   },
   props: {
@@ -138,12 +143,14 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      moment: moment,
-    }
-  },
   methods: {
+    /**
+     * This function formats the given string based on the format
+     * provided.
+     */
+    formatDate(dateString, formatString) {
+      return moment(dateString).format(formatString)
+    },
     /**
      * This function checks if a given competition has already occured and is in the past.
      */
@@ -267,6 +274,7 @@ export default {
 
 .comp-info-card-text {
   display: flex;
+  height: 30px;
   overflow-x: auto;
   overflow-y: hidden;
   /* Firefox scrollbar styling - webkit scrollbar works for all other browsers */

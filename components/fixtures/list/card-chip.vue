@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'chip',
+  name: 'card-chip',
   props: {
     color: {
       type: String,

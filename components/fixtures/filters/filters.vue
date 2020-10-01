@@ -1,17 +1,10 @@
 <template>
   <div class="d-flex filter-container">
     <!-- Toolbar Component -->
-    <toolbar :dropdownState="dropdownState" :selectAllMonth="selectAllMonth" v-on:updateDropdownState="dropdownState = !dropdownState" />
+    <toolbar :dropdownState="dropdownState" v-on:updateDropdownState="dropdownState = !dropdownState" />
 
     <!-- Dropdown Component -->
-    <dropdown
-      :countries="countries"
-      :months="months"
-      :searchText="searchText"
-      :selectedSort="selectedSort"
-      :selectAllMonth="selectAllMonth"
-      :dropdownState="dropdownState"
-    />
+    <dropdown :countries="countries" :months="months" :searchText="searchText" :dropdownState="dropdownState" />
   </div>
 </template>
 
@@ -38,14 +31,6 @@ export default {
       type: String,
       required: true,
     },
-    selectedSort: {
-      type: Number,
-      required: true,
-    },
-    selectAllMonth: {
-      type: Boolean,
-      required: true,
-    },
   },
   data() {
     return {
@@ -54,3 +39,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.filter-container {
+  flex-direction: column;
+  border-bottom: 1px lightgray solid;
+}
+</style>
