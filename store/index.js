@@ -20,11 +20,11 @@ export const mutations = {
     updateDisplayAll(state, payload) {
         state.displayAll = payload
     },
-    updateSearchText(state, payload) {
-        state.searchText = payload
-    },
     updateDropdownState(state, payload) {
         state.dropdownState = payload
+    },
+    updateSearchText(state, payload) {
+        state.searchText = payload
     },
 };
 

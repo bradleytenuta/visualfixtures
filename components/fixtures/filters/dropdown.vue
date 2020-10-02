@@ -61,6 +61,12 @@ export default {
     }
   },
   computed: {
+    displayAll() {
+      return this.$store.state.displayAll
+    },
+    dropdownState() {
+      return this.$store.state.dropdownState
+    },
     selectedMonth: {
       get() {
         return this.$store.state.selectedMonth
@@ -77,9 +83,6 @@ export default {
         this.$store.dispatch('changeSelectedCountry', newValue)
       },
     },
-    displayAll() {
-      return this.$store.state.displayAll
-    },
     selectedSort: {
       get() {
         return this.$store.state.selectedSort
@@ -95,9 +98,6 @@ export default {
       set(newValue) {
         this.$store.dispatch('changeSearchText', newValue)
       },
-    },
-    dropdownState() {
-      return this.$store.state.dropdownState
     },
   },
 }
