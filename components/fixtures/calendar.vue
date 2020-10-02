@@ -3,25 +3,14 @@
     <!-- Filters Menu -->
     <div class="d-flex filter-container">
       <!-- Toolbar Component -->
-      <toolbar :dropdownState="dropdownState" v-on:updateDropdownState="dropdownState = !dropdownState" />
+      <toolbar />
 
       <!-- Dropdown Component -->
-      <dropdown
-        :countries="countries"
-        :months="months"
-        :searchText="searchText"
-        :dropdownState="dropdownState"
-        v-on:SearchTextChange="updateSearchText"
-      />
+      <dropdown :countries="countries" :months="months" />
     </div>
 
     <!-- Fixture List -->
-    <list
-      :scrollCounter="scrollCounter"
-      :viewableBranches="viewableBranches"
-      v-on:incrementScrollCounter="scrollCounter++"
-      :searchText="searchText"
-    />
+    <list :competitionTree="competitionTree" />
   </div>
 </template>
 
@@ -47,10 +36,7 @@ export default {
   data() {
     return {
       competitionTree: [],
-      scrollCounter: 1,
       months: [],
-      searchText: '',
-      dropdownState: false,
     }
   },
   watch: {
@@ -91,41 +77,9 @@ export default {
     },
   },
   computed: {
-    /**
-     * A computed property that creates a list of branches from the comptree to display.
-     * These branches are then flitered and sorted based on the users filter preferences.
-     */
-    viewableBranches() {
-      var viewableBranches = []
-
-      // If the user wants to display all, then make a non reference copy of the tree.
-      if (this.displayAll) {
-        viewableBranches = [...this.competitionTree]
-      } else {
-        // Populates the viewableBranches by filtering out unselected months.
-        this.competitionTree.forEach((branch) => {
-          // If the branch month matches the selected month then add it to viewableBranches.
-          if (branch.month == this.selectedMonth) {
-            viewableBranches.push(branch)
-          }
-        })
-      }
-
-      // Applies the selected sort option to the competitions in the viewableBranches.
-      viewableBranches.forEach((branch) => {
-        this.sortCompetitions(this.selectedSort, branch.competitions)
-      })
-      // Finally after sorting the competitions in each branch, we then sort the branches themselves.
-      this.sortBranches(this.selectedSort, viewableBranches)
-
-      // Resets the infinite loader counter to 1.
-      this.scrollCounter = 1
-
-      return viewableBranches
-    },
     selectedMonth: {
       get() {
-        return this.$store.getters.selectedMonth
+        return this.$store.state.selectedMonth
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedMonth', newValue)
@@ -133,26 +87,10 @@ export default {
     },
     selectedCountry: {
       get() {
-        return this.$store.getters.selectedCountry
+        return this.$store.state.selectedCountry
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedCountry', newValue)
-      },
-    },
-    displayAll: {
-      get() {
-        return this.$store.getters.displayAll
-      },
-      set(newValue) {
-        this.$store.dispatch('changeDisplayAll', newValue)
-      },
-    },
-    selectedSort: {
-      get() {
-        return this.$store.getters.selectedSort
-      },
-      set(newValue) {
-        this.$store.dispatch('changeSelectSort', newValue)
       },
     },
   },
@@ -199,67 +137,6 @@ export default {
       // Flatterns the competitions as after the promise it
       // contains an array as an element for each json url called.
       return competitions.flat()
-    },
-    /**
-     * This function is called from a computed property. This function sorts
-     * a list of competitions, based on the value provided from the sort
-     * selector element.
-     */
-    sortCompetitions(itemValue, competitions) {
-      // Months - Ascending
-      if (itemValue == 1) {
-        competitions.sort(function (x, y) {
-          if (moment(x.date).isBefore(moment(y.date))) {
-            return -1
-          }
-          if (moment(x.date).isAfter(moment(y.date))) {
-            return 1
-          }
-          return 0
-        })
-
-        // Months - Descending
-      } else if (itemValue == 2) {
-        competitions.sort(function (x, y) {
-          if (moment(y.date).isBefore(moment(x.date))) {
-            return -1
-          }
-          if (moment(y.date).isAfter(moment(x.date))) {
-            return 1
-          }
-          return 0
-        })
-      }
-    },
-    /**
-     * This function is called from a computed property. This function sorts
-     * a list of branches based on their month.
-     */
-    sortBranches(itemValue, branches) {
-      // Ascending
-      if (itemValue == 1) {
-        branches.sort(function (x, y) {
-          if (moment(x.month, 'MMMM YYYY').isBefore(moment(y.month, 'MMMM YYYY', 'month'))) {
-            return -1
-          }
-          if (moment(x.month, 'MMMM YYYY').isAfter(moment(y.month, 'MMMM YYYY', 'month'))) {
-            return 1
-          }
-          return 0
-        })
-
-        // Descending
-      } else if (itemValue == 2) {
-        branches.sort(function (x, y) {
-          if (moment(y.month, 'MMMM YYYY').isBefore(moment(x.month, 'MMMM YYYY', 'month'))) {
-            return -1
-          }
-          if (moment(y.month, 'MMMM YYYY').isAfter(moment(x.month, 'MMMM YYYY', 'month'))) {
-            return 1
-          }
-          return 0
-        })
-      }
     },
     /**
      * Takes a list of competitions and breaks them down into a tree based on
@@ -337,9 +214,6 @@ export default {
 
       // Sorts the months in calendar order.
       this.months.sort((x, y) => moment(x, 'MMMM YYYY') - moment(y, 'MMMM YYYY'))
-    },
-    updateSearchText(newText) {
-      this.searchText = newText
     },
   },
 }

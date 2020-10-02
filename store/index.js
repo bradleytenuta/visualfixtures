@@ -3,6 +3,8 @@ export const state = () => ({
     selectedCountry: null,
     selectedSort: 1,
     displayAll: false,
+    dropdownState: false,
+    searchText: '',
 });
 
 export const mutations = {
@@ -17,6 +19,12 @@ export const mutations = {
     },
     updateDisplayAll(state, payload) {
         state.displayAll = payload
+    },
+    updateSearchText(state, payload) {
+        state.searchText = payload
+    },
+    updateDropdownState(state, payload) {
+        state.dropdownState = payload
     },
 };
 
@@ -33,19 +41,14 @@ export const actions = {
     changeDisplayAll(context, payload) {
         context.commit('updateDisplayAll', payload)
     },
-};
-
-export const getters = {
-    selectedMonth(state) {
-		return state.selectedMonth
+    changeDropdownState(context, payload) {
+        context.commit('updateDropdownState', payload)
     },
-    selectedCountry(state) {
-		return state.selectedCountry
-    },
-    selectedSort(state) {
-        return state.selectedSort
-    },
-    displayAll(state) {
-        return state.displayAll
+    changeSearchText(context, payload) {
+        if (payload == null) {
+            context.commit('updateSearchText', '')
+        } else {
+            context.commit('updateSearchText', payload)
+        }
     },
 };

@@ -39,6 +39,7 @@
 
 <script>
 import card from '~/components/fixtures/list/card.vue'
+import moment from 'moment'
 
 export default {
   name: 'list',
@@ -46,23 +47,62 @@ export default {
     card,
   },
   props: {
-    scrollCounter: {
-      type: Number,
-      required: true,
-    },
-    viewableBranches: {
+    competitionTree: {
       type: Array,
-      required: true,
-    },
-    searchText: {
-      type: String,
       required: true,
     },
   },
   data() {
     return {
       snackbar: false,
+      scrollCounter: 1,
     }
+  },
+  computed: {
+    /**
+     * A computed property that creates a list of branches from the comptree to display.
+     * These branches are then flitered and sorted based on the users filter preferences.
+     */
+    viewableBranches() {
+      var viewableBranches = []
+
+      // If the user wants to display all, then make a non reference copy of the tree.
+      if (this.displayAll) {
+        viewableBranches = [...this.competitionTree]
+      } else {
+        // Populates the viewableBranches by filtering out unselected months.
+        this.competitionTree.forEach((branch) => {
+          // If the branch month matches the selected month then add it to viewableBranches.
+          if (branch.month == this.selectedMonth) {
+            viewableBranches.push(branch)
+          }
+        })
+      }
+
+      // Applies the selected sort option to the competitions in the viewableBranches.
+      viewableBranches.forEach((branch) => {
+        this.sortCompetitions(this.selectedSort, branch.competitions)
+      })
+      // Finally after sorting the competitions in each branch, we then sort the branches themselves.
+      this.sortBranches(this.selectedSort, viewableBranches)
+
+      // Resets the infinite loader counter to 1.
+      this.scrollCounter = 1
+
+      return viewableBranches
+    },
+    selectedMonth() {
+      return this.$store.state.selectedMonth
+    },
+    displayAll() {
+      return this.$store.state.displayAll
+    },
+    selectedSort() {
+      return this.$store.state.selectedSort
+    },
+    searchText() {
+      return this.$store.state.searchText
+    },
   },
   methods: {
     /**
@@ -81,8 +121,69 @@ export default {
       // If the user has scrolled to the button then increment counter.
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
         if (this.viewableBranches.length > this.scrollCounter) {
-          this.$emit('incrementScrollCounter')
+          this.scrollCounter++
         }
+      }
+    },
+    /**
+     * This function is called from a computed property. This function sorts
+     * a list of competitions, based on the value provided from the sort
+     * selector element.
+     */
+    sortCompetitions(itemValue, competitions) {
+      // Months - Ascending
+      if (itemValue == 1) {
+        competitions.sort(function (x, y) {
+          if (moment(x.date).isBefore(moment(y.date))) {
+            return -1
+          }
+          if (moment(x.date).isAfter(moment(y.date))) {
+            return 1
+          }
+          return 0
+        })
+
+        // Months - Descending
+      } else if (itemValue == 2) {
+        competitions.sort(function (x, y) {
+          if (moment(y.date).isBefore(moment(x.date))) {
+            return -1
+          }
+          if (moment(y.date).isAfter(moment(x.date))) {
+            return 1
+          }
+          return 0
+        })
+      }
+    },
+    /**
+     * This function is called from a computed property. This function sorts
+     * a list of branches based on their month.
+     */
+    sortBranches(itemValue, branches) {
+      // Ascending
+      if (itemValue == 1) {
+        branches.sort(function (x, y) {
+          if (moment(x.month, 'MMMM YYYY').isBefore(moment(y.month, 'MMMM YYYY', 'month'))) {
+            return -1
+          }
+          if (moment(x.month, 'MMMM YYYY').isAfter(moment(y.month, 'MMMM YYYY', 'month'))) {
+            return 1
+          }
+          return 0
+        })
+
+        // Descending
+      } else if (itemValue == 2) {
+        branches.sort(function (x, y) {
+          if (moment(y.month, 'MMMM YYYY').isBefore(moment(x.month, 'MMMM YYYY', 'month'))) {
+            return -1
+          }
+          if (moment(y.month, 'MMMM YYYY').isAfter(moment(x.month, 'MMMM YYYY', 'month'))) {
+            return 1
+          }
+          return 0
+        })
       }
     },
   },

@@ -8,16 +8,16 @@
       <v-spacer></v-spacer>
 
       <!-- Filter Button Mobile -->
-      <v-btn class="filter-top-bar-filter-button-mobile" color="gray" small icon @click="toggleDropdown">
-        <v-icon v-if="!dropdownState">mdi-filter-menu</v-icon>
-        <v-icon v-else>mdi-filter-menu-outline</v-icon>
+      <v-btn class="filter-top-bar-filter-button-mobile" color="gray" small icon @click="dropdownState = !dropdownState">
+        <v-icon v-if="dropdownState">mdi-filter-menu-outline</v-icon>
+        <v-icon v-else>mdi-filter-menu</v-icon>
       </v-btn>
 
       <!-- Filter Button Desktop -->
-      <v-btn class="filter-top-bar-filter-button-desktop" small text @click="toggleDropdown">
+      <v-btn class="filter-top-bar-filter-button-desktop" small text @click="dropdownState = !dropdownState">
         <span>Filter</span>
-        <v-icon right v-if="!dropdownState">mdi-filter-menu</v-icon>
-        <v-icon right v-else>mdi-filter-menu-outline</v-icon>
+        <v-icon right v-if="dropdownState">mdi-filter-menu-outline</v-icon>
+        <v-icon right v-else>mdi-filter-menu</v-icon>
       </v-btn>
     </div>
   </v-container>
@@ -26,24 +26,21 @@
 <script>
 export default {
   name: 'toolbar',
-  props: {
-    dropdownState: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  methods: {
-    toggleDropdown() {
-      this.$emit('updateDropdownState')
-    },
-  },
   computed: {
     displayAll: {
       get() {
-        return this.$store.getters.displayAll
+        return this.$store.state.displayAll
       },
       set(newValue) {
         this.$store.dispatch('changeDisplayAll', newValue)
+      },
+    },
+    dropdownState: {
+      get() {
+        return this.$store.state.dropdownState
+      },
+      set(newValue) {
+        this.$store.dispatch('changeDropdownState', newValue)
       },
     },
   },

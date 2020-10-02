@@ -11,8 +11,7 @@
           single-line
           label="Find..."
           prepend-inner-icon="mdi-magnify"
-          :value="searchText"
-          @input="updateSearchText"
+          v-model="searchText"
         ></v-text-field>
       </v-col>
 
@@ -46,14 +45,6 @@ export default {
       type: Array,
       required: true,
     },
-    searchText: {
-      type: String,
-      required: true,
-    },
-    dropdownState: {
-      type: Boolean,
-      required: true,
-    },
   },
   data() {
     return {
@@ -72,7 +63,7 @@ export default {
   computed: {
     selectedMonth: {
       get() {
-        return this.$store.getters.selectedMonth
+        return this.$store.state.selectedMonth
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedMonth', newValue)
@@ -80,36 +71,33 @@ export default {
     },
     selectedCountry: {
       get() {
-        return this.$store.getters.selectedCountry
+        return this.$store.state.selectedCountry
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedCountry', newValue)
       },
     },
-    displayAll: {
-      get() {
-        return this.$store.getters.displayAll
-      },
-      set(newValue) {
-        this.$store.dispatch('changeDisplayAll', newValue)
-      },
+    displayAll() {
+      return this.$store.state.displayAll
     },
     selectedSort: {
       get() {
-        return this.$store.getters.selectedSort
+        return this.$store.state.selectedSort
       },
       set(newValue) {
         this.$store.dispatch('changeSelectSort', newValue)
       },
     },
-  },
-  methods: {
-    updateSearchText(newText) {
-      if (newText == null) {
-        this.$emit('SearchTextChange', '')
-      } else {
-        this.$emit('SearchTextChange', newText)
-      }
+    searchText: {
+      get() {
+        return this.$store.state.searchText
+      },
+      set(newValue) {
+        this.$store.dispatch('changeSearchText', newValue)
+      },
+    },
+    dropdownState() {
+      return this.$store.state.dropdownState
     },
   },
 }
