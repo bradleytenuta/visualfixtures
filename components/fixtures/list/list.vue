@@ -8,7 +8,12 @@
       <!-- Competition Cards -->
       <div class="d-flex comp-month-card-container">
         <!-- :key="competition.id" -->
-        <card v-for="competition in viewableBranch.competitions" :key="competition.id" :competition="competition" />
+        <card
+          v-for="competition in viewableBranch.competitions"
+          v-if="competition.full_name.toLowerCase().includes(searchText.toLowerCase())"
+          :key="competition.id"
+          :competition="competition"
+        />
       </div>
     </template>
 
@@ -47,6 +52,10 @@ export default {
     },
     viewableBranches: {
       type: Array,
+      required: true,
+    },
+    searchText: {
+      type: String,
       required: true,
     },
   },

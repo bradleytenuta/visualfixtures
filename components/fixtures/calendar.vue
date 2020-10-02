@@ -16,7 +16,12 @@
     </div>
 
     <!-- Fixture List -->
-    <list :scrollCounter="scrollCounter" :viewableBranches="viewableBranches" v-on:incrementScrollCounter="scrollCounter++" />
+    <list
+      :scrollCounter="scrollCounter"
+      :viewableBranches="viewableBranches"
+      v-on:incrementScrollCounter="scrollCounter++"
+      :searchText="searchText"
+    />
   </div>
 </template>
 
@@ -41,7 +46,7 @@ export default {
   },
   data() {
     return {
-      competitions: [],
+      competitionTree: [],
       scrollCounter: 1,
       months: [],
       searchText: '',
@@ -49,9 +54,40 @@ export default {
     }
   },
   watch: {
-    selectedCountry() {
-      // Gathers JSON objects from all JSON URLs and sets up the competition tree and filters.
-      this.buildCompetitionData()
+    async selectedCountry() {
+      // Gathers the competitions from the JSON data.
+      var competitions = await this.buildCompetitionData()
+
+      // This removes the unused JSON data.
+      // This makes the data smaller and helps with performance.
+      // TODO: This is athletics specific, needs to be moved up to page level.
+      var cleanCompetitions = []
+      competitions.forEach((competition) => {
+        var cleanComp = {
+          id: competition.id,
+          is_demo: competition.is_demo,
+          date: competition.date,
+          full_name: competition.full_name,
+          num_competitors: competition.num_competitors,
+          finish_date: competition.finish_date,
+          type: competition.type,
+          age_groups: competition.age_groups,
+          address: competition.address,
+          entry_link: competition.entry_link,
+          contact_details: competition.contact_details,
+          latitude: competition.latitude,
+          longitude: competition.longitude,
+        }
+        cleanCompetitions.push(cleanComp)
+      })
+
+      // Sets up all filter items.
+      // This needs to be done here as different filter options will be created based
+      // on competition data available. One country may have different filter options to another.
+      this.setUpFilters(cleanCompetitions)
+
+      // Creates a competition tree.
+      this.competitionTree = this.compTreeCreator(cleanCompetitions)
     },
   },
   computed: {
@@ -61,15 +97,19 @@ export default {
      */
     viewableBranches() {
       var viewableBranches = []
-      var tempCompTree = this.compTreeCreator(this.competitions)
 
-      // Populates the viewableBranches by filtering out unselected months.
-      tempCompTree.forEach((branch) => {
-        // If the branch month matches the selected month then add it to viewableBranches.
-        if (this.displayAll || branch.month == this.selectedMonth) {
-          viewableBranches.push(branch)
-        }
-      })
+      // If the user wants to display all, then make a non reference copy of the tree.
+      if (this.displayAll) {
+        viewableBranches = [...this.competitionTree]
+      } else {
+        // Populates the viewableBranches by filtering out unselected months.
+        this.competitionTree.forEach((branch) => {
+          // If the branch month matches the selected month then add it to viewableBranches.
+          if (branch.month == this.selectedMonth) {
+            viewableBranches.push(branch)
+          }
+        })
+      }
 
       // Applies the selected sort option to the competitions in the viewableBranches.
       viewableBranches.forEach((branch) => {
@@ -158,12 +198,7 @@ export default {
 
       // Flatterns the competitions as after the promise it
       // contains an array as an element for each json url called.
-      this.competitions = competitions.flat()
-
-      // Sets up all filter items.
-      // This needs to be done here as different filter options will be created based
-      // on competition data available. One country may have different filter options to another.
-      this.setUpFilters(this.competitions)
+      return competitions.flat()
     },
     /**
      * This function is called from a computed property. This function sorts
@@ -249,18 +284,11 @@ export default {
         // Loops through each month
         this.months.forEach((month) => {
           // If the competition month is the same as the current filtered month
-          // and the competition name matches the search text or the search text is empty
           // then add it to its branch.
           if (moment(competition.date).isSame(moment(month, 'MMMM YYYY'), 'month')) {
-            if (
-              this.searchText == null ||
-              competition.full_name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-              this.searchText == ''
-            ) {
-              // Finds the branch that matches and adds the competition to its list.
-              var branch = compBranches.find((branch) => branch.month == month)
-              branch.competitions.push(competition)
-            }
+            // Finds the branch that matches and adds the competition to its list.
+            var branch = compBranches.find((branch) => branch.month == month)
+            branch.competitions.push(competition)
           }
         })
       })
@@ -322,5 +350,10 @@ export default {
   height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
+}
+
+.filter-container {
+  flex-direction: column;
+  border-bottom: 1px lightgray solid;
 }
 </style>
