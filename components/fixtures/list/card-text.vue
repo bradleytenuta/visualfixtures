@@ -31,6 +31,10 @@ export default {
       required: false,
       default: '',
     },
+    /**
+     * A vertical divider, only to be added if developer knows there will be another
+     * card-text component after this one.
+     */
     divider: {
       type: Boolean,
       required: false,

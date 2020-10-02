@@ -60,6 +60,9 @@ export default {
       ],
     }
   },
+  /**
+   * All computed properties are obtained from Vuex.
+   */
   computed: {
     displayAll() {
       return this.$store.state.displayAll

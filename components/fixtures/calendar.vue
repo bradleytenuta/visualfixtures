@@ -61,6 +61,9 @@ export default {
     },
   },
   computed: {
+    selectedCountry() {
+      return this.$store.state.selectedCountry
+    },
     selectedMonth: {
       get() {
         return this.$store.state.selectedMonth
@@ -69,18 +72,19 @@ export default {
         this.$store.dispatch('changeSelectedMonth', newValue)
       },
     },
-    selectedCountry: {
-      get() {
-        return this.$store.state.selectedCountry
-      },
-      set(newValue) {
-        this.$store.dispatch('changeSelectedCountry', newValue)
-      },
-    },
   },
   /**
-   * This function is called once the vue instance has been created.
-   * It sets the current country to UK. Currently the only country available.
+   * Just after Vue is initiated, we reset the vuex state for fixture pages.
+   * This is because Vuex is needed to manage fixture variables. However there will
+   * be conflicts if a user navigates between two different fixture pages. So to solve this
+   * the Vuex state of a fixture page is reset whenever a user visits a fixture page.
+   */
+  beforeCreate() {
+    this.$store.dispatch('resetVuex')
+  },
+  /**
+   * Sets the current country to the first one in the list, and sorts the list of
+   * countries.
    */
   created() {
     // Sets the current country to the first country in the list.

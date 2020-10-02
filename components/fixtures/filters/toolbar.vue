@@ -26,6 +26,9 @@
 <script>
 export default {
   name: 'toolbar',
+  /**
+   * Toolbar.vue updates both displayAll and dropdownState on Vuex.
+   */
   computed: {
     displayAll: {
       get() {

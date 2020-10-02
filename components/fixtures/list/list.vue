@@ -91,6 +91,7 @@ export default {
 
       return viewableBranches
     },
+    // All computed properties below are from Vuex.
     selectedMonth() {
       return this.$store.state.selectedMonth
     },

@@ -13,6 +13,10 @@ export default {
   },
   data() {
     return {
+      /**
+       * A list of countries and URLS which lead to the competitions for that given country.
+       * The layout of a country object must be within this format.
+       */
       countries: [
         {
           countryCode: 'GBR',

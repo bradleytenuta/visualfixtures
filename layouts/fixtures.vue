@@ -19,6 +19,9 @@ export default {
 </script>
 
 <style>
+/**
+ * Below is styling that is used globally for fixture pages.
+ */
 html {
   height: 100%;
   overflow: hidden;
