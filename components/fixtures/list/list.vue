@@ -1,5 +1,5 @@
 <template>
-  <v-container class="comp-calendar" id="competition-calendar" v-scroll.self="calendarScrollHandler">
+  <v-container class="comp-calendar" ref="list" v-scroll.self="calendarScrollHandler">
     <!-- Displays Fixtures -->
     <template v-for="viewableBranch in viewableBranches.slice(0, scrollCounter)">
       <!-- Month Header -->
@@ -7,7 +7,7 @@
 
       <!-- Competition Cards -->
       <div class="d-flex comp-month-card-container">
-        <!--  :key="competition.id" -->
+        <!-- :key="competition.id" -->
         <card v-for="competition in viewableBranch.competitions" :key="competition.id" :competition="competition" />
       </div>
     </template>
@@ -67,8 +67,7 @@ export default {
     calendarScrollHandler() {
       // Gets element by ID instead of using target so other buttons
       // can use this function.
-      // TODO: improve this by passing in the element to function instead of using id and finding it that way.
-      const element = document.getElementById('competition-calendar')
+      const element = this.$refs.list
 
       // If the user has scrolled to the button then increment counter.
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {

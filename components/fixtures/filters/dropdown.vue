@@ -105,7 +105,11 @@ export default {
   },
   methods: {
     updateSearchText(newText) {
-      this.$emit('SearchTextChange', newText)
+      if (newText == null) {
+        this.$emit('SearchTextChange', '')
+      } else {
+        this.$emit('SearchTextChange', newText)
+      }
     },
   },
 }

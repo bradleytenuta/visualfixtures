@@ -1,7 +1,19 @@
 <template>
   <div class="calendar-main-container">
     <!-- Filters Menu -->
-    <filters :countries="countries" :months="months" :searchText="searchText" v-on:SearchTextChange="updateSearchText" />
+    <div class="d-flex filter-container">
+      <!-- Toolbar Component -->
+      <toolbar :dropdownState="dropdownState" v-on:updateDropdownState="dropdownState = !dropdownState" />
+
+      <!-- Dropdown Component -->
+      <dropdown
+        :countries="countries"
+        :months="months"
+        :searchText="searchText"
+        :dropdownState="dropdownState"
+        v-on:SearchTextChange="updateSearchText"
+      />
+    </div>
 
     <!-- Fixture List -->
     <list :scrollCounter="scrollCounter" :viewableBranches="viewableBranches" v-on:incrementScrollCounter="scrollCounter++" />
@@ -9,14 +21,16 @@
 </template>
 
 <script>
-import filters from '~/components/fixtures/filters/filters.vue'
+import toolbar from '~/components/fixtures/filters/toolbar.vue'
+import dropdown from '~/components/fixtures/filters/dropdown.vue'
 import list from '~/components/fixtures/list/list.vue'
 import moment from 'moment'
 
 export default {
   name: 'calendar',
   components: {
-    filters,
+    toolbar,
+    dropdown,
     list,
   },
   props: {
@@ -31,6 +45,7 @@ export default {
       scrollCounter: 1,
       months: [],
       searchText: '',
+      dropdownState: false,
     }
   },
   watch: {

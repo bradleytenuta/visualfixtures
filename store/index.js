@@ -1,10 +1,8 @@
-import moment from 'moment';
-
 export const state = () => ({
     selectedMonth: null,
     selectedCountry: null,
-    displayAll: false,
     selectedSort: 1,
+    displayAll: false,
 });
 
 export const mutations = {
@@ -14,12 +12,12 @@ export const mutations = {
     updateSelectedCountry(state, payload) {
         state.selectedCountry = payload
     },
+    updateSelectSort(state, payload) {
+        state.selectedSort = payload
+    },
     updateDisplayAll(state, payload) {
         state.displayAll = payload
     },
-    updateSelectSort(state, payload) {
-        state.selectedSort = payload
-    }
 };
 
 export const actions = {
@@ -29,12 +27,12 @@ export const actions = {
     changeSelectedCountry(context, payload) {
         context.commit('updateSelectedCountry', payload)
     },
+    changeSelectSort(context, payload) {
+        context.commit('updateSelectSort', payload)
+    },
     changeDisplayAll(context, payload) {
         context.commit('updateDisplayAll', payload)
     },
-    changeSelectSort(context, payload) {
-        context.commit('updateSelectSort', payload)
-    }
 };
 
 export const getters = {
@@ -44,10 +42,10 @@ export const getters = {
     selectedCountry(state) {
 		return state.selectedCountry
     },
+    selectedSort(state) {
+        return state.selectedSort
+    },
     displayAll(state) {
         return state.displayAll
     },
-    selectedSort(state) {
-        return state.selectedSort
-    }
 };
