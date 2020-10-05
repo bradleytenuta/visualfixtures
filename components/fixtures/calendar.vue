@@ -99,7 +99,7 @@ export default {
     this.$store.dispatch('changeSelectedCountry', this.countries[0])
 
     // Sorts the counties in alphabetical order.
-    this.countries.sort()
+    this.countries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1))
   },
 }
 </script>

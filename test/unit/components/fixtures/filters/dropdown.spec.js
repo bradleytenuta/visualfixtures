@@ -43,6 +43,10 @@ describe('dropdown', () => {
     },
   }
 
+  it('should render the dropdown component', () => {
+    expect(shallowMount(dropdown, wrapperData).vm).toBeTruthy()
+  })
+
   test('If when selected country changes, vuex action should be called', () => {
     const wrapper = shallowMount(dropdown, wrapperData)
     wrapper.setData({ selectedCountry: null })

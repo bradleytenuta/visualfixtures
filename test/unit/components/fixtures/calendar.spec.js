@@ -56,9 +56,15 @@ describe('calendar', () => {
     },
   }
 
+  it('should render the calendar component', () => {
+    expect(shallowMount(calendar, wrapperData).vm).toBeTruthy()
+  })
+
+  var mockedCountriesCopy = [...mockedCountries]
   test('If countries array was sorted after creation of vue component', () => {
     const wrapper = shallowMount(calendar, wrapperData)
-    expect(wrapper.vm.countries).toEqual(mockedCountries.sort())
+    expect(wrapper.vm.countries).toEqual(mockedCountries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1)))
+    expect(wrapper.vm.countries).not.toEqual(mockedCountriesCopy)
   })
 
   test('If the revertVuex action is called after creation of vue component', () => {
