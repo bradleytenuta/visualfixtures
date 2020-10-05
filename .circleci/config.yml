@@ -24,7 +24,7 @@ commands:
 
 # A list of all the possible jobs to run.
 jobs:
-  setup_job:
+  setup:
     executor:
       name: node_executor
     steps:
@@ -32,7 +32,7 @@ jobs:
       - restore_npm_cache
       - run: npm install
       - save_npm_cache
-  test_job:
+  test:
     executor:
       name: node_executor
     steps:
@@ -44,20 +44,16 @@ jobs:
 workflows:
   commit:
     jobs:
-      - setup_job
-      - test_job:
-          requires:
-            - setup_job
+      - setup
+      - test
   nightly:
     triggers: # Triggers is a key to indicate a scheduled build
       - schedule:
-        cron: '0 0 * * *' # Cron Syntax for nightly
+        cron: "0 0 * * *" # Cron Syntax for nightly
         filters:
           branches:
             only:
               - master
     jobs:
-      - setup_job
-      - test_job:
-          requires:
-            - setup_job
+      - setup
+      - test

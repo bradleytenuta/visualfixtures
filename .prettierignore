@@ -1,0 +1,2 @@
+# Ignores CircleCi files.
+.circleci/config.yml
