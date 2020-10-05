@@ -49,11 +49,11 @@ workflows:
   nightly:
     triggers: # Triggers is a key to indicate a scheduled build
       - schedule:
-        cron: "0 0 * * *" # Cron Syntax for nightly
-        filters:
-          branches:
-            only:
-              - master
+          cron: "0 0 * * *" # Cron Syntax for nightly
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - setup
       - test
