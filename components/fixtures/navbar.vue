@@ -3,7 +3,13 @@
     <!-- Logo -->
     <!-- img src needs the require tag as vuetify img vue container does not support nuxt asset images -->
     <nuxt-link to="/">
-      <v-img :src="require('~/assets/logos/android-chrome-maskable-192x192.png')" max-height="40" max-width="40" contain></v-img>
+      <v-img
+        id="navbar-logo"
+        :src="require('~/assets/logos/android-chrome-maskable-192x192.png')"
+        max-height="40"
+        max-width="40"
+        contain
+      ></v-img>
     </nuxt-link>
 
     <!-- Sport Menu -->

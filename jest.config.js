@@ -1,8 +1,9 @@
 module.exports = {
   moduleNameMapper: {
+    ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub", // Required to mock images when using 'require()'.
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
-    '^vue$': 'vue/dist/vue.common.js'
+    '^vue$': 'vue/dist/vue.common.js',
   },
   moduleFileExtensions: [
     'ts',
