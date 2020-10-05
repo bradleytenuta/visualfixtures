@@ -1,9 +1,13 @@
 <template>
-  <p>hello</p>
+  <div>
+    <p>hello</p>
+    <nuxt-link to="/athletics">Athletics</nuxt-link>
+  </div>
 </template>
 
 <script>
 export default {
-  layout: 'fixtures',
+  name: 'index',
+  layout: 'home',
 }
 </script>
