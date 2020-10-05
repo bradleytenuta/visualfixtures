@@ -42,7 +42,22 @@ jobs:
 
 # Workflows, the order to run a selection of jobs.
 workflows:
-  run_tests:
+  commit:
     jobs:
       - setup_job
-      - test_job
+      - test_job:
+          requires:
+            - setup_job
+  nightly:
+    triggers: # Triggers is a key to indicate a scheduled build
+      - schedule:
+        cron: '0 0 * * *' # Cron Syntax for nightly
+        filters:
+          branches:
+            only:
+              - master
+    jobs:
+      - setup_job
+      - test_job:
+          requires:
+            - setup_job
