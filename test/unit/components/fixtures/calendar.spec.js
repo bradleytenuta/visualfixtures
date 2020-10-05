@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 
 // Components
 import calendar from '~/components/fixtures/calendar'
+import { mockedCountries, mockedSport } from '~/test/mocks'
 
 // Utilities
 import { createLocalVue, shallowMount } from '@vue/test-utils'
@@ -27,22 +28,6 @@ describe('calendar', () => {
     actions: mockActions,
   })
 
-  // Creates mocked array of countries
-  var mockedCountries = [
-    {
-      countryCode: 'IMN',
-      urls: ['www.someurl.com'],
-    },
-    {
-      countryCode: 'ALB',
-      urls: ['www.someurl.com'],
-    },
-    {
-      countryCode: 'GBR',
-      urls: ['www.someurl.com'],
-    },
-  ]
-
   // The wrapper Data to be used by all unit tests.
   const wrapperData = {
     localVue,
@@ -52,7 +37,7 @@ describe('calendar', () => {
     },
     propsData: {
       countries: mockedCountries,
-      sport: 'someSport',
+      sport: mockedSport,
     },
   }
 

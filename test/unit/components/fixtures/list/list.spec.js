@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 
 // Components
 import list from '~/components/fixtures/list/list'
+import { mockCompetitionTree } from '~/test/mocks'
 
 // Utilities
 import { createLocalVue, shallowMount } from '@vue/test-utils'
@@ -24,7 +25,7 @@ describe('list', () => {
     changeSearchText: jest.fn(),
   }
   const store = new Vuex.Store({
-    state: { selectedMonth: null, selectedSort: 1, displayAll: false, searchText: '' },
+    state: { selectedMonth: 'January 2020', selectedSort: 1, displayAll: true, searchText: '' },
     actions: mockActions,
   })
 
@@ -36,11 +37,41 @@ describe('list', () => {
       NuxtLink: true,
     },
     propsData: {
-      competitionTree: [],
+      competitionTree: [...mockCompetitionTree],
     },
   }
 
   it('should render the list component', () => {
     expect(shallowMount(list, wrapperData).vm).toBeTruthy()
+  })
+
+  test('If the competitions get sorted in ascending order', () => {
+    const wrapper = shallowMount(list, wrapperData)
+    expect(wrapper.vm.viewableBranches[0].competitions).toEqual(mockCompetitionTree[0].competitions)
+  })
+
+  test('If the competitions get sorted in descending order', () => {
+    const wrapper = shallowMount(list, wrapperData)
+
+    // Sorts both in descending order.
+    wrapper.vm.sortCompetitions(2, wrapper.vm.viewableBranches[0].competitions)
+    wrapper.vm.sortCompetitions(2, mockCompetitionTree[0].competitions)
+
+    expect(wrapper.vm.viewableBranches[0].competitions).toEqual(mockCompetitionTree[0].competitions)
+  })
+
+  test('If the branches get sorted in ascending order', () => {
+    const wrapper = shallowMount(list, wrapperData)
+    expect(wrapper.vm.viewableBranches[0]).toEqual(mockCompetitionTree[0])
+  })
+
+  test('If the branches get sorted in descending order', () => {
+    const wrapper = shallowMount(list, wrapperData)
+
+    // Sorts both in descending order.
+    wrapper.vm.sortBranches(2, wrapper.vm.viewableBranches)
+    wrapper.vm.sortBranches(2, mockCompetitionTree)
+
+    expect(wrapper.vm.viewableBranches).toEqual(mockCompetitionTree)
   })
 })
