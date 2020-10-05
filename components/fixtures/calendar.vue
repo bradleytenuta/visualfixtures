@@ -34,6 +34,10 @@ export default {
       type: Array,
       required: true,
     },
+    sport: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -48,13 +52,17 @@ export default {
 
       // This removes the unused JSON data.
       // This makes the data smaller and helps with performance.
-      const parentName = this.$parent._name
-      var cleanCompetitions = compititonUtility.cleaner(competitions, parentName.substring(1, parentName.length - 1))
+      var cleanCompetitions = compititonUtility.cleaner(competitions, this.sport)
 
       // Sets up all filter items.
       // This needs to be done here as different filter options will be created based
       // on competition data available. One country may have different filter options to another.
-      this.buildMonths(cleanCompetitions)
+      this.months = compititonUtility.monthBuilder(cleanCompetitions)
+      // Adds the current month to list of available months.
+      this.$store.dispatch('changeSelectedMonth', moment().format('MMMM YYYY'))
+      if (!this.months.includes(this.selectedMonth)) {
+        this.months.push(this.selectedMonth)
+      }
 
       // Creates a competition tree.
       this.competitionTree = compititonUtility.treeBuilder(cleanCompetitions, this.months)
@@ -92,30 +100,6 @@ export default {
 
     // Sorts the counties in alphabetical order.
     this.countries.sort()
-  },
-  methods: {
-    /**
-     * Creates a list of months based on competition dates.
-     */
-    buildMonths(competitions) {
-      // Adds the current month to list of available months.
-      this.$store.dispatch('changeSelectedMonth', moment().format('MMMM YYYY'))
-      if (!this.months.includes(this.selectedMonth)) {
-        this.months.push(this.selectedMonth)
-      }
-
-      // Adds all the available months and countries from list.
-      competitions.forEach((competition) => {
-        // Adds available months.
-        var month = moment(competition.date).format('MMMM YYYY')
-        if (!this.months.includes(month)) {
-          this.months.push(month)
-        }
-      })
-
-      // Sorts the months in calendar order.
-      this.months.sort((x, y) => moment(x, 'MMMM YYYY') - moment(y, 'MMMM YYYY'))
-    },
   },
 }
 </script>

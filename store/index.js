@@ -2,13 +2,13 @@
  * All state for a fixture page.
  */
 export const state = () => ({
-    selectedMonth: null,
-    selectedCountry: null,
-    selectedSort: 1,
-    displayAll: false,
-    dropdownState: false,
-    searchText: '',
-});
+  selectedMonth: null,
+  selectedCountry: null,
+  selectedSort: 1,
+  displayAll: false,
+  dropdownState: false,
+  searchText: '',
+})
 
 /**
  * All mutation functions.
@@ -32,7 +32,7 @@ export const mutations = {
   updateSearchText(state, payload) {
     state.searchText = payload
   },
-};
+}
 
 /**
  * All action functions.
@@ -75,5 +75,5 @@ export const actions = {
     context.commit('updateDisplayAll', false)
     context.commit('updateDropdownState', false)
     context.commit('updateSearchText', '')
-  }
-};
+  },
+}

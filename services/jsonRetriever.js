@@ -23,6 +23,7 @@ export default {
       Promise.all(innerPromises).then(function (results) {
         results.forEach(function (response) {
           // Gets the json data and adds it to the list of competitions.
+          console.log(response.data)
           competitions.push(response.data)
         })
         resolve('done')
@@ -35,5 +36,5 @@ export default {
     // Flatterns the competitions as after the promise it
     // contains an array as an element for each json url called.
     return competitions.flat()
-  }
+  },
 }

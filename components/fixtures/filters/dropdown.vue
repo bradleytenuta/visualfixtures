@@ -3,7 +3,7 @@
     <!-- Filters the search results -->
     <v-row align="center">
       <!-- Search Bar -->
-      <v-col class="d-flex select-container" cols="12" md="3" lg="5">
+      <v-col id="comp-search-bar" class="d-flex select-container" cols="12" md="3" lg="5">
         <v-text-field
           hide-details
           clearable
@@ -17,17 +17,24 @@
 
       <!-- Month Select -->
       <v-col class="d-flex select-container" cols="12" md="3" lg="3">
-        <v-select :items="months" label="Month" v-model="selectedMonth" outlined :disabled="displayAll"></v-select>
+        <v-select id="select-month" :items="months" label="Month" v-model="selectedMonth" outlined :disabled="displayAll"></v-select>
       </v-col>
 
       <!-- Sort By Select -->
       <v-col class="d-flex select-container" cols="7" md="3" lg="2">
-        <v-select :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
+        <v-select id="select-sort" :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
       </v-col>
 
       <!-- Country Select -->
       <v-col class="d-flex select-container" cols="5" md="3" lg="2">
-        <v-select :items="countries" item-text="countryCode" label="Country" v-model="selectedCountry" outlined></v-select>
+        <v-select
+          id="select-country"
+          :items="countries"
+          item-text="countryCode"
+          label="Country"
+          v-model="selectedCountry"
+          outlined
+        ></v-select>
       </v-col>
     </v-row>
   </v-container>

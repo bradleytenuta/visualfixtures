@@ -84,5 +84,23 @@ export default {
       })
     }
     return cleanCompetitions
-  }
+  },
+
+  /**
+   * Creates a list of months based on competition dates.
+   */
+  monthBuilder(competitions) {
+    var months = []
+    // Adds all the available months and countries from list.
+    competitions.forEach((competition) => {
+      // Adds available months.
+      var month = moment(competition.date).format('MMMM YYYY')
+      if (!months.includes(month)) {
+        months.push(month)
+      }
+    })
+
+    // Sorts the months in calendar order.
+    return months.sort((x, y) => moment(x, 'MMMM YYYY') - moment(y, 'MMMM YYYY'))
+  },
 }
