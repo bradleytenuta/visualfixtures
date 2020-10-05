@@ -27,7 +27,9 @@ workflows:
   commit:
     jobs:
       - setup
-      - test
+      - test:
+          requires:
+            - setup
   nightly:
     triggers: # Triggers is a key to indicate a scheduled build
       - schedule: # 4 spaces needed underneath schedule.
@@ -38,4 +40,6 @@ workflows:
                 - master
     jobs:
       - setup
-      - test
+      - test:
+          requires:
+            - setup
