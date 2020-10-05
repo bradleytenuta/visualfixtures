@@ -1,3 +1,5 @@
+[![bradleytenuta](https://circleci.com/gh/bradleytenuta/visualfixtures.svg?style=svg)](https://github.com/bradleytenuta/visualfixtures)
+
 # visualfixtures
 
 ## Build Setup
