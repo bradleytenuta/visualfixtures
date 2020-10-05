@@ -48,7 +48,7 @@ workflows:
       - test
   nightly:
     triggers: # Triggers is a key to indicate a scheduled build
-      - schedule:
+      - schedule: # 4 spaces needed underneath schedule.
           cron: "0 0 * * *" # Cron Syntax for nightly
           filters:
             branches:
