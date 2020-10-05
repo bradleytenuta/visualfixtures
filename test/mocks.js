@@ -1,3 +1,4 @@
+// A mock list of competitions
 export const mockCompeitions = [
   {
     id: '1877b684-479c-4e17-a776-53b2474325d6',
@@ -33,6 +34,7 @@ export const mockCompeitions = [
   },
 ]
 
+// A mock of a single compeititon
 export const mockCompetition = {
   id: '1877b684-479c-4e17-a776-53b2474325d6',
   is_demo: false,
@@ -50,6 +52,7 @@ export const mockCompetition = {
   dirtyProperty: 'Should be cleaned',
 }
 
+// Mock of country array
 export const mockedCountries = [
   {
     countryCode: 'IMN',
@@ -65,8 +68,10 @@ export const mockedCountries = [
   },
 ]
 
+// Mock of sport pages.
 export const mockedSport = 'athletics'
 
+// Mock of competition tree.
 export const mockCompetitionTree = [
   {
     competitions: mockCompeitions,

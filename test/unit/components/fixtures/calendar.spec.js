@@ -48,6 +48,7 @@ describe('calendar', () => {
   var mockedCountriesCopy = [...mockedCountries]
   test('If countries array was sorted after creation of vue component', () => {
     const wrapper = shallowMount(calendar, wrapperData)
+    // Checks countries are sorted.
     expect(wrapper.vm.countries).toEqual(mockedCountries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1)))
     expect(wrapper.vm.countries).not.toEqual(mockedCountriesCopy)
   })

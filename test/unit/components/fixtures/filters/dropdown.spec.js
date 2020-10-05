@@ -90,6 +90,7 @@ describe('dropdown', () => {
     const wrapper = shallowMount(dropdown, wrapperData)
     wrapper.setData({ searchText: '' })
 
+    // Adds text to the search bar and checks to see if Vuex action has been triggered.
     var searchBarElement = wrapper.find('#comp-search-bar')
     searchBarElement.element.value = 'test'
     searchBarElement.trigger('input')
