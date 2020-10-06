@@ -61,9 +61,9 @@ export default {
    * The page name is used to allow different sports that may have different layouts
    * be cleaned into a format that fixture pages can read.
    */
-  cleaner(competitions, pageName) {
+  cleaner(competitions, sport) {
     var cleanCompetitions = []
-    if (pageName.toLowerCase() == 'athletics') {
+    if (sport.toLowerCase() == 'athletics') {
       competitions.forEach((competition) => {
         var cleanComp = {
           id: competition.id,

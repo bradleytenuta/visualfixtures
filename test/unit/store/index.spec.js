@@ -28,6 +28,7 @@ describe('resetVuex', () => {
     // The original state, this is what the resetVuex should set the state to.
     var defaultState = Object.create(state())
 
+    // Mocks each commit for each action resetVuex calls.
     let mockCommit = (state, payload) => {
       if (state == 'updateSelectedMonth') {
         expect(payload).toBe(defaultState.selectedMonth)

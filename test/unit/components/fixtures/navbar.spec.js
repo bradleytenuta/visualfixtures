@@ -26,6 +26,6 @@ describe('navbar', () => {
 
   it('should find and display the Logo', () => {
     const wrapper = shallowMount(navbar, wrapperData)
-    expect(wrapper.find('#navbar-logo').isVisible()).toBeTruthy()
+    expect(wrapper.find('#navbar-logo').isVisible()).toBeTruthy() // checks the logo is visible.
   })
 })

@@ -63,6 +63,7 @@ describe('toolbar', () => {
     const wrapper = shallowMount(toolbar, wrapperData)
     wrapper.setData({ displayAll: false })
 
+    // Triggers the display all checkbox.
     wrapper.find('.filter-top-bar-checkbox').trigger('click')
 
     expect(mockActions.changeDisplayAll).toHaveBeenCalled()
