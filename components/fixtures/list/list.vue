@@ -1,5 +1,5 @@
 <template>
-  <v-container class="comp-calendar" ref="list" v-scroll.self="calendarScrollHandler">
+  <div class="comp-calendar" ref="list" v-scroll.self="calendarScrollHandler">
     <!-- Displays Fixtures -->
     <template v-for="viewableBranch in viewableBranches.slice(0, scrollCounter)">
       <!-- Month Header -->
@@ -34,7 +34,7 @@
         <v-btn dark text v-bind="attrs" @click="snackbar = false">Close</v-btn>
       </template>
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -201,7 +201,7 @@ export default {
   /* Firefox scrollbar styling - webkit scrollbar works for all other browsers */
   scrollbar-width: thin;
   scrollbar-color: #cdcdcd transparent;
-  padding: 0px;
+  padding: 12px;
 }
 
 .comp-month-header {

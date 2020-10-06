@@ -8,7 +8,7 @@ import { athletics } from '~/services/jsonLinks'
 
 export default {
   name: 'athletics',
-  layout: 'fixtures',
+  layout: 'snippets',
   components: {
     calendar,
   },
