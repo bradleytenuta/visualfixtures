@@ -116,7 +116,7 @@
       <!-- Contact Button -->
       <v-tooltip bottom v-if="competition.contact_details">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(competition.contact_details)">
+          <v-btn icon v-bind="attrs" v-on="on" @click="copyContactDetails(competition.contact_details)">
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
         </template>
@@ -140,6 +140,10 @@ export default {
   props: {
     competition: {
       type: Object,
+      required: true,
+    },
+    snackbar: {
+      type: Boolean,
       required: true,
     },
   },
@@ -183,19 +187,11 @@ export default {
       return moment(competition.date).isSame(moment(competition.finish_date), 'day')
     },
     /**
-     * Copies the given string of information to the clipboard.
-     * Then displays a snackbar to tell the user something has happened.
+     * Copies the contact details to the clipboard.
      */
-    copyToClipboard(info_string) {
-      navigator.clipboard
-        .writeText(info_string)
-        .then(() => {
-          // Makes the snackbar visible.
-          this.snackbar = true
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+    copyContactDetails(contactDeatils) {
+      navigator.clipboard.writeText(contactDeatils)
+      this.$emit('updateSnackbar')
     },
   },
 }

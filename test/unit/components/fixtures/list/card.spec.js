@@ -30,6 +30,4 @@ describe('card', () => {
   it('should render the card component', () => {
     expect(shallowMount(card, wrapperData)).toBeTruthy()
   })
-
-  // TODO: Unable to test clipboard function as clipboard not found during testing.
 })

@@ -13,6 +13,8 @@
           v-if="competition.full_name.toLowerCase().includes(searchText.toLowerCase())"
           :key="competition.id"
           :competition="competition"
+          :snackbar="snackbar"
+          v-on:updateSnackbar="snackbar = true"
         />
       </div>
     </template>

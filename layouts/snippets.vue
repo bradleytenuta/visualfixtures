@@ -7,6 +7,15 @@
 <script>
 export default {
   name: 'snippets',
+  // TODO: Revert mounted styling back to CSS once Nuxt 3 is released.
+  mounted() {
+    document.getElementById('__nuxt').style.height = '100%'
+    document.getElementById('__layout').style.height = '100%'
+    document.getElementById('app').style.height = '100%'
+    document.body.style.height = '100%'
+    document.documentElement.style.height = '100%'
+    document.documentElement.style.overflow = 'hidden'
+  },
 }
 </script>
 
@@ -14,26 +23,8 @@ export default {
 /**
  * Below is styling that is used globally for fixture pages.
  */
-html {
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  height: 100%;
-}
-
-#__nuxt {
-  height: 100%;
-}
-
-#__layout {
-  height: 100%;
-}
-
 #app {
   font-family: roboto;
-  height: 100%;
 }
 
 .compcard .v-btn:not(.v-btn--round).v-size--default {

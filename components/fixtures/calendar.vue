@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-main-container">
+  <div class="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
     <!-- Filters Menu -->
     <div class="d-flex filter-container">
       <!-- Toolbar Component -->
@@ -37,6 +37,11 @@ export default {
     sport: {
       type: String,
       required: true,
+    },
+    isSnippet: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
@@ -106,9 +111,13 @@ export default {
 
 <style scoped>
 .calendar-main-container {
-  height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.calendar-main-container-non-snippet {
+  height: calc(100% - 56px) !important;
 }
 
 .filter-container {

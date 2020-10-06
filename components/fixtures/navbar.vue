@@ -90,6 +90,7 @@
 export default {
   name: 'nav-bar',
   methods: {
+    // TODO: Works but doesnt work with unit tests. So before adding this implementation, fix this.
     isActive(pageName) {
       return this.$nuxt.$route.path.toLowerCase().includes(pageName.toLowerCase())
     },

@@ -1,5 +1,5 @@
 <template>
-  <calendar :countries="countries" sport="athletics" />
+  <calendar :countries="countries" sport="athletics" isSnippet />
 </template>
 
 <script>
