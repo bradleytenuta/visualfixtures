@@ -67,11 +67,6 @@
           <v-list-item-title>Contribute</v-list-item-title>
         </v-list-item>
 
-        <v-list-item @click="">
-          <v-icon class="pr-2">mdi-earth</v-icon>
-          <v-list-item-title>View Sources</v-list-item-title>
-        </v-list-item>
-
         <!-- Buy Me a Coffee Link -->
         <a
           href="https://www.buymeacoffee.com/bradleytenuta"

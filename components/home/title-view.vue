@@ -1,5 +1,5 @@
 <template>
-  <v-parallax height="600" :src="require('~/assets/images/home-title-background.jpg')">
+  <v-parallax height="600" :src="require('~/assets/images/home/home-title-background.jpg')">
     <!-- Logo and Title -->
     <v-container class="logo-title-container">
       <v-img
@@ -57,6 +57,6 @@ export default {
 
 .title-main-text-container p {
   margin: auto;
-  max-width: 300px;
+  max-width: 400px;
 }
 </style>

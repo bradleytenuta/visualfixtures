@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="text-center px-0 my-16">
+  <v-container fluid class="text-center px-0 py-16">
     <v-container>
       <!-- Title -->
       <h1>Add Visual-Fixtures to your website!</h1>
@@ -58,9 +58,9 @@
     </v-container>
 
     <!-- Preview -->
-    <v-container fluid class="snippet-preview-container">
-      <h2>Snippet Preview</h2>
-      <p>This is how you can expect your Visual-Fixtures snippet to look on your website.</p>
+    <v-container fluid class="snippet-preview-container py-16">
+      <h2>Snippet preview</h2>
+      <p class="pb-8">This is how you can expect your Visual-Fixtures snippet to look on your website.</p>
       <v-card class="snippet-preview d-inline-flex">
         <iframe src="http://localhost:3000/snippets/athletics"></iframe>
       </v-card>
