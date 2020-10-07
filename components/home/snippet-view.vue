@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="snippet-outer-container">
+  <v-container fluid class="text-center px-0 my-16">
     <v-container>
       <!-- Title -->
       <h1>Add Visual-Fixtures to your website!</h1>
@@ -11,54 +11,59 @@
         Snippets won't contain any Visual-Fixtures advertisements or branding. All Done!
       </p>
 
-      <!-- Tools -->
-      <v-card class="my-8" flat>
-        <v-container fluid>
-          <v-row align="center">
-            <v-col class="d-flex py-0" cols="12" sm="6">
-              <v-select
-                v-model="selectedSport"
-                :items="sports"
-                :menu-props="{ maxHeight: '400' }"
-                dense
-                outlined
-                class="snippet-select-box"
-                label="Sports"
-              ></v-select>
-            </v-col>
-            <!-- TODO: Update to work with actual arguments. Might need to be many select boxes. -->
-            <v-col class="d-flex py-0" cols="12" sm="6">
-              <v-select
-                v-model="selectedOptions"
-                :items="customizationOptions"
-                :menu-props="{ maxHeight: '400' }"
-                dense
-                outlined
-                class="snippet-select-box"
-                label="Optional Customization Options"
-                multiple
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
+      <!-- Snippet -->
+      <v-container fluid class="mt-8">
+        <v-row align="center">
+          <v-col class="d-flex py-0" cols="12" sm="6">
+            <v-select
+              v-model="selectedSport"
+              :items="sports"
+              :menu-props="{ maxHeight: '400' }"
+              dense
+              outlined
+              class="snippet-select-box"
+              label="Sports"
+            ></v-select>
+          </v-col>
+          <!-- TODO: Update to work with actual arguments. Might need to be many select boxes. -->
+          <v-col class="d-flex py-0" cols="12" sm="6">
+            <v-select
+              v-model="selectedOptions"
+              :items="customizationOptions"
+              :menu-props="{ maxHeight: '400' }"
+              dense
+              outlined
+              class="snippet-select-box"
+              label="Optional Customization Options"
+              multiple
+            ></v-select>
+          </v-col>
 
-      <!-- Copy & Paste Code -->
-      <v-text-field
-        outlined
-        dense
-        readonly
-        background-color="white"
-        append-icon="mdi-content-copy"
-        @click:append="copySnippet"
-        :value="copyPasteCode"
-      >
-      </v-text-field>
+          <!-- Copy & Paste Code -->
+          <v-col class="d-flex py-6" cols="12">
+            <v-text-field
+              outlined
+              dense
+              readonly
+              background-color="white"
+              append-icon="mdi-content-copy"
+              label="Snippet (Copy & Paste Me)"
+              @click:append="copySnippet"
+              :value="copyPasteCode"
+            >
+            </v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-container>
 
-      <!-- Preview -->
-      <h2>Preview your Fixture Snippet</h2>
+    <!-- Preview -->
+    <v-container fluid class="snippet-preview-container">
+      <h2>Snippet Preview</h2>
       <p>This is how you can expect your Visual-Fixtures snippet to look on your website.</p>
-      <iframe class="snippet-preview" src="http://localhost:3000/snippets/athletics"></iframe>
+      <v-card class="snippet-preview d-inline-flex">
+        <iframe src="http://localhost:3000/snippets/athletics"></iframe>
+      </v-card>
     </v-container>
 
     <!-- Global Snackbar -->
@@ -131,13 +136,18 @@ export default {
 </script>
 
 <style scoped>
-.snippet-outer-container {
-  background-color: green;
-  color: white;
-  text-align: center;
+.snippet-preview-container {
+  background-color: #fafafa;
 }
 
 .snippet-preview {
+  width: 100%;
+  height: 640px;
+  max-width: 360px;
+  max-height: 640px;
+}
+
+.snippet-preview > iframe {
   width: 100%;
   height: 640px;
   max-width: 360px;
