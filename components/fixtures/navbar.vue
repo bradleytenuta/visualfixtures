@@ -57,15 +57,21 @@
 
       <!-- Menu List -->
       <v-list class="menu-list">
-        <v-list-item @click="">
-          <v-icon class="pr-2">mdi-help-circle-outline</v-icon>
-          <v-list-item-title>Help</v-list-item-title>
-        </v-list-item>
+        <!-- Help Modal -->
+        <modal-help>
+          <v-list-item>
+            <v-icon class="pr-2">mdi-help-circle-outline</v-icon>
+            <v-list-item-title>Help</v-list-item-title>
+          </v-list-item>
+        </modal-help>
 
-        <v-list-item @click="">
-          <v-icon class="pr-2">mdi-plus-circle-outline</v-icon>
-          <v-list-item-title>Contribute</v-list-item-title>
-        </v-list-item>
+        <!-- Contribute Modal -->
+        <modal-contribute>
+          <v-list-item>
+            <v-icon class="pr-2">mdi-plus-circle-outline</v-icon>
+            <v-list-item-title>Contribute</v-list-item-title>
+          </v-list-item>
+        </modal-contribute>
 
         <!-- Buy Me a Coffee Link -->
         <a
@@ -82,8 +88,15 @@
 </template>
 
 <script>
+import modalHelp from '~/components/modals/modal-help'
+import modalContribute from '~/components/modals/modal-contribute'
+
 export default {
   name: 'nav-bar',
+  components: {
+    'modal-help': modalHelp,
+    'modal-contribute': modalContribute,
+  },
   methods: {
     // TODO: Works but doesnt work with unit tests. So before adding this implementation, fix this.
     isActive(pageName) {

@@ -137,7 +137,7 @@ export default {
 
 <style scoped>
 .snippet-preview-container {
-  background-color: #fafafa;
+  background-color: #f5f5f5;
 }
 
 .snippet-preview {
