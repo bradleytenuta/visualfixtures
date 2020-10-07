@@ -26,7 +26,7 @@
     <!-- Competition Extra Information -->
     <v-chip-group column class="px-6">
       <!-- If It is currently on now -->
-      <card-chip v-if="isOnNow(competition)" color="green darken-1" text="On Now" tooltip="Competition is on now"></card-chip>
+      <card-chip v-if="isOnNow(competition)" color="primary" text="On Now" tooltip="Competition is on now"></card-chip>
 
       <!-- If Has Expired -->
       <card-chip v-if="hasExpired(competition)" color="red darken-1" text="Expired" tooltip="Competition is over"></card-chip>
@@ -34,7 +34,7 @@
       <!-- No. of participants -->
       <card-chip
         v-if="competition.num_competitors > 0"
-        color="green darken-1"
+        color="primary"
         :text="competition.num_competitors.toString()"
         tooltip="Competition is over"
         icon="mdi-account-group"
@@ -100,9 +100,9 @@
           <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
               <!-- Button with Link -->
-              <v-btn v-if="competition.entry_link" color="green" :href="competition.entry_link" text>Visit Site</v-btn>
+              <v-btn v-if="competition.entry_link" color="primary" :href="competition.entry_link" text>Visit Site</v-btn>
               <!-- Disabled button - no link -->
-              <v-btn v-else :disabled="!competition.entry_link" color="green" href="#" text> Visit Site </v-btn>
+              <v-btn v-else :disabled="!competition.entry_link" color="primary" href="#" text> Visit Site </v-btn>
             </div>
           </template>
           <span v-if="competition.entry_link">View competition and entry information (External Site)</span>
