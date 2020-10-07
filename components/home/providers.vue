@@ -1,5 +1,5 @@
 <template>
-  <v-container class="text-center py-16">
+  <v-container class="text-center mb-16 py-16">
     <!-- Providers Text -->
     <v-row align="center">
       <v-col cols="12" sm="6">
