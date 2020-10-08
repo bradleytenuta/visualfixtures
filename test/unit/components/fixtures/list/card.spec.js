@@ -23,6 +23,7 @@ describe('card', () => {
     },
     propsData: {
       competition: mockCompetition,
+      snackbar: false,
     },
     vuetify, // For some reason (I dont know) this is required to pass due to mobile breakpoint issue.
   }

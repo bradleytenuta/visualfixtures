@@ -1,6 +1,7 @@
 // Libraries
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import VueRouter from 'vue-router'
 
 // Components
 import navbar from '~/components/fixtures/navbar'
@@ -13,11 +14,16 @@ Vue.use(Vuetify)
 describe('navbar', () => {
   const localVue = createLocalVue()
   localVue.use(Vuetify)
+  localVue.use(VueRouter)
+
+  const router = new VueRouter()
+
   const wrapperData = {
     localVue,
     stubs: {
       NuxtLink: true,
     },
+    router,
   }
 
   it('should render the navbar component', () => {

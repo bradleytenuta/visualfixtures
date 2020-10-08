@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+import VueRouter from 'vue-router'
 
 // Components
 import calendar from '~/components/fixtures/calendar'
@@ -16,6 +17,9 @@ describe('calendar', () => {
   const localVue = createLocalVue()
   localVue.use(Vuetify)
   localVue.use(Vuex)
+  localVue.use(VueRouter)
+
+  const router = new VueRouter()
 
   // Creates a Mock Vuex Store.
   const mockActions = {
@@ -39,6 +43,7 @@ describe('calendar', () => {
       countries: mockedCountries,
       sport: mockedSport,
     },
+    router,
   }
 
   it('should render the calendar component', () => {
