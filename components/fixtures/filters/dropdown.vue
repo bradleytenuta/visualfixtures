@@ -33,6 +33,7 @@
           item-text="countryCode"
           label="Country"
           v-model="selectedCountry"
+          hide-selected
           outlined
         ></v-select>
       </v-col>

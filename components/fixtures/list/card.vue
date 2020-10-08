@@ -26,7 +26,7 @@
     <!-- Competition Extra Information -->
     <v-chip-group column class="px-6">
       <!-- If It is currently on now -->
-      <card-chip v-if="isOnNow(competition)" color="green darken-1" text="On Now" tooltip="Competition is on now"></card-chip>
+      <card-chip v-if="isOnNow(competition)" color="primary" text="On Now" tooltip="Competition is on now"></card-chip>
 
       <!-- If Has Expired -->
       <card-chip v-if="hasExpired(competition)" color="red darken-1" text="Expired" tooltip="Competition is over"></card-chip>
@@ -34,9 +34,9 @@
       <!-- No. of participants -->
       <card-chip
         v-if="competition.num_competitors > 0"
-        color="green darken-1"
+        color="primary"
         :text="competition.num_competitors.toString()"
-        tooltip="Competition is over"
+        tooltip="No. of participants"
         icon="mdi-account-group"
       ></card-chip>
     </v-chip-group>
@@ -100,9 +100,9 @@
           <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
               <!-- Button with Link -->
-              <v-btn v-if="competition.entry_link" color="green" :href="competition.entry_link" text>Visit Site</v-btn>
+              <v-btn v-if="competition.entry_link" color="primary" :href="competition.entry_link" text>Visit Site</v-btn>
               <!-- Disabled button - no link -->
-              <v-btn v-else :disabled="!competition.entry_link" color="green" href="#" text> Visit Site </v-btn>
+              <v-btn v-else :disabled="!competition.entry_link" color="primary" href="#" text> Visit Site </v-btn>
             </div>
           </template>
           <span v-if="competition.entry_link">View competition and entry information (External Site)</span>
@@ -116,7 +116,7 @@
       <!-- Contact Button -->
       <v-tooltip bottom v-if="competition.contact_details">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(competition.contact_details)">
+          <v-btn icon v-bind="attrs" v-on="on" @click="copyContactDetails(competition.contact_details)">
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
         </template>
@@ -140,6 +140,10 @@ export default {
   props: {
     competition: {
       type: Object,
+      required: true,
+    },
+    snackbar: {
+      type: Boolean,
       required: true,
     },
   },
@@ -183,19 +187,11 @@ export default {
       return moment(competition.date).isSame(moment(competition.finish_date), 'day')
     },
     /**
-     * Copies the given string of information to the clipboard.
-     * Then displays a snackbar to tell the user something has happened.
+     * Copies the contact details to the clipboard.
      */
-    copyToClipboard(info_string) {
-      navigator.clipboard
-        .writeText(info_string)
-        .then(() => {
-          // Makes the snackbar visible.
-          this.snackbar = true
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+    copyContactDetails(contactDeatils) {
+      navigator.clipboard.writeText(contactDeatils)
+      this.$emit('updateSnackbar')
     },
   },
 }

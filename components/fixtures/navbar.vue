@@ -24,8 +24,21 @@
       <v-list>
         <!-- NOTE: Only place three v-btn per v-list-item -->
         <v-list-item>
-          <v-btn nuxt icon to="/athletics" class="sport-menu-button" title="Athletics">
+          <v-btn
+            nuxt
+            icon
+            to="/athletics"
+            class="sport-menu-button"
+            title="Athletics"
+            :class="{ 'sport-menu-button-active': isActive('Athletics') }"
+          >
             <v-icon>mdi-run</v-icon>
+          </v-btn>
+          <v-btn nuxt icon class="sport-menu-button" title="Coming Soon" disabled>
+            <v-icon>mdi-help</v-icon>
+          </v-btn>
+          <v-btn nuxt icon class="sport-menu-button" title="Coming Soon" disabled>
+            <v-icon>mdi-help</v-icon>
           </v-btn>
         </v-list-item>
       </v-list>
@@ -44,20 +57,21 @@
 
       <!-- Menu List -->
       <v-list class="menu-list">
-        <v-list-item @click="">
-          <v-icon class="pr-2">mdi-help-circle-outline</v-icon>
-          <v-list-item-title>Help</v-list-item-title>
-        </v-list-item>
+        <!-- Help Modal -->
+        <modal-help>
+          <v-list-item>
+            <v-icon class="pr-2">mdi-help-circle-outline</v-icon>
+            <v-list-item-title>Help</v-list-item-title>
+          </v-list-item>
+        </modal-help>
 
-        <v-list-item @click="">
-          <v-icon class="pr-2">mdi-plus-circle-outline</v-icon>
-          <v-list-item-title>Contribute</v-list-item-title>
-        </v-list-item>
-
-        <v-list-item @click="">
-          <v-icon class="pr-2">mdi-earth</v-icon>
-          <v-list-item-title>View Sources</v-list-item-title>
-        </v-list-item>
+        <!-- Contribute Modal -->
+        <modal-contribute>
+          <v-list-item>
+            <v-icon class="pr-2">mdi-plus-circle-outline</v-icon>
+            <v-list-item-title>Contribute</v-list-item-title>
+          </v-list-item>
+        </modal-contribute>
 
         <!-- Buy Me a Coffee Link -->
         <a
@@ -74,8 +88,20 @@
 </template>
 
 <script>
+import modalHelp from '~/components/modals/modal-help'
+import modalContribute from '~/components/modals/modal-contribute'
+
 export default {
   name: 'nav-bar',
+  components: {
+    'modal-help': modalHelp,
+    'modal-contribute': modalContribute,
+  },
+  methods: {
+    isActive(pageName) {
+      return this.$route.path.toLowerCase().includes(pageName.toLowerCase())
+    },
+  },
 }
 </script>
 
@@ -90,19 +116,30 @@ export default {
   background-color: lightgray;
   border-radius: 0;
   margin: 2px;
+  height: 50px;
+  width: 50px;
 }
+
+.sport-menu-button i {
+  height: 30px;
+  font-size: 30px;
+  width: 30px;
+}
+
 .sport-menu-button-active {
-  border-bottom: 1px green solid;
+  border-bottom: 4px green solid;
 }
 
 .menu-list {
   padding: 0px;
 }
+
 .menu-buymecoffee {
   display: block;
   height: 62px;
   background-color: #ff804d;
 }
+
 .menu-buymecoffee > img {
   height: 60px !important;
   width: 217px !important;

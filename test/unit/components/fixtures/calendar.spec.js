@@ -2,9 +2,11 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+import VueRouter from 'vue-router'
 
 // Components
 import calendar from '~/components/fixtures/calendar'
+import { mockedCountries, mockedSport } from '~/test/mocks'
 
 // Utilities
 import { createLocalVue, shallowMount } from '@vue/test-utils'
@@ -15,6 +17,9 @@ describe('calendar', () => {
   const localVue = createLocalVue()
   localVue.use(Vuetify)
   localVue.use(Vuex)
+  localVue.use(VueRouter)
+
+  const router = new VueRouter()
 
   // Creates a Mock Vuex Store.
   const mockActions = {
@@ -27,22 +32,6 @@ describe('calendar', () => {
     actions: mockActions,
   })
 
-  // Creates mocked array of countries
-  var mockedCountries = [
-    {
-      countryCode: 'IMN',
-      urls: ['www.someurl.com'],
-    },
-    {
-      countryCode: 'ALB',
-      urls: ['www.someurl.com'],
-    },
-    {
-      countryCode: 'GBR',
-      urls: ['www.someurl.com'],
-    },
-  ]
-
   // The wrapper Data to be used by all unit tests.
   const wrapperData = {
     localVue,
@@ -52,8 +41,9 @@ describe('calendar', () => {
     },
     propsData: {
       countries: mockedCountries,
-      sport: 'someSport',
+      sport: mockedSport,
     },
+    router,
   }
 
   it('should render the calendar component', () => {
@@ -63,6 +53,7 @@ describe('calendar', () => {
   var mockedCountriesCopy = [...mockedCountries]
   test('If countries array was sorted after creation of vue component', () => {
     const wrapper = shallowMount(calendar, wrapperData)
+    // Checks countries are sorted.
     expect(wrapper.vm.countries).toEqual(mockedCountries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1)))
     expect(wrapper.vm.countries).not.toEqual(mockedCountriesCopy)
   })

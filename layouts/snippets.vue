@@ -1,20 +1,12 @@
 <template>
   <v-app id="app">
-    <!-- Fixtures Navbar -->
-    <nav-bar />
-
     <!-- Page Content -->
     <nuxt />
   </v-app>
 </template>
 <script>
-import navbar from '~/components/fixtures/navbar.vue'
-
 export default {
-  name: 'fixtures',
-  components: {
-    'nav-bar': navbar,
-  },
+  name: 'snippets',
   // TODO: Revert mounted styling back to CSS once Nuxt 3 is released.
   mounted() {
     document.getElementById('__nuxt').style.height = '100%'

@@ -1,0 +1,39 @@
+<template>
+  <v-container class="providers-outer-container text-center mb-16 py-16">
+    <!-- Providers Text -->
+    <v-row align="center" data-aos="fade-up">
+      <v-col cols="12" sm="6">
+        <h1>The data providers who bring this project alive</h1>
+      </v-col>
+
+      <!-- Companies / Orgnaisations Logos -->
+      <v-col cols="12" sm="6">
+        <v-container>
+          <v-row justify="center">
+            <!-- One Column for each logo -->
+            <v-col cols="auto">
+              <a href="https://opentrack.run/" title="Opentrack">
+                <v-img max-height="300" max-width="300" :src="require('~/assets/images/home/providers/opentrack.png')"></v-img>
+              </a>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+export default {
+  name: 'providers',
+}
+</script>
+
+<style scoped>
+/* Overwriting Vuetify Grid. */
+@media (min-width: 1264px) {
+  .providers-outer-container {
+    max-width: 1185px !important;
+  }
+}
+</style>

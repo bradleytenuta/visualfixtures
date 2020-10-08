@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-main-container">
+  <div class="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
     <!-- Filters Menu -->
     <div class="d-flex filter-container">
       <!-- Toolbar Component -->
@@ -37,6 +37,11 @@ export default {
     sport: {
       type: String,
       required: true,
+    },
+    isSnippet: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
@@ -95,8 +100,25 @@ export default {
    * countries.
    */
   created() {
-    // Sets the current country to the first country in the list.
-    this.$store.dispatch('changeSelectedCountry', this.countries[0])
+    // Sets the current country based on Query Parameters. If no parameter was given,
+    // then a default country will be chosen (First element in array)
+    if (this.$route.query.country) {
+      // Finds the country based on the country code given.
+      const selectedCountry = this.countries.find((country) => {
+        return country.countryCode == this.$route.query.country
+      })
+
+      // Sets the country as selected if found.
+      if (selectedCountry) {
+        this.$store.dispatch('changeSelectedCountry', selectedCountry)
+      } else {
+        // If not found, use default.
+        this.$store.dispatch('changeSelectedCountry', this.countries[0])
+      }
+    } else {
+      // If no paramter given, use default.
+      this.$store.dispatch('changeSelectedCountry', this.countries[0])
+    }
 
     // Sorts the counties in alphabetical order.
     this.countries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1))
@@ -106,9 +128,13 @@ export default {
 
 <style scoped>
 .calendar-main-container {
-  height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.calendar-main-container-non-snippet {
+  height: calc(100% - 56px) !important;
 }
 
 .filter-container {

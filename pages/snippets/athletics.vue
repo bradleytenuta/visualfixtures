@@ -1,5 +1,5 @@
 <template>
-  <calendar :countries="countries" sport="athletics" />
+  <calendar :countries="countries" sport="athletics" isSnippet />
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import { sports } from '~/services/jsonLinks'
 
 export default {
   name: 'athletics',
-  layout: 'fixtures',
+  layout: 'snippets',
   components: {
     calendar,
   },

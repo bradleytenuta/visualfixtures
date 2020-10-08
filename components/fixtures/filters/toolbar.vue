@@ -1,26 +1,24 @@
 <template>
-  <v-container>
-    <div class="filter-top-bar">
-      <!-- Select All Checkbox -->
-      <v-checkbox v-model="displayAll" label="Display All" class="filter-top-bar-checkbox"></v-checkbox>
+  <div class="filter-top-bar">
+    <!-- Select All Checkbox -->
+    <v-checkbox v-model="displayAll" label="Display All" class="filter-top-bar-checkbox"></v-checkbox>
 
-      <!-- Spacer -->
-      <v-spacer></v-spacer>
+    <!-- Spacer -->
+    <v-spacer></v-spacer>
 
-      <!-- Filter Button Mobile -->
-      <v-btn class="filter-top-bar-filter-button-mobile" color="gray" small icon @click="dropdownState = !dropdownState">
-        <v-icon v-if="dropdownState">mdi-filter-menu-outline</v-icon>
-        <v-icon v-else>mdi-filter-menu</v-icon>
-      </v-btn>
+    <!-- Filter Button Mobile -->
+    <v-btn class="filter-top-bar-filter-button-mobile" color="gray" small icon @click="dropdownState = !dropdownState">
+      <v-icon v-if="dropdownState">mdi-filter-menu-outline</v-icon>
+      <v-icon v-else>mdi-filter-menu</v-icon>
+    </v-btn>
 
-      <!-- Filter Button Desktop -->
-      <v-btn class="filter-top-bar-filter-button-desktop" small text @click="dropdownState = !dropdownState">
-        <span>Filter</span>
-        <v-icon right v-if="dropdownState">mdi-filter-menu-outline</v-icon>
-        <v-icon right v-else>mdi-filter-menu</v-icon>
-      </v-btn>
-    </div>
-  </v-container>
+    <!-- Filter Button Desktop -->
+    <v-btn class="filter-top-bar-filter-button-desktop" small text @click="dropdownState = !dropdownState">
+      <span>Filter</span>
+      <v-icon right v-if="dropdownState">mdi-filter-menu-outline</v-icon>
+      <v-icon right v-else>mdi-filter-menu</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -52,6 +50,7 @@ export default {
 
 <style scoped>
 .filter-top-bar {
+  padding: 12px;
   display: flex;
 }
 
