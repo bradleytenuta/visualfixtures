@@ -8,7 +8,7 @@
       <p>
         Use the tools below to create your own Visual-Fixture snippet that you can display on your website. Choose the sport and many
         optional customization options for your list. Once your done just copy and paste the line of code below into your website HTML.
-        Snippets won't contain any Visual-Fixtures advertisements or branding. All Done!
+        Snippets won't contain any Visual-Fixtures advertisements or branding. All done!
       </p>
 
       <!-- Snippet -->

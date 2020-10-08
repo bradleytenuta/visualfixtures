@@ -36,7 +36,7 @@
         v-if="competition.num_competitors > 0"
         color="primary"
         :text="competition.num_competitors.toString()"
-        tooltip="Competition is over"
+        tooltip="No. of participants"
         icon="mdi-account-group"
       ></card-chip>
     </v-chip-group>
