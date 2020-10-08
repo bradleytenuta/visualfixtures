@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: see if we can move images to firebase storage and prevent the use of 'require' -->
   <v-parallax height="600" :src="require('~/assets/images/home/home-title-background.jpg')">
     <!-- Logo and Title -->
     <v-container class="logo-title-container">
