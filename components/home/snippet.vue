@@ -14,6 +14,7 @@
       <!-- Snippet -->
       <v-container fluid class="mt-8">
         <v-row align="center">
+          <!-- Select Sport -->
           <v-col class="d-flex py-0" cols="12" sm="6">
             <v-select
               v-model="selectedSport"
@@ -24,19 +25,21 @@
               outlined
               class="snippet-select-box"
               label="Sports"
+              hide-selected
             ></v-select>
           </v-col>
-          <!-- TODO: Update to work with actual arguments. Might need to be many select boxes. -->
+          <!-- Default Country. -->
           <v-col class="d-flex py-0" cols="12" sm="6">
             <v-select
-              v-model="selectedOptions"
-              :items="customizationOptions"
+              v-model="selectedCountry"
+              :items="countries"
+              item-text="countryCode"
               :menu-props="{ maxHeight: '400' }"
               dense
               outlined
               class="snippet-select-box"
-              label="Optional Customization Options"
-              multiple
+              label="Default Country"
+              hide-selected
             ></v-select>
           </v-col>
 
@@ -86,12 +89,18 @@ export default {
     return {
       sports,
       selectedSport: sports[0],
-      customizationOptions: ['name', 'face', 'hair', 'clothes'],
-      selectedOptions: [],
+      selectedCountry: null,
       snackbar: false,
     }
   },
   computed: {
+    /**
+     * The computed property of countries. The array of countries depends
+     * on which sport has currently been selected.
+     */
+    countries() {
+      return this.selectedSport.countries
+    },
     /**
      * Formats the customized information provided by the user into
      * an iframe element the user can then copy and paste onto their website.
@@ -109,20 +118,24 @@ export default {
 
       // Gets the desired sport.
       url = url + '/' + this.selectedSport.name.toLowerCase()
+      url += '?' // Adds query text value.
 
-      // Adds any additonal arguments.
-      if (this.selectedOptions.length > 0) {
-        url += '?' // Adds query text value.
-        this.selectedOptions.forEach((option, index) => {
-          url += option + '=' + option
-          if (index !== this.selectedOptions.length - 1) {
-            url += '&'
-          }
-        })
+      // Adds selected country argument.
+      if (this.selectedCountry) {
+        url += 'country' + '=' + this.selectedCountry.countryCode
       }
 
       return url
     },
+  },
+  /**
+   * This runs once the vue instance has been mounted to the DOM.
+   * Updates the selected country to the first country in the list of countries.
+   * This is mounted as in order for a list of countries to exist, a sport has to
+   * be selected.
+   */
+  mounted() {
+    this.selectedCountry = this.countries[0]
   },
   methods: {
     /**
