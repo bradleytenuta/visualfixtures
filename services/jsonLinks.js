@@ -6,6 +6,7 @@
  * each country object within a sport.
  *
  * [sport] {
+ *  name: [Sport Name (Lowercase)]
  *  countries: [
  *    countryCode: [ISO Country Code],
  *    urls: [
@@ -17,14 +18,17 @@
  *
  */
 
-export const athletics = {
-  countries: [
-    {
-      countryCode: 'GBR',
-      urls: [
-        'https://file.opentrack.run/live/euroath/domestic_calendar_gbr_2020.json',
-        'https://file.opentrack.run/live/euroath/domestic_calendar_gbr_2021.json',
-      ],
-    },
-  ],
-}
+export const sports = [
+  {
+    name: 'athletics',
+    countries: [
+      {
+        countryCode: 'GBR',
+        urls: [
+          'https://file.opentrack.run/live/euroath/domestic_calendar_gbr_2020.json',
+          'https://file.opentrack.run/live/euroath/domestic_calendar_gbr_2021.json',
+        ],
+      },
+    ],
+  },
+]

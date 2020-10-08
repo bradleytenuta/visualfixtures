@@ -4,7 +4,7 @@
 
 <script>
 import calendar from '~/components/fixtures/calendar.vue'
-import { athletics } from '~/services/jsonLinks'
+import { sports } from '~/services/jsonLinks'
 
 export default {
   name: 'athletics',
@@ -14,7 +14,9 @@ export default {
   },
   data() {
     return {
-      countries: athletics.countries,
+      countries: sports.find((sport) => {
+        return sport.name == 'athletics'
+      }).countries,
     }
   },
 }

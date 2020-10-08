@@ -18,6 +18,7 @@
             <v-select
               v-model="selectedSport"
               :items="sports"
+              item-text="name"
               :menu-props="{ maxHeight: '400' }"
               dense
               outlined
@@ -77,7 +78,7 @@
 </template>
 
 <script>
-import { sports } from '~/services/allSports'
+import { sports } from '~/services/jsonLinks'
 
 export default {
   name: 'snippet-view',
@@ -107,7 +108,7 @@ export default {
       var url = 'https://www.visual-fixtures.com/snippets'
 
       // Gets the desired sport.
-      url = url + '/' + this.selectedSport.toLowerCase()
+      url = url + '/' + this.selectedSport.name.toLowerCase()
 
       // Adds any additonal arguments.
       if (this.selectedOptions.length > 0) {
