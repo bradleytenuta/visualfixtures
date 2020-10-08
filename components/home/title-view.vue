@@ -25,7 +25,7 @@
         </p>
 
         <!-- Go Button -->
-        <v-btn nuxt tile large to="/athletics" class="primary">
+        <v-btn nuxt tile large to="/athletics?country=GBR" class="primary">
           Athletics Fixtures
           <v-icon right>mdi-arrow-right</v-icon>
         </v-btn>
