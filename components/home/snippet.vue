@@ -62,7 +62,7 @@
     </v-container>
 
     <!-- Preview -->
-    <v-container fluid class="snippet-preview-container py-16">
+    <v-container fluid class="snippet-preview-container py-16" data-aos="fade-up">
       <h2>Snippet preview</h2>
       <p class="pb-8">This is how you can expect your Visual-Fixtures snippet to look on your website.</p>
       <v-card class="snippet-preview d-inline-flex">
