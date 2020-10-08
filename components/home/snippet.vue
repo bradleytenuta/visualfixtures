@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="text-center px-0 py-16">
-    <v-container>
+    <v-container class="snippet-tool-outer-container">
       <!-- Title -->
       <h1>Add Visual-Fixtures to your website!</h1>
 
@@ -172,5 +172,11 @@ export default {
 /* Overwriting Vuetify select box height. */
 .snippet-select-box {
   height: 45px;
+}
+/* Overwriting Vuetify Grid. */
+@media (min-width: 1264px) {
+  .snippet-tool-outer-container {
+    max-width: 1185px !important;
+  }
 }
 </style>

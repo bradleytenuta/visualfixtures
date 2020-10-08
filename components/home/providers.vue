@@ -1,5 +1,5 @@
 <template>
-  <v-container class="text-center mb-16 py-16">
+  <v-container class="providers-outer-container text-center mb-16 py-16">
     <!-- Providers Text -->
     <v-row align="center" data-aos="fade-up">
       <v-col cols="12" sm="6">
@@ -28,3 +28,12 @@ export default {
   name: 'providers',
 }
 </script>
+
+<style scoped>
+/* Overwriting Vuetify Grid. */
+@media (min-width: 1264px) {
+  .providers-outer-container {
+    max-width: 1185px !important;
+  }
+}
+</style>
