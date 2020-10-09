@@ -71,6 +71,9 @@ export default {
 
       // Creates a competition tree.
       this.competitionTree = compititonUtility.treeBuilder(cleanCompetitions, this.months)
+
+      // Updates the selected month if a compeitition ID is provided in the URL.
+      this.useCompetitionMonth(this.$route.query.id)
     },
   },
   computed: {
@@ -122,6 +125,28 @@ export default {
 
     // Sorts the counties in alphabetical order.
     this.countries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1))
+  },
+  methods: {
+    /**
+     * Given a competition Id, find the competition with that id and then set the current month
+     * as start month of that competition, if the competition can be found.
+     */
+    useCompetitionMonth(competitionId) {
+      // Loops through every competition in every branch.
+      this.competitionTree.forEach((branch) => {
+        branch.competitions.forEach((competition) => {
+          // If it finds the competition with the same id.
+          if (competition.id == competitionId) {
+            // Formats the competition month, if the month is different then update
+            // the selected month
+            var month = moment(competition.date).format('MMMM YYYY')
+            if (this.selectedMonth != month) {
+              this.selectedMonth = month
+            }
+          }
+        })
+      })
+    },
   },
 }
 </script>

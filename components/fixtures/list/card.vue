@@ -1,5 +1,11 @@
 <template>
-  <v-card class="compcard my-5" :flat="true">
+  <v-card
+    class="compcard my-5"
+    :flat="true"
+    @click.prevent="activateCompCard(competition)"
+    :ripple="false"
+    :class="{ 'compcard-active': isActive }"
+  >
     <!-- Header Text -->
     <v-list-item>
       <!-- Calendar Style Date -->
@@ -157,6 +163,24 @@ export default {
       required: true,
     },
   },
+  computed: {
+    selectedCountry() {
+      return this.$store.state.selectedCountry
+    },
+  },
+  data() {
+    return {
+      isActive: false,
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.isActive = this.isCardSelected()
+    },
+  },
+  mounted() {
+    this.isActive = this.isCardSelected()
+  },
   methods: {
     /**
      * This function formats the given string based on the format
@@ -208,7 +232,35 @@ export default {
      * It returns a string.
      */
     getShareUrl(competition) {
-      return window.location.origin + this.$route.path + '?id=' + competition.id
+      return window.location.origin + this.$route.path + '?country=' + this.selectedCountry.countryCode + '&id=' + competition.id
+    },
+    /**
+     * When a compcard is clicked, it adds the id of the competition to the
+     * query parameters.
+     */
+    activateCompCard(competition) {
+      // If the competition is already selected then do nothing.
+      if (this.isCardSelected()) {
+        return
+      }
+
+      // Adds a query parameter to the list query object without replacing the
+      // query parameters already in the object.
+      this.$router.replace({
+        query: Object.assign({}, this.$route.query, { id: competition.id }),
+      })
+    },
+    /**
+     * Checks to see if this card is selected. If it is then it returns true,
+     * otherwise it returns false.
+     */
+    isCardSelected() {
+      if (this.$route.query.id) {
+        if (this.$route.query.id == this.competition.id) {
+          return true
+        }
+      }
+      return false
     },
   },
 }
@@ -220,6 +272,14 @@ export default {
   margin: 10px;
   height: fit-content;
   overflow: hidden;
+}
+
+.compcard-active {
+  background-color: #e8f0e8;
+}
+
+.v-card--link:focus:before {
+  opacity: 0 !important;
 }
 
 .compcard .v-icon {
