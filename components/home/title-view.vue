@@ -1,11 +1,14 @@
 <template>
   <!-- TODO: see if we can move images to firebase storage and prevent the use of 'require' -->
-  <v-parallax height="600" :src="require('~/assets/images/home/home-title-background.jpg')">
+  <v-parallax
+    height="600"
+    src="https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/home-title-background.jpg?alt=media&token=0656486b-1e67-4bda-83b5-9a147306acb5"
+  >
     <!-- Logo and Title -->
     <v-container class="logo-title-container">
       <v-img
         id="navbar-logo"
-        :src="require('~/assets/logos/android-chrome-maskable-192x192.png')"
+        src="https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/logos%2Fandroid-chrome-maskable-192x192.png?alt=media&token=998ee953-f4ec-4613-b95f-9f5aa023ced8"
         max-height="40"
         max-width="40"
         contain
