@@ -1,7 +1,11 @@
 <template>
-  <v-container class="filter-dropdown-container" :class="{ 'filter-dropdown-container-open': dropdownState }">
+  <v-container
+    class="filter-dropdown-container"
+    :class="{ 'filter-dropdown-container-open': dropdownState, 'filter-dropdown-container-open-no-snippet': dropdownState }"
+  >
     <!-- Filters the search results -->
-    <v-row align="center">
+    <!-- Layout for snippet view -->
+    <v-row align="center" v-if="isSnippetStore">
       <!-- Search Bar -->
       <v-col id="comp-search-bar" class="d-flex select-container" cols="12" md="3" lg="5">
         <v-text-field
@@ -27,6 +31,44 @@
 
       <!-- Country Select -->
       <v-col class="d-flex select-container" cols="5" md="3" lg="2">
+        <v-select
+          id="select-country"
+          :items="countries"
+          item-text="countryCode"
+          label="Country"
+          v-model="selectedCountry"
+          hide-selected
+          outlined
+        ></v-select>
+      </v-col>
+    </v-row>
+    <!-- Layout for fixture page view -->
+    <v-row align="center" v-else>
+      <!-- Search Bar -->
+      <v-col id="comp-search-bar" class="d-flex select-container" cols="12">
+        <v-text-field
+          hide-details
+          clearable
+          outlined
+          single-line
+          label="Find..."
+          prepend-inner-icon="mdi-magnify"
+          v-model="searchText"
+        ></v-text-field>
+      </v-col>
+
+      <!-- Month Select -->
+      <v-col class="d-flex select-container" cols="12">
+        <v-select id="select-month" :items="months" label="Month" v-model="selectedMonth" outlined :disabled="displayAll"></v-select>
+      </v-col>
+
+      <!-- Sort By Select -->
+      <v-col class="d-flex select-container" cols="7">
+        <v-select id="select-sort" :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
+      </v-col>
+
+      <!-- Country Select -->
+      <v-col class="d-flex select-container" cols="5">
         <v-select
           id="select-country"
           :items="countries"
@@ -78,6 +120,9 @@ export default {
     dropdownState() {
       return this.$store.state.dropdownState
     },
+    isSnippetStore() {
+      return this.$store.state.isSnippet
+    },
     selectedMonth: {
       get() {
         return this.$store.state.selectedMonth
@@ -121,6 +166,11 @@ export default {
   overflow: hidden;
   max-height: 0px;
   transition: all 0.5s;
+}
+
+/* A set dropdown height for when the map is shown - only used when not a snippet */
+.filter-dropdown-container-open-no-snippet {
+  max-height: 294px !important;
 }
 
 .filter-dropdown-container-open {

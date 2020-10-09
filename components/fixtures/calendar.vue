@@ -1,16 +1,21 @@
 <template>
-  <div class="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
-    <!-- Filters Menu -->
-    <div class="d-flex filter-container">
-      <!-- Toolbar Component -->
-      <toolbar />
+  <div class="calendar-outer-container">
+    <div id="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
+      <!-- Filters Menu -->
+      <div class="d-flex filter-container">
+        <!-- Toolbar Component -->
+        <toolbar />
 
-      <!-- Dropdown Component -->
-      <dropdown :countries="countries" :months="months" />
+        <!-- Dropdown Component -->
+        <dropdown :countries="countries" :months="months" />
+      </div>
+
+      <!-- Fixture List -->
+      <list :competitionTree="competitionTree" />
     </div>
 
-    <!-- Fixture List -->
-    <list :competitionTree="competitionTree" />
+    <!-- Map Component -->
+    <map-view v-if="!isSnippet"></map-view>
   </div>
 </template>
 
@@ -18,6 +23,7 @@
 import toolbar from '~/components/fixtures/filters/toolbar.vue'
 import dropdown from '~/components/fixtures/filters/dropdown.vue'
 import list from '~/components/fixtures/list/list.vue'
+import mapView from '~/components/fixtures/map-view.vue'
 import jsonRetriever from '~/services/jsonRetriever.js'
 import compititonUtility from '~/services/compititonUtility.js'
 import moment from 'moment'
@@ -28,6 +34,7 @@ export default {
     toolbar,
     dropdown,
     list,
+    'map-view': mapView,
   },
   props: {
     countries: {
@@ -169,14 +176,31 @@ export default {
 </script>
 
 <style scoped>
-.calendar-main-container {
+.calendar-outer-container {
+  height: 100%;
+  display: flex;
+}
+
+#calendar-main-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  background-color: white;
+  width: 100%;
 }
 
 .calendar-main-container-non-snippet {
-  height: calc(100% - 56px) !important;
+  height: calc(100% - 56px);
+  position: absolute;
+  left: 0;
+  overflow: hidden;
+  transition: height 0.5s;
+}
+
+@media only screen and (min-width: 960px) {
+  .calendar-main-container-non-snippet {
+    max-width: 400px;
+    position: relative;
+  }
 }
 
 .filter-container {

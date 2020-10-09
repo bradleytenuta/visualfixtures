@@ -193,11 +193,15 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.isActive = this.isCardSelected()
+      if (!this.isSnippetStore) {
+        this.isActive = this.isCardSelected()
+      }
     },
   },
   mounted() {
-    this.isActive = this.isCardSelected()
+    if (!this.isSnippetStore) {
+      this.isActive = this.isCardSelected()
+    }
   },
   methods: {
     /**
