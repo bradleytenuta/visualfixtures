@@ -66,7 +66,7 @@
       <h2>Snippet preview</h2>
       <p class="pb-8">This is how you can expect your Visual-Fixtures snippet to look on your website.</p>
       <v-card class="snippet-preview d-inline-flex">
-        <iframe src="http://localhost:3000/snippets/athletics"></iframe>
+        <iframe :src="copyPasteCodeUrl"></iframe>
       </v-card>
     </v-container>
 
@@ -115,6 +115,9 @@ export default {
      */
     copyPasteCodeUrl() {
       var url = 'https://www.visual-fixtures.com/snippets'
+      if (process.browser) {
+        url = window.location.origin + '/snippets'
+      }
 
       // Gets the desired sport.
       url = url + '/' + this.selectedSport.name.toLowerCase()

@@ -116,11 +116,21 @@
       <!-- Contact Button -->
       <v-tooltip bottom v-if="competition.contact_details">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyContactDetails(competition.contact_details)">
+          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(competition.contact_details)">
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
         </template>
         <span>{{ competition.contact_details }}</span>
+      </v-tooltip>
+
+      <!-- Share Button -->
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(getShareUrl(competition))">
+            <v-icon>mdi-share-variant</v-icon>
+          </v-btn>
+        </template>
+        <span>Share</span>
       </v-tooltip>
     </v-card-actions>
   </v-card>
@@ -187,11 +197,18 @@ export default {
       return moment(competition.date).isSame(moment(competition.finish_date), 'day')
     },
     /**
-     * Copies the contact details to the clipboard.
+     * Copies the provided string to clipboard.
      */
-    copyContactDetails(contactDeatils) {
-      navigator.clipboard.writeText(contactDeatils)
+    copyToClipboard(stringToCopy) {
+      navigator.clipboard.writeText(stringToCopy)
       this.$emit('updateSnackbar')
+    },
+    /**
+     * This function creates the url that allows a user to share a competition with another user.
+     * It returns a string.
+     */
+    getShareUrl(competition) {
+      return window.location.origin + this.$route.path + '?id=' + competition.id
     },
   },
 }
