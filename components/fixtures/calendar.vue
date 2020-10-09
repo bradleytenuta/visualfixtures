@@ -38,6 +38,10 @@ export default {
       type: String,
       required: true,
     },
+    /**
+     * If isSnippet is true, then certain features will be turned off.
+     * This includes showing the map and the shared ID feature.
+     */
     isSnippet: {
       type: Boolean,
       required: false,
@@ -73,7 +77,9 @@ export default {
       this.competitionTree = compititonUtility.treeBuilder(cleanCompetitions, this.months)
 
       // Updates the selected month if a compeitition ID is provided in the URL.
-      this.useCompetitionMonth(this.$route.query.id)
+      if (!this.isSnippetStore) {
+        this.useCompetitionMonth(this.$route.query.id)
+      }
     },
   },
   computed: {
@@ -86,6 +92,14 @@ export default {
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedMonth', newValue)
+      },
+    },
+    isSnippetStore: {
+      get() {
+        return this.$store.state.isSnippet
+      },
+      set(newValue) {
+        this.$store.dispatch('changeIsSnippet', newValue)
       },
     },
   },
@@ -103,6 +117,9 @@ export default {
    * countries.
    */
   created() {
+    // Updates the isSnippet state in Vuex
+    this.isSnippetStore = this.isSnippet
+
     // Sets the current country based on Query Parameters. If no parameter was given,
     // then a default country will be chosen (First element in array)
     if (this.$route.query.country) {

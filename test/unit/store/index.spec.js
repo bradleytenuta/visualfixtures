@@ -48,6 +48,9 @@ describe('resetVuex', () => {
       if (state == 'updateSearchText') {
         expect(payload).toBe(defaultState.searchText)
       }
+      if (state == 'updateIsSnippet') {
+        expect(payload).toBe(defaultState.isSnippet)
+      }
     }
 
     actions.resetVuex({ commit: mockCommit })

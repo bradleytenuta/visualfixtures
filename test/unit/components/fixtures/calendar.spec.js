@@ -25,10 +25,11 @@ describe('calendar', () => {
   const mockActions = {
     changeSelectedMonth: jest.fn(),
     changeSelectedCountry: jest.fn(),
+    changeIsSnippet: jest.fn(),
     resetVuex: jest.fn(),
   }
   const store = new Vuex.Store({
-    state: { selectedMonth: null, selectedCountry: null },
+    state: { selectedMonth: null, selectedCountry: null, isSnippet: false },
     actions: mockActions,
   })
 

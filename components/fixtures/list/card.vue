@@ -2,7 +2,7 @@
   <v-card
     class="compcard my-5"
     :flat="true"
-    @click.prevent="activateCompCard(competition)"
+    @click="!isSnippetStore ? activateCompCard(competition) : null"
     :ripple="false"
     :class="{ 'compcard-active': isActive }"
   >
@@ -129,8 +129,18 @@
         <span>{{ competition.contact_details }}</span>
       </v-tooltip>
 
+      <!-- Location Button -->
+      <v-tooltip bottom v-if="!isSnippetStore && competition.latitude && competition.longitude">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-map-marker</v-icon>
+          </v-btn>
+        </template>
+        <span>View Location</span>
+      </v-tooltip>
+
       <!-- Share Button -->
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="!isSnippetStore">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(getShareUrl(competition))">
             <v-icon>mdi-share-variant</v-icon>
@@ -166,6 +176,14 @@ export default {
   computed: {
     selectedCountry() {
       return this.$store.state.selectedCountry
+    },
+    isSnippetStore: {
+      get() {
+        return this.$store.state.isSnippet
+      },
+      set(newValue) {
+        this.$store.dispatch('changeIsSnippet', newValue)
+      },
     },
   },
   data() {
@@ -272,6 +290,7 @@ export default {
   margin: 10px;
   height: fit-content;
   overflow: hidden;
+  cursor: default;
 }
 
 .compcard-active {
