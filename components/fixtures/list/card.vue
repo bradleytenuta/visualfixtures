@@ -2,7 +2,7 @@
   <v-card
     class="compcard my-5"
     :flat="true"
-    @click="!isSnippetStore ? activateCompCard(competition) : null"
+    @click="!isSnippetStore ? activateComp() : null"
     :ripple="false"
     :class="{ 'compcard-active': isActive }"
   >
@@ -185,6 +185,14 @@ export default {
         this.$store.dispatch('changeIsSnippet', newValue)
       },
     },
+    activeComp: {
+      get() {
+        return this.$store.state.activeComp
+      },
+      set(newValue) {
+        this.$store.dispatch('changeActiveComp', newValue)
+      },
+    },
   },
   data() {
     return {
@@ -192,15 +200,32 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
-      if (!this.isSnippetStore) {
-        this.isActive = this.isCardSelected()
+    /**
+     * Watches for changes within activeComp, a computed property in Vuex.
+     * If the property changes value, we need to check to see if the new
+     * active competition is this one or not.
+     */
+    activeComp() {
+      if (this.isSnippetStore) return
+
+      if (this.competition == this.activeComp) {
+        this.isActive = true
+      } else {
+        this.isActive = false
       }
     },
   },
+  /**
+   * When the card component is mounted it checks to see if the currently
+   * active competition is this one, if it is, then it sets this card as active.
+   */
   mounted() {
-    if (!this.isSnippetStore) {
-      this.isActive = this.isCardSelected()
+    if (this.isSnippetStore) return
+
+    if (this.competition == this.activeComp) {
+      this.isActive = true
+    } else {
+      this.isActive = false
     }
   },
   methods: {
@@ -257,32 +282,15 @@ export default {
       return window.location.origin + this.$route.path + '?country=' + this.selectedCountry.countryCode + '&id=' + competition.id
     },
     /**
-     * When a compcard is clicked, it adds the id of the competition to the
-     * query parameters.
+     * When a compcard is clicked, It updates the currently active competition.
      */
-    activateCompCard(competition) {
-      // If the competition is already selected then do nothing.
-      if (this.isCardSelected()) {
-        return
-      }
+    activateComp() {
+      if (this.isSnippetStore) return
+      if (this.competition == this.activeComp) return
 
-      // Adds a query parameter to the list query object without replacing the
-      // query parameters already in the object.
-      this.$router.replace({
-        query: Object.assign({}, this.$route.query, { id: competition.id }),
-      })
-    },
-    /**
-     * Checks to see if this card is selected. If it is then it returns true,
-     * otherwise it returns false.
-     */
-    isCardSelected() {
-      if (this.$route.query.id) {
-        if (this.$route.query.id == this.competition.id) {
-          return true
-        }
-      }
-      return false
+      // Updates the current active comp with this competition.
+      this.activeComp = this.competition
+      this.isActive = true
     },
   },
 }

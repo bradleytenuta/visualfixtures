@@ -88,6 +88,22 @@ export default {
         this.useCompetitionMonth(this.$route.query.id)
       }
     },
+    /**
+     * Whenever the active competition changes.
+     * Update the id in the url to match.
+     */
+    activeComp() {
+      // Do not perfrom these actions if it is a snippet.
+      // Also if the url also already contains this id, then do nothing.
+      if (this.isSnippetStore) return
+      if (this.$route.query.id == this.activeComp.id) return
+
+      // Adds a query parameter to the list query object without replacing the
+      // query parameters already in the object.
+      this.$router.replace({
+        query: Object.assign({}, this.$route.query, { id: this.activeComp.id }),
+      })
+    },
   },
   computed: {
     selectedCountry() {
@@ -107,6 +123,14 @@ export default {
       },
       set(newValue) {
         this.$store.dispatch('changeIsSnippet', newValue)
+      },
+    },
+    activeComp: {
+      get() {
+        return this.$store.state.activeComp
+      },
+      set(newValue) {
+        this.$store.dispatch('changeActiveComp', newValue)
       },
     },
   },
@@ -167,6 +191,9 @@ export default {
             if (this.selectedMonth != month) {
               this.selectedMonth = month
             }
+
+            // Sets the currently active competition.
+            this.activeComp = competition
           }
         })
       })
