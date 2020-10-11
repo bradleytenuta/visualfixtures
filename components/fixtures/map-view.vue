@@ -1,6 +1,5 @@
 <template>
   <div class="map-outer-container">
-    <!-- :center="{ lat: competitions[0].latitude, lng: competitions[0].longitude }" -->
     <GMap
       ref="GMap"
       language="en"
@@ -12,17 +11,20 @@
         gestureHandling: 'greedy',
         styles: mapStyle,
       }"
-      :zoom="6"
+      :zoom="8"
     >
-      <GMapMarker
-        ref="markers"
-        v-for="competition in competitions"
-        :key="competition.id"
-        :position="{ lat: competition.latitude, lng: competition.longitude }"
-        :options="{ icon: competition == activeComp ? pins.selected : pins.notSelected }"
-        @click="activateComp(competition)"
-      >
-      </GMapMarker>
+      <template v-for="viewableBranch in viewableBranches.slice(0, scrollCounter)">
+        <GMapMarker
+          ref="markers"
+          v-for="competition in viewableBranch.competitions"
+          v-if="competition.latitude && competition.longitude"
+          :key="competition.id"
+          :position="{ lat: competition.latitude, lng: competition.longitude }"
+          :options="{ icon: competition == activeComp ? pins.selected : pins.notSelected }"
+          @click="activateComp(competition)"
+        >
+        </GMapMarker>
+      </template>
     </GMap>
   </div>
 </template>
@@ -47,12 +49,11 @@ export default {
     return {
       pins: {
         selected:
-          'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker-active.png?alt=media&token=4fdc7570-d374-4ee3-b23b-824e58968686',
+          'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker-active.png?alt=media&token=e3671736-43b6-48c9-9478-a311f40208d3',
         notSelected:
           'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=d16907d7-9f89-4d81-8207-be9ea5295f52',
       },
       mapStyle: retro,
-      competitions: [],
     }
   },
   computed: {
@@ -70,32 +71,42 @@ export default {
   },
   watch: {
     /**
-     * This breaks down 'viewableBranches' to just a list of competitions.
+     * Whenever viewable branches updates it waits a tick then updates the map markers.
+     * We wait a tick for the child elements of the map to be added. Then the map centre is
+     * given based on a selected competition or the first in the list.
      */
-    viewableBranches() {
-      var newCompetitions = []
+    async viewableBranches() {
+      await this.$nextTick() // Waits for a tick for the children to be added to the map element.
+      this.$refs.GMap.initMap()
 
-      // Uses the same computation as the list component to display the
-      // same number of compeitions in a pagination way.
-      // Loops through each available branch and through each list of competitions
-      // and adds them to a new list of competitions if they have lat and lng properties.
-      this.viewableBranches.slice(0, this.scrollCounter).forEach((branch) => {
-        branch.competitions.forEach((competition) => {
-          if (competition.latitude && competition.longitude) {
-            newCompetitions.push(competition)
+      // Sets the centre for the map based on the currently active comp, or the first comp in the list.
+      if (this.activeComp) {
+        this.setCentre(this.activeComp)
+      } else {
+        for (let branch of this.viewableBranches) {
+          for (let competition of branch.competitions) {
+            if (competition.latitude && competition.longitude) {
+              this.setCentre(competition)
+              break
+            }
           }
-        })
-      })
-
-      this.competitions = newCompetitions
+        }
+      }
     },
     /**
-     * Watch for when compeititions update. When they do, we wait one tick for the google
-     * map markers to be created then we run map init which creates the markers.
+     * When scroll counter updates, runs the init function to produce more markers.
+     * This only runs when displaying all.
      */
-    async competitions() {
-      await this.$nextTick()
+    async scrollCounter() {
+      await this.$nextTick() // Waits for a tick for the children to be added to the map element.
       this.$refs.GMap.initChildren()
+    },
+    /**
+     * Watches for the active competition to change. When it does, recentre the map onto
+     * the currently active comp.
+     */
+    activeComp() {
+      this.setCentre(this.activeComp)
     },
   },
   methods: {
@@ -108,6 +119,19 @@ export default {
 
       // Sets the new active competition.
       this.activeComp = competition
+    },
+    /**
+     * Sets the maps current location to the given competiton.
+     */
+    setCentre(competition) {
+      if (competition.latitude && competition.longitude) {
+        if (competition) {
+          this.$refs.GMap.map.setCenter({
+            lat: competition.latitude,
+            lng: competition.longitude,
+          })
+        }
+      }
     },
   },
 }

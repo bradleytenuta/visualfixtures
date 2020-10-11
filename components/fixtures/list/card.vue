@@ -132,7 +132,7 @@
       <!-- Location Button -->
       <v-tooltip bottom v-if="!isSnippetStore && competition.latitude && competition.longitude">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn icon v-bind="attrs" v-on="on" @click="activateComp()">
             <v-icon>mdi-map-marker</v-icon>
           </v-btn>
         </template>
