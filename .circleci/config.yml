@@ -31,6 +31,7 @@ jobs:
       - checkout
       - restore_npm_cache
       - run: npm install
+      - run: npm install -g firebase-tools
       - save_npm_cache
   test:
     executor:
@@ -39,6 +40,14 @@ jobs:
       - checkout
       - restore_npm_cache
       - run: npm run test
+  deploy:
+    executor:
+      name: node_executor
+    steps:
+      - checkout
+      - restore_npm_cache
+      - run: npm run generate
+      - run: firebase deploy -P production --token "$FIREBASE_TOKEN"
 
 # Workflows, the order to run a selection of jobs.
 workflows:
@@ -48,6 +57,13 @@ workflows:
       - test:
           requires:
             - setup
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
   nightly:
     triggers: # Triggers is a key to indicate a scheduled build
       - schedule: # 4 spaces needed underneath schedule.
