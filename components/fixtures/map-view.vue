@@ -3,6 +3,7 @@
     <GMap
       ref="GMap"
       language="en"
+      :center="londonPosition"
       :options="{
         fullscreenControl: false,
         streetViewControl: false,
@@ -54,6 +55,10 @@ export default {
           'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=d16907d7-9f89-4d81-8207-be9ea5295f52',
       },
       mapStyle: retro,
+      londonPosition: {
+        lat: 51.5287718,
+        lng: -0.2416804,
+      },
     }
   },
   computed: {
