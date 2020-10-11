@@ -332,7 +332,7 @@ export default {
   left: 0;
   overflow: hidden;
   transition: height 0.5s;
-  z-index: 10;
+  z-index: 2;
 }
 
 @media only screen and (min-width: 960px) {
