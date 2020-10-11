@@ -5,7 +5,7 @@
     <nuxt-link to="/">
       <v-img
         id="navbar-logo"
-        :src="require('~/assets/logos/android-chrome-maskable-192x192.png')"
+        src="https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/logos%2Fandroid-chrome-maskable-192x192.png?alt=media&token=998ee953-f4ec-4613-b95f-9f5aa023ced8"
         max-height="40"
         max-width="40"
         contain

@@ -1,5 +1,11 @@
 <template>
-  <v-card class="compcard my-5" :flat="true">
+  <v-card
+    class="compcard my-5"
+    :flat="true"
+    @click="!isSnippetStore ? activateComp() : null"
+    :ripple="false"
+    :class="{ 'compcard-active': isActive }"
+  >
     <!-- Header Text -->
     <v-list-item>
       <!-- Calendar Style Date -->
@@ -116,11 +122,31 @@
       <!-- Contact Button -->
       <v-tooltip bottom v-if="competition.contact_details">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyContactDetails(competition.contact_details)">
+          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(competition.contact_details)">
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
         </template>
         <span>{{ competition.contact_details }}</span>
+      </v-tooltip>
+
+      <!-- Location Button -->
+      <v-tooltip bottom v-if="!isSnippetStore && competition.latitude && competition.longitude">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on" @click="activateComp()">
+            <v-icon>mdi-map-marker</v-icon>
+          </v-btn>
+        </template>
+        <span>View Location</span>
+      </v-tooltip>
+
+      <!-- Share Button -->
+      <v-tooltip bottom v-if="!isSnippetStore">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(getShareUrl(competition))">
+            <v-icon>mdi-share-variant</v-icon>
+          </v-btn>
+        </template>
+        <span>Share</span>
       </v-tooltip>
     </v-card-actions>
   </v-card>
@@ -146,6 +172,61 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  computed: {
+    selectedCountry() {
+      return this.$store.state.selectedCountry
+    },
+    isSnippetStore: {
+      get() {
+        return this.$store.state.isSnippet
+      },
+      set(newValue) {
+        this.$store.dispatch('changeIsSnippet', newValue)
+      },
+    },
+    activeComp: {
+      get() {
+        return this.$store.state.activeComp
+      },
+      set(newValue) {
+        this.$store.dispatch('changeActiveComp', newValue)
+      },
+    },
+  },
+  data() {
+    return {
+      isActive: false,
+    }
+  },
+  watch: {
+    /**
+     * Watches for changes within activeComp, a computed property in Vuex.
+     * If the property changes value, we need to check to see if the new
+     * active competition is this one or not.
+     */
+    activeComp() {
+      if (this.isSnippetStore) return
+
+      if (this.competition == this.activeComp) {
+        this.isActive = true
+      } else {
+        this.isActive = false
+      }
+    },
+  },
+  /**
+   * When the card component is mounted it checks to see if the currently
+   * active competition is this one, if it is, then it sets this card as active.
+   */
+  mounted() {
+    if (this.isSnippetStore) return
+
+    if (this.competition == this.activeComp) {
+      this.isActive = true
+    } else {
+      this.isActive = false
+    }
   },
   methods: {
     /**
@@ -187,11 +268,29 @@ export default {
       return moment(competition.date).isSame(moment(competition.finish_date), 'day')
     },
     /**
-     * Copies the contact details to the clipboard.
+     * Copies the provided string to clipboard.
      */
-    copyContactDetails(contactDeatils) {
-      navigator.clipboard.writeText(contactDeatils)
+    copyToClipboard(stringToCopy) {
+      navigator.clipboard.writeText(stringToCopy)
       this.$emit('updateSnackbar')
+    },
+    /**
+     * This function creates the url that allows a user to share a competition with another user.
+     * It returns a string.
+     */
+    getShareUrl(competition) {
+      return window.location.origin + this.$route.path + '?country=' + this.selectedCountry.countryCode + '&id=' + competition.id
+    },
+    /**
+     * When a compcard is clicked, It updates the currently active competition.
+     */
+    activateComp() {
+      if (this.isSnippetStore) return
+      if (this.competition == this.activeComp) return
+
+      // Updates the current active comp with this competition.
+      this.activeComp = this.competition
+      this.isActive = true
     },
   },
 }
@@ -203,6 +302,15 @@ export default {
   margin: 10px;
   height: fit-content;
   overflow: hidden;
+  cursor: default;
+}
+
+.compcard-active {
+  background-color: #e8f0e8;
+}
+
+.v-card--link:focus:before {
+  opacity: 0 !important;
 }
 
 .compcard .v-icon {

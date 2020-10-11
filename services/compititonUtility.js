@@ -93,6 +93,9 @@ export default {
     var months = []
     // Adds all the available months and countries from list.
     competitions.forEach((competition) => {
+      // Skip the competition if its a demo
+      if (competition.is_demo) return
+
       // Adds available months.
       var month = moment(competition.date).format('MMMM YYYY')
       if (!months.includes(month)) {

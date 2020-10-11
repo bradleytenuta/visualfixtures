@@ -13,7 +13,11 @@
             <!-- One Column for each logo -->
             <v-col cols="auto">
               <a href="https://opentrack.run/" title="Opentrack">
-                <v-img max-height="300" max-width="300" :src="require('~/assets/images/home/providers/opentrack.png')"></v-img>
+                <v-img
+                  max-height="300"
+                  max-width="300"
+                  src="https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/providers%2Fopentrack.png?alt=media&token=bde62176-1630-46d2-889e-ebeecf4be52c"
+                ></v-img>
               </a>
             </v-col>
           </v-row>

@@ -8,6 +8,8 @@ export const state = () => ({
   displayAll: false,
   dropdownState: false,
   searchText: '',
+  isSnippet: false,
+  activeComp: null,
 })
 
 /**
@@ -32,6 +34,12 @@ export const mutations = {
   updateSearchText(state, payload) {
     state.searchText = payload
   },
+  updateIsSnippet(state, payload) {
+    state.isSnippet = payload
+  },
+  updateActiveComp(state, payload) {
+    state.activeComp = payload
+  },
 }
 
 /**
@@ -52,6 +60,12 @@ export const actions = {
   },
   changeDropdownState(context, payload) {
     context.commit('updateDropdownState', payload)
+  },
+  changeIsSnippet(context, payload) {
+    context.commit('updateIsSnippet', payload)
+  },
+  changeActiveComp(context, payload) {
+    context.commit('updateActiveComp', payload)
   },
   /**
    * If the payload given is null then its set to an
@@ -75,5 +89,7 @@ export const actions = {
     context.commit('updateDisplayAll', false)
     context.commit('updateDropdownState', false)
     context.commit('updateSearchText', '')
+    context.commit('updateIsSnippet', false)
+    context.commit('updateActiveComp', null)
   },
 }

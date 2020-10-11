@@ -1,16 +1,21 @@
 <template>
-  <div class="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
-    <!-- Filters Menu -->
-    <div class="d-flex filter-container">
-      <!-- Toolbar Component -->
-      <toolbar />
+  <div class="calendar-outer-container" :class="{ 'calendar-outer-container-non-snippet': !isSnippet }">
+    <div id="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
+      <!-- Filters Menu -->
+      <div class="d-flex filter-container">
+        <!-- Toolbar Component -->
+        <toolbar />
 
-      <!-- Dropdown Component -->
-      <dropdown :countries="countries" :months="months" />
+        <!-- Dropdown Component -->
+        <dropdown :countries="countries" :months="months" />
+      </div>
+
+      <!-- Fixture List -->
+      <list :viewableBranches="viewableBranches" :scrollCounter="scrollCounter" v-on:updateScrollCounter="updateScrollCounter" />
     </div>
 
-    <!-- Fixture List -->
-    <list :competitionTree="competitionTree" />
+    <!-- Map Component -->
+    <map-view v-if="!isSnippet" :viewableBranches="viewableBranches" :scrollCounter="scrollCounter"></map-view>
   </div>
 </template>
 
@@ -18,6 +23,7 @@
 import toolbar from '~/components/fixtures/filters/toolbar.vue'
 import dropdown from '~/components/fixtures/filters/dropdown.vue'
 import list from '~/components/fixtures/list/list.vue'
+import mapView from '~/components/fixtures/map-view.vue'
 import jsonRetriever from '~/services/jsonRetriever.js'
 import compititonUtility from '~/services/compititonUtility.js'
 import moment from 'moment'
@@ -28,6 +34,7 @@ export default {
     toolbar,
     dropdown,
     list,
+    'map-view': mapView,
   },
   props: {
     countries: {
@@ -38,6 +45,10 @@ export default {
       type: String,
       required: true,
     },
+    /**
+     * If isSnippet is true, then certain features will be turned off.
+     * This includes showing the map and the shared ID feature.
+     */
     isSnippet: {
       type: Boolean,
       required: false,
@@ -48,6 +59,7 @@ export default {
     return {
       competitionTree: [],
       months: [],
+      scrollCounter: 1,
     }
   },
   watch: {
@@ -71,11 +83,70 @@ export default {
 
       // Creates a competition tree.
       this.competitionTree = compititonUtility.treeBuilder(cleanCompetitions, this.months)
+
+      // Updates the selected month if a compeitition ID is provided in the URL.
+      if (!this.isSnippetStore) {
+        this.useCompetitionMonth(this.$route.query.id)
+      }
+    },
+    /**
+     * Whenever the active competition changes.
+     * Update the id in the url to match.
+     */
+    activeComp() {
+      // Do not perfrom these actions if it is a snippet.
+      // Also if the url also already contains this id, then do nothing.
+      if (this.isSnippetStore) return
+      if (this.$route.query.id == this.activeComp.id) return
+
+      // Adds a query parameter to the list query object without replacing the
+      // query parameters already in the object.
+      this.$router.replace({
+        query: Object.assign({}, this.$route.query, { id: this.activeComp.id }),
+      })
     },
   },
   computed: {
+    /**
+     * A computed property that creates a list of branches from the comptree to display.
+     * These branches are then flitered and sorted based on the users filter preferences.
+     */
+    viewableBranches() {
+      var viewableBranches = []
+
+      // If the user wants to display all, then make a non reference copy of the tree.
+      if (this.displayAll) {
+        viewableBranches = [...this.competitionTree]
+      } else {
+        // Populates the viewableBranches by filtering out unselected months.
+        this.competitionTree.forEach((branch) => {
+          // If the branch month matches the selected month then add it to viewableBranches.
+          if (branch.month == this.selectedMonth) {
+            viewableBranches.push(branch)
+          }
+        })
+      }
+
+      // Applies the selected sort option to the competitions in the viewableBranches.
+      viewableBranches.forEach((branch) => {
+        this.sortCompetitions(this.selectedSort, branch.competitions)
+      })
+      // Finally after sorting the competitions in each branch, we then sort the branches themselves.
+      this.sortBranches(this.selectedSort, viewableBranches)
+
+      // Resets the infinite loader counter to 1.
+      this.scrollCounter = 1
+
+      return viewableBranches
+    },
     selectedCountry() {
       return this.$store.state.selectedCountry
+    },
+    displayAll() {
+      return this.$store.state.displayAll
+    },
+    selectedSort() {
+      return this.$store.state.selectedSort
     },
     selectedMonth: {
       get() {
@@ -83,6 +154,22 @@ export default {
       },
       set(newValue) {
         this.$store.dispatch('changeSelectedMonth', newValue)
+      },
+    },
+    isSnippetStore: {
+      get() {
+        return this.$store.state.isSnippet
+      },
+      set(newValue) {
+        this.$store.dispatch('changeIsSnippet', newValue)
+      },
+    },
+    activeComp: {
+      get() {
+        return this.$store.state.activeComp
+      },
+      set(newValue) {
+        this.$store.dispatch('changeActiveComp', newValue)
       },
     },
   },
@@ -100,6 +187,9 @@ export default {
    * countries.
    */
   created() {
+    // Updates the isSnippet state in Vuex
+    this.isSnippetStore = this.isSnippet
+
     // Sets the current country based on Query Parameters. If no parameter was given,
     // then a default country will be chosen (First element in array)
     if (this.$route.query.country) {
@@ -123,18 +213,133 @@ export default {
     // Sorts the counties in alphabetical order.
     this.countries.sort((a, b) => (a.countryCode > b.countryCode ? 1 : -1))
   },
+  methods: {
+    /**
+     * Given a competition Id, find the competition with that id and then set the current month
+     * as start month of that competition, if the competition can be found.
+     */
+    useCompetitionMonth(competitionId) {
+      // Loops through every competition in every branch.
+      this.competitionTree.forEach((branch) => {
+        branch.competitions.forEach((competition) => {
+          // If it finds the competition with the same id.
+          if (competition.id == competitionId) {
+            // Formats the competition month, if the month is different then update
+            // the selected month
+            var month = moment(competition.date).format('MMMM YYYY')
+            if (this.selectedMonth != month) {
+              this.selectedMonth = month
+            }
+
+            // Sets the currently active competition.
+            this.activeComp = competition
+          }
+        })
+      })
+    },
+    /**
+     * This function is called from a computed property. This function sorts
+     * a list of competitions, based on the value provided from the sort
+     * selector element.
+     */
+    sortCompetitions(itemValue, competitions) {
+      // Months - Ascending
+      if (itemValue == 1) {
+        competitions.sort(function (x, y) {
+          if (moment(x.date).isBefore(moment(y.date))) {
+            return -1
+          }
+          if (moment(x.date).isAfter(moment(y.date))) {
+            return 1
+          }
+          return 0
+        })
+
+        // Months - Descending
+      } else if (itemValue == 2) {
+        competitions.sort(function (x, y) {
+          if (moment(y.date).isBefore(moment(x.date))) {
+            return -1
+          }
+          if (moment(y.date).isAfter(moment(x.date))) {
+            return 1
+          }
+          return 0
+        })
+      }
+    },
+    /**
+     * This function is called from a computed property. This function sorts
+     * a list of branches based on their month.
+     */
+    sortBranches(itemValue, branches) {
+      // Ascending
+      if (itemValue == 1) {
+        branches.sort(function (x, y) {
+          if (moment(x.month, 'MMMM YYYY').isBefore(moment(y.month, 'MMMM YYYY', 'month'))) {
+            return -1
+          }
+          if (moment(x.month, 'MMMM YYYY').isAfter(moment(y.month, 'MMMM YYYY', 'month'))) {
+            return 1
+          }
+          return 0
+        })
+
+        // Descending
+      } else if (itemValue == 2) {
+        branches.sort(function (x, y) {
+          if (moment(y.month, 'MMMM YYYY').isBefore(moment(x.month, 'MMMM YYYY', 'month'))) {
+            return -1
+          }
+          if (moment(y.month, 'MMMM YYYY').isAfter(moment(x.month, 'MMMM YYYY', 'month'))) {
+            return 1
+          }
+          return 0
+        })
+      }
+    },
+    /**
+     * A function that updates the scroll counter by incrementing it by one.
+     * This function is usually called by the list component via emits.
+     */
+    updateScrollCounter() {
+      this.scrollCounter++
+    },
+  },
 }
 </script>
 
 <style scoped>
-.calendar-main-container {
+.calendar-outer-container {
+  height: 100%;
+  display: flex;
+}
+
+.calendar-outer-container-non-snippet {
+  height: calc(100% - 56px);
+}
+
+#calendar-main-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  background-color: white;
+  width: 100%;
 }
 
 .calendar-main-container-non-snippet {
-  height: calc(100% - 56px) !important;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  overflow: hidden;
+  transition: height 0.5s;
+  z-index: 2;
+}
+
+@media only screen and (min-width: 960px) {
+  .calendar-main-container-non-snippet {
+    max-width: 400px;
+    position: relative;
+  }
 }
 
 .filter-container {
