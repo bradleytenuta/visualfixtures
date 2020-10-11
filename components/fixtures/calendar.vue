@@ -11,11 +11,11 @@
       </div>
 
       <!-- Fixture List -->
-      <list :competitionTree="competitionTree" />
+      <list :viewableBranches="viewableBranches" :scrollCounter="scrollCounter" v-on:updateScrollCounter="updateScrollCounter" />
     </div>
 
     <!-- Map Component -->
-    <map-view v-if="!isSnippet"></map-view>
+    <map-view v-if="!isSnippet" :viewableBranches="viewableBranches" :scrollCounter="scrollCounter"></map-view>
   </div>
 </template>
 
@@ -59,6 +59,7 @@ export default {
     return {
       competitionTree: [],
       months: [],
+      scrollCounter: 1,
     }
   },
   watch: {
@@ -106,8 +107,46 @@ export default {
     },
   },
   computed: {
+    /**
+     * A computed property that creates a list of branches from the comptree to display.
+     * These branches are then flitered and sorted based on the users filter preferences.
+     */
+    viewableBranches() {
+      var viewableBranches = []
+
+      // If the user wants to display all, then make a non reference copy of the tree.
+      if (this.displayAll) {
+        viewableBranches = [...this.competitionTree]
+      } else {
+        // Populates the viewableBranches by filtering out unselected months.
+        this.competitionTree.forEach((branch) => {
+          // If the branch month matches the selected month then add it to viewableBranches.
+          if (branch.month == this.selectedMonth) {
+            viewableBranches.push(branch)
+          }
+        })
+      }
+
+      // Applies the selected sort option to the competitions in the viewableBranches.
+      viewableBranches.forEach((branch) => {
+        this.sortCompetitions(this.selectedSort, branch.competitions)
+      })
+      // Finally after sorting the competitions in each branch, we then sort the branches themselves.
+      this.sortBranches(this.selectedSort, viewableBranches)
+
+      // Resets the infinite loader counter to 1.
+      this.scrollCounter = 1
+
+      return viewableBranches
+    },
     selectedCountry() {
       return this.$store.state.selectedCountry
+    },
+    displayAll() {
+      return this.$store.state.displayAll
+    },
+    selectedSort() {
+      return this.$store.state.selectedSort
     },
     selectedMonth: {
       get() {
@@ -198,6 +237,74 @@ export default {
         })
       })
     },
+    /**
+     * This function is called from a computed property. This function sorts
+     * a list of competitions, based on the value provided from the sort
+     * selector element.
+     */
+    sortCompetitions(itemValue, competitions) {
+      // Months - Ascending
+      if (itemValue == 1) {
+        competitions.sort(function (x, y) {
+          if (moment(x.date).isBefore(moment(y.date))) {
+            return -1
+          }
+          if (moment(x.date).isAfter(moment(y.date))) {
+            return 1
+          }
+          return 0
+        })
+
+        // Months - Descending
+      } else if (itemValue == 2) {
+        competitions.sort(function (x, y) {
+          if (moment(y.date).isBefore(moment(x.date))) {
+            return -1
+          }
+          if (moment(y.date).isAfter(moment(x.date))) {
+            return 1
+          }
+          return 0
+        })
+      }
+    },
+    /**
+     * This function is called from a computed property. This function sorts
+     * a list of branches based on their month.
+     */
+    sortBranches(itemValue, branches) {
+      // Ascending
+      if (itemValue == 1) {
+        branches.sort(function (x, y) {
+          if (moment(x.month, 'MMMM YYYY').isBefore(moment(y.month, 'MMMM YYYY', 'month'))) {
+            return -1
+          }
+          if (moment(x.month, 'MMMM YYYY').isAfter(moment(y.month, 'MMMM YYYY', 'month'))) {
+            return 1
+          }
+          return 0
+        })
+
+        // Descending
+      } else if (itemValue == 2) {
+        branches.sort(function (x, y) {
+          if (moment(y.month, 'MMMM YYYY').isBefore(moment(x.month, 'MMMM YYYY', 'month'))) {
+            return -1
+          }
+          if (moment(y.month, 'MMMM YYYY').isAfter(moment(x.month, 'MMMM YYYY', 'month'))) {
+            return 1
+          }
+          return 0
+        })
+      }
+    },
+    /**
+     * A function that updates the scroll counter by incrementing it by one.
+     * This function is usually called by the list component via emits.
+     */
+    updateScrollCounter() {
+      this.scrollCounter++
+    },
   },
 }
 </script>
@@ -221,6 +328,7 @@ export default {
   left: 0;
   overflow: hidden;
   transition: height 0.5s;
+  z-index: 10;
 }
 
 @media only screen and (min-width: 960px) {
