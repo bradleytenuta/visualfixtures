@@ -31,7 +31,7 @@ jobs:
       - checkout
       - restore_npm_cache
       - run: npm install
-      - run: npm install -g firebase-tools
+      - run: npm install -D firebase-tools
       - save_npm_cache
   test:
     executor:
