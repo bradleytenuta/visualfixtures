@@ -151,12 +151,6 @@ export default {
   z-index: 1;
 }
 
-@media only screen and (min-width: 960px) {
-  .map-outer-container {
-    height: calc(100% - 56px);
-  }
-}
-
 /* Overwriting Styling inside GMap */
 .GMap {
   width: 100%;

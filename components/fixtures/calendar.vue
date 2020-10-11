@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-outer-container">
+  <div class="calendar-outer-container" :class="{ 'calendar-outer-container-non-snippet': !isSnippet }">
     <div id="calendar-main-container" :class="{ 'calendar-main-container-non-snippet': !isSnippet }">
       <!-- Filters Menu -->
       <div class="d-flex filter-container">
@@ -315,6 +315,10 @@ export default {
   display: flex;
 }
 
+.calendar-outer-container-non-snippet {
+  height: calc(100% - 56px);
+}
+
 #calendar-main-container {
   display: flex;
   flex-direction: column;
@@ -323,7 +327,7 @@ export default {
 }
 
 .calendar-main-container-non-snippet {
-  height: calc(100% - 56px);
+  height: 100%;
   position: absolute;
   left: 0;
   overflow: hidden;
