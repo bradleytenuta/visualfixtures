@@ -98,6 +98,6 @@ export const actions = {
     context.commit('updateSearchText', '')
     context.commit('updateIsSnippet', false)
     context.commit('updateActiveComp', null)
-    context.dispatch('changeListDropdownState', true)
+    context.commit('updateListDropdownState', true)
   },
 }
