@@ -27,15 +27,26 @@
         </GMapMarker>
       </template>
     </GMap>
+
+    <!-- Marker card container -->
+    <!-- Contains information about the currently selected competition, only in mobile view -->
+    <marker-card
+      v-if="activeComp && screenSize < 960 && activeComp.latitude && activeComp.longitude"
+      :competition="activeComp"
+    ></marker-card>
   </div>
 </template>
 
 <script>
 // All map styles are saved in a seperate file.
 import { retro } from '~/static/mapStyles'
+import markerCard from '~/components/fixtures/map/marker-card'
 
 export default {
   name: 'map-view',
+  components: {
+    'marker-card': markerCard,
+  },
   props: {
     viewableBranches: {
       type: Array,
@@ -59,6 +70,7 @@ export default {
         lat: 51.5287718,
         lng: -0.2416804,
       },
+      screenSize: 0,
     }
   },
   computed: {
@@ -73,6 +85,22 @@ export default {
         this.$store.dispatch('changeActiveComp', newValue)
       },
     },
+  },
+  /**
+   * Creates a watch listener on the screen resize.
+   */
+  created() {
+    if (process.browser) {
+      window.addEventListener('resize', this.myEventHandler)
+    }
+  },
+  /**
+   * when this is destroyed, it also destroies the screen size listener.
+   */
+  destroyed() {
+    if (process.browser) {
+      window.removeEventListener('resize', this.myEventHandler)
+    }
   },
   watch: {
     /**
@@ -137,6 +165,13 @@ export default {
           })
         }
       }
+    },
+    /**
+     * This function is called whenever the screen size changes.
+     * When the screen size changes, update the screenSize value.
+     */
+    myEventHandler(e) {
+      this.screenSize = e.target.innerWidth
     },
   },
 }
