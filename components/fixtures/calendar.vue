@@ -329,10 +329,11 @@ export default {
 
 .calendar-main-container-non-snippet {
   height: 100%;
+  max-height: 100%;
   position: absolute;
   left: 0;
   overflow: hidden;
-  transition: height 0.5s;
+  transition: max-height 0.5s ease-in-out;
   z-index: 2;
 }
 
@@ -346,5 +347,6 @@ export default {
 .filter-container {
   flex-direction: column;
   border-bottom: 1px lightgray solid;
+  min-height: fit-content;
 }
 </style>

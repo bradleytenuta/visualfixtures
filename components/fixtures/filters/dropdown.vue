@@ -192,21 +192,26 @@ export default {
   padding-bottom: 0px;
   overflow: hidden;
   max-height: 0px;
-  transition: all 0.5s;
+  height: 0px;
+  display: flex;
+  transition: all 0.5s ease-in-out;
 }
 
 /* A set dropdown height for when the map is shown - only used when not a snippet */
 .filter-dropdown-container-open-no-snippet {
   max-height: 294px !important;
+  height: 294px !important;
 }
 
 .filter-dropdown-container-open {
   max-height: 294px;
+  height: 294px;
 }
 
 @media only screen and (min-width: 960px) {
   .filter-dropdown-container-open {
     max-height: 98px;
+    height: 98px;
   }
 }
 

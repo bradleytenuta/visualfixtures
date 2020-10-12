@@ -83,9 +83,9 @@ export default {
 
       // If the list is closed.
       if (!this.listDropdownState) {
-        document.getElementById('calendar-main-container').style.height = '53px'
+        document.getElementById('calendar-main-container').style.maxHeight = '53px'
       } else {
-        document.getElementById('calendar-main-container').style.height = '100%'
+        document.getElementById('calendar-main-container').style.maxHeight = '100%'
       }
     },
   },

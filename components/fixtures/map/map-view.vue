@@ -188,11 +188,11 @@ export default {
 
 /* Overwriting Styling inside GMap */
 .GMap {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 .GMap__Wrapper {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 </style>

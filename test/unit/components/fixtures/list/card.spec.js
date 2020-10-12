@@ -42,6 +42,7 @@ describe('card', () => {
     propsData: {
       competition: mockCompetition,
       snackbar: false,
+      screenSize: 0,
     },
     router,
     vuetify, // For some reason (I dont know) this is required to pass due to mobile breakpoint issue.
