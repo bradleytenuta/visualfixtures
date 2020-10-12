@@ -132,7 +132,7 @@
       <!-- Location Button -->
       <v-tooltip bottom v-if="!isSnippetStore && competition.latitude && competition.longitude">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="activateComp()">
+          <v-btn icon v-bind="attrs" v-on="on" @click="locationClick()">
             <v-icon>mdi-map-marker</v-icon>
           </v-btn>
         </template>
@@ -191,6 +191,14 @@ export default {
       },
       set(newValue) {
         this.$store.dispatch('changeActiveComp', newValue)
+      },
+    },
+    listDropdownState: {
+      get() {
+        return this.$store.state.listDropdownState
+      },
+      set(newValue) {
+        this.$store.dispatch('changeListDropdownState', newValue)
       },
     },
   },
@@ -291,6 +299,15 @@ export default {
       // Updates the current active comp with this competition.
       this.activeComp = this.competition
       this.isActive = true
+    },
+    /**
+     * This function is called whenever the location button is clicked.
+     */
+    locationClick() {
+      this.activateComp() // activates this compoetition.
+      if (this.listDropdownState) {
+        this.listDropdownState = false // Closes the list dropdown if its open.
+      }
     },
   },
 }
