@@ -172,6 +172,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    screenSize: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     selectedCountry() {
@@ -306,7 +310,9 @@ export default {
     locationClick() {
       this.activateComp() // activates this compoetition.
       if (this.listDropdownState) {
-        this.listDropdownState = false // Closes the list dropdown if its open.
+        if (this.screenSize < 960) {
+          this.listDropdownState = false // Closes the list dropdown if its open.
+        }
       }
     },
   },

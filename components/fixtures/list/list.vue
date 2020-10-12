@@ -14,6 +14,7 @@
           :key="competition.id"
           :competition="competition"
           :snackbar="snackbar"
+          :screenSize="screenSize"
           v-on:updateSnackbar="snackbar = true"
         />
       </div>
@@ -61,12 +62,29 @@ export default {
   data() {
     return {
       snackbar: false,
+      screenSize: 0,
     }
   },
   computed: {
     searchText() {
       return this.$store.state.searchText
     },
+  },
+  /**
+   * Creates a watch listener on the screen resize.
+   */
+  created() {
+    if (process.browser) {
+      window.addEventListener('resize', this.myEventHandler)
+    }
+  },
+  /**
+   * when this is destroyed, it also destroies the screen size listener.
+   */
+  destroyed() {
+    if (process.browser) {
+      window.removeEventListener('resize', this.myEventHandler)
+    }
   },
   methods: {
     /**
@@ -89,6 +107,13 @@ export default {
           this.$emit('updateScrollCounter')
         }
       }
+    },
+    /**
+     * This function is called whenever the screen size changes.
+     * When the screen size changes, update the screenSize value.
+     */
+    myEventHandler(e) {
+      this.screenSize = e.target.innerWidth
     },
   },
 }

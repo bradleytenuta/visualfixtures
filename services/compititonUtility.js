@@ -16,10 +16,15 @@ export default {
       })
     })
 
+    const today = moment()
+
     // Loops through each competition
     competitions.forEach((competition) => {
       // Do not add the competition if it is a demo fixture and not an actual fixture.
       if (competition.is_demo) return
+
+      // Do not add the compeititon if it is in the past. Competitions of present day and the future are allowed.
+      if (moment(competition.date).isBefore(today, 'day') && moment(competition.finish_date).isBefore(today, 'day')) return
 
       // Loops through each month
       months.forEach((month) => {
@@ -91,10 +96,14 @@ export default {
    */
   monthBuilder(competitions) {
     var months = []
+    const today = moment()
     // Adds all the available months and countries from list.
     competitions.forEach((competition) => {
       // Skip the competition if its a demo
       if (competition.is_demo) return
+
+      // Do not add the compeititon if it is in the past. Competitions of present day and the future are allowed.
+      if (moment(competition.date).isBefore(today, 'day') && moment(competition.finish_date).isBefore(today, 'day')) return
 
       // Adds available months.
       var month = moment(competition.date).format('MMMM YYYY')
