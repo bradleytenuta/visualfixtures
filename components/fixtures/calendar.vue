@@ -23,7 +23,7 @@
 import toolbar from '~/components/fixtures/filters/toolbar.vue'
 import dropdown from '~/components/fixtures/filters/dropdown.vue'
 import list from '~/components/fixtures/list/list.vue'
-import mapView from '~/components/fixtures/map-view.vue'
+import mapView from '~/components/fixtures/map/map-view.vue'
 import jsonRetriever from '~/services/jsonRetriever.js'
 import compititonUtility from '~/services/compititonUtility.js'
 import moment from 'moment'
@@ -313,6 +313,7 @@ export default {
 .calendar-outer-container {
   height: 100%;
   display: flex;
+  position: relative;
 }
 
 .calendar-outer-container-non-snippet {
@@ -328,10 +329,11 @@ export default {
 
 .calendar-main-container-non-snippet {
   height: 100%;
+  max-height: 100%;
   position: absolute;
   left: 0;
   overflow: hidden;
-  transition: height 0.5s;
+  transition: max-height 0.5s ease-in-out;
   z-index: 2;
 }
 
@@ -345,5 +347,6 @@ export default {
 .filter-container {
   flex-direction: column;
   border-bottom: 1px lightgray solid;
+  min-height: fit-content;
 }
 </style>

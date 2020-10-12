@@ -27,15 +27,26 @@
         </GMapMarker>
       </template>
     </GMap>
+
+    <!-- Marker card container -->
+    <!-- Contains information about the currently selected competition, only in mobile view -->
+    <marker-card
+      v-if="activeComp && screenSize < 960 && activeComp.latitude && activeComp.longitude"
+      :competition="activeComp"
+    ></marker-card>
   </div>
 </template>
 
 <script>
 // All map styles are saved in a seperate file.
 import { retro } from '~/static/mapStyles'
+import markerCard from '~/components/fixtures/map/marker-card'
 
 export default {
   name: 'map-view',
+  components: {
+    'marker-card': markerCard,
+  },
   props: {
     viewableBranches: {
       type: Array,
@@ -52,13 +63,14 @@ export default {
         selected:
           'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker-active.png?alt=media&token=e3671736-43b6-48c9-9478-a311f40208d3',
         notSelected:
-          'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=d16907d7-9f89-4d81-8207-be9ea5295f52',
+          'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=8cedc93f-f09c-4ed9-9adf-e394591f74f5',
       },
       mapStyle: retro,
       londonPosition: {
         lat: 51.5287718,
         lng: -0.2416804,
       },
+      screenSize: 0,
     }
   },
   computed: {
@@ -73,6 +85,22 @@ export default {
         this.$store.dispatch('changeActiveComp', newValue)
       },
     },
+  },
+  /**
+   * Creates a watch listener on the screen resize.
+   */
+  created() {
+    if (process.browser) {
+      window.addEventListener('resize', this.myEventHandler)
+    }
+  },
+  /**
+   * when this is destroyed, it also destroies the screen size listener.
+   */
+  destroyed() {
+    if (process.browser) {
+      window.removeEventListener('resize', this.myEventHandler)
+    }
   },
   watch: {
     /**
@@ -138,6 +166,13 @@ export default {
         }
       }
     },
+    /**
+     * This function is called whenever the screen size changes.
+     * When the screen size changes, update the screenSize value.
+     */
+    myEventHandler(e) {
+      this.screenSize = e.target.innerWidth
+    },
   },
 }
 </script>
@@ -153,11 +188,11 @@ export default {
 
 /* Overwriting Styling inside GMap */
 .GMap {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 .GMap__Wrapper {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 </style>

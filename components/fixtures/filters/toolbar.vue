@@ -22,8 +22,10 @@
     <!-- Open/Close list button -->
     <template v-if="!isSnippetStore">
       <v-divider class="vertical-divider" vertical></v-divider>
-      <v-btn class="filter-top-bar-list-toggle-button mx-2" small icon @click="toggleListMenu()">
-        <v-icon v-if="listOpen">mdi-menu-down mdi-rotate-180</v-icon>
+      <v-btn class="filter-top-bar-list-toggle-button ml-2" small text @click="toggleListMenu()">
+        <span>Map</span>
+        <v-icon class="map-toggle-icon">mdi-map</v-icon>
+        <v-icon v-if="listDropdownState">mdi-menu-down mdi-rotate-180</v-icon>
         <v-icon v-else>mdi-menu-down</v-icon>
       </v-btn>
     </template>
@@ -33,11 +35,6 @@
 <script>
 export default {
   name: 'toolbar',
-  data() {
-    return {
-      listOpen: true,
-    }
-  },
   /**
    * Toolbar.vue updates both displayAll and dropdownState on Vuex.
    */
@@ -66,6 +63,31 @@ export default {
         this.$store.dispatch('changeIsSnippet', newValue)
       },
     },
+    listDropdownState: {
+      get() {
+        return this.$store.state.listDropdownState
+      },
+      set(newValue) {
+        this.$store.dispatch('changeListDropdownState', newValue)
+      },
+    },
+  },
+  watch: {
+    /**
+     * Watches for when the listDropdownState value changes. When it does
+     * it either opens or closes the list dropdown.
+     */
+    listDropdownState() {
+      // If a snippet then leave function.
+      if (this.isSnippetStore) return
+
+      // If the list is closed.
+      if (!this.listDropdownState) {
+        document.getElementById('calendar-main-container').style.maxHeight = '53px'
+      } else {
+        document.getElementById('calendar-main-container').style.maxHeight = '100%'
+      }
+    },
   },
   methods: {
     /**
@@ -77,14 +99,7 @@ export default {
       // If a snippet then leave function.
       if (this.isSnippetStore) return
 
-      this.listOpen = !this.listOpen
-
-      // If the list is closed.
-      if (!this.listOpen) {
-        document.getElementById('calendar-main-container').style.height = '53px'
-      } else {
-        document.getElementById('calendar-main-container').style.height = 'calc(100% - 56px)'
-      }
+      this.listDropdownState = !this.listDropdownState
     },
     /**
      * This function is called whenever the screen size changes.
@@ -93,7 +108,7 @@ export default {
     myEventHandler(e) {
       if (e.target.innerWidth > 960) {
         document.getElementById('calendar-main-container').removeAttribute('style')
-        this.listOpen = true
+        this.listDropdownState = true
       }
     },
   },
@@ -154,6 +169,14 @@ export default {
   display: inline-flex;
   padding-top: 0px;
   height: 24px;
+}
+
+.filter-top-bar-list-toggle-button i {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+.map-toggle-icon {
+  margin-right: -10px;
 }
 
 @media only screen and (min-width: 960px) {

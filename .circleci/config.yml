@@ -46,7 +46,7 @@ jobs:
       - checkout
       - restore_npm_cache
       - run: npm run generate
-      - run: firebase deploy -P production --token "$FIREBASE_TOKEN"
+      - run: ./node_modules/.bin/firebase deploy -P production --token "$FIREBASE_TOKEN"
 
 # Workflows, the order to run a selection of jobs.
 workflows:

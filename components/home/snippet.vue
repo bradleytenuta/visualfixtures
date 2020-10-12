@@ -15,13 +15,12 @@
       <v-container fluid class="mt-8">
         <v-row align="center">
           <!-- Select Sport -->
-          <v-col class="d-flex py-0" cols="12" sm="6">
+          <v-col class="d-flex" cols="12" sm="6">
             <v-select
               v-model="selectedSport"
               :items="sports"
               item-text="name"
               :menu-props="{ maxHeight: '400' }"
-              dense
               outlined
               class="snippet-select-box"
               label="Sports"
@@ -29,18 +28,28 @@
             ></v-select>
           </v-col>
           <!-- Default Country. -->
-          <v-col class="d-flex py-0" cols="12" sm="6">
+          <v-col class="d-flex" cols="12" sm="6">
             <v-select
               v-model="selectedCountry"
               :items="countries"
               item-text="countryCode"
               :menu-props="{ maxHeight: '400' }"
-              dense
               outlined
               class="snippet-select-box"
               label="Default Country"
               hide-selected
-            ></v-select>
+            >
+              <!-- HTML that describe how select should render selected items -->
+              <template v-slot:selection="data">
+                <country-flag :country="data.item.countryCode.toLowerCase()" size="normal" />
+                {{ data.item.countryCode }}
+              </template>
+              <!-- HTML that describe how select should render items when the select is open -->
+              <template v-slot:item="data">
+                <country-flag :country="data.item.countryCode.toLowerCase()" size="normal" />
+                {{ data.item.countryCode }}
+              </template>
+            </v-select>
           </v-col>
 
           <!-- Copy & Paste Code -->
@@ -82,9 +91,13 @@
 
 <script>
 import { sports } from '~/services/jsonLinks'
+import CountryFlag from 'vue-country-flag'
 
 export default {
   name: 'snippet-view',
+  components: {
+    CountryFlag,
+  },
   data() {
     return {
       sports,
@@ -177,5 +190,11 @@ export default {
   .snippet-tool-outer-container {
     max-width: 1185px !important;
   }
+}
+
+/* Overwriting vue-country-flag css */
+.flag {
+  margin-left: -15px;
+  margin-right: -10px;
 }
 </style>

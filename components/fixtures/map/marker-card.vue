@@ -1,11 +1,5 @@
 <template>
-  <v-card
-    class="compcard my-5"
-    :flat="true"
-    @click="!isSnippetStore ? activateComp() : null"
-    :ripple="false"
-    :class="{ 'compcard-active': isActive }"
-  >
+  <v-card class="compcard marker-card-container">
     <!-- Header Text -->
     <v-list-item>
       <!-- Calendar Style Date -->
@@ -77,27 +71,6 @@
       </div>
     </v-card-text>
 
-    <!-- Compeition Information Divider - Action -->
-    <v-divider class="comp-hor-divider"></v-divider>
-
-    <!-- Address -->
-    <v-card-text class="py-0">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="grey" text block v-bind="attrs" v-on="on" @click="copyToClipboard(competition.address)" class="comp-button-address">
-            <v-icon left>mdi-map-marker</v-icon>
-            <template v-if="competition.address">
-              <span class="comp-button-address-text">{{ competition.address }}</span>
-            </template>
-            <template v-else>
-              <span class="comp-button-address-text">Not Provided</span>
-            </template>
-          </v-btn>
-        </template>
-        <span>Copy Address</span>
-      </v-tooltip>
-    </v-card-text>
-
     <!-- Action Buttons -->
     <v-card-actions class="pt-0">
       <!-- View Button -->
@@ -115,39 +88,6 @@
           <span v-else>No external site available</span>
         </v-tooltip>
       </template>
-
-      <!-- Spacer -->
-      <v-spacer></v-spacer>
-
-      <!-- Contact Button -->
-      <v-tooltip bottom v-if="competition.contact_details">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(competition.contact_details)">
-            <v-icon>mdi-contacts</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ competition.contact_details }}</span>
-      </v-tooltip>
-
-      <!-- Location Button -->
-      <v-tooltip bottom v-if="!isSnippetStore && competition.latitude && competition.longitude">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="locationClick()">
-            <v-icon>mdi-map-marker</v-icon>
-          </v-btn>
-        </template>
-        <span>View Location</span>
-      </v-tooltip>
-
-      <!-- Share Button -->
-      <v-tooltip bottom v-if="!isSnippetStore">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(getShareUrl(competition))">
-            <v-icon>mdi-share-variant</v-icon>
-          </v-btn>
-        </template>
-        <span>Share</span>
-      </v-tooltip>
     </v-card-actions>
   </v-card>
 </template>
@@ -158,7 +98,7 @@ import cardText from '~/components/fixtures/list/card-text.vue'
 import moment from 'moment'
 
 export default {
-  name: 'card',
+  name: 'marker-card',
   components: {
     'card-chip': cardChip,
     'card-text': cardText,
@@ -168,77 +108,6 @@ export default {
       type: Object,
       required: true,
     },
-    snackbar: {
-      type: Boolean,
-      required: true,
-    },
-    screenSize: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    selectedCountry() {
-      return this.$store.state.selectedCountry
-    },
-    isSnippetStore: {
-      get() {
-        return this.$store.state.isSnippet
-      },
-      set(newValue) {
-        this.$store.dispatch('changeIsSnippet', newValue)
-      },
-    },
-    activeComp: {
-      get() {
-        return this.$store.state.activeComp
-      },
-      set(newValue) {
-        this.$store.dispatch('changeActiveComp', newValue)
-      },
-    },
-    listDropdownState: {
-      get() {
-        return this.$store.state.listDropdownState
-      },
-      set(newValue) {
-        this.$store.dispatch('changeListDropdownState', newValue)
-      },
-    },
-  },
-  data() {
-    return {
-      isActive: false,
-    }
-  },
-  watch: {
-    /**
-     * Watches for changes within activeComp, a computed property in Vuex.
-     * If the property changes value, we need to check to see if the new
-     * active competition is this one or not.
-     */
-    activeComp() {
-      if (this.isSnippetStore) return
-
-      if (this.competition == this.activeComp) {
-        this.isActive = true
-      } else {
-        this.isActive = false
-      }
-    },
-  },
-  /**
-   * When the card component is mounted it checks to see if the currently
-   * active competition is this one, if it is, then it sets this card as active.
-   */
-  mounted() {
-    if (this.isSnippetStore) return
-
-    if (this.competition == this.activeComp) {
-      this.isActive = true
-    } else {
-      this.isActive = false
-    }
   },
   methods: {
     /**
@@ -256,13 +125,6 @@ export default {
       return moment(competition.finish_date).isBefore(moment(), 'day')
     },
     /**
-     * This function checks if a given competiton will become past by the end of today.
-     */
-    expiresToday(competition) {
-      // compares to the nearest day.
-      return moment(competition.finish_date).isSame(moment(), 'day')
-    },
-    /**
      * This function checks if a given competition is currently on now.
      */
     isOnNow(competition) {
@@ -273,53 +135,35 @@ export default {
       )
     },
     /**
+     * This function checks if a given competiton will become past by the end of today.
+     */
+    expiresToday(competition) {
+      // compares to the nearest day.
+      return moment(competition.finish_date).isSame(moment(), 'day')
+    },
+    /**
      * This function checks if a given competition has a different finish date to its
      * start date.
      */
     isFinishDateSame(competition) {
       return moment(competition.date).isSame(moment(competition.finish_date), 'day')
     },
-    /**
-     * Copies the provided string to clipboard.
-     */
-    copyToClipboard(stringToCopy) {
-      navigator.clipboard.writeText(stringToCopy)
-      this.$emit('updateSnackbar')
-    },
-    /**
-     * This function creates the url that allows a user to share a competition with another user.
-     * It returns a string.
-     */
-    getShareUrl(competition) {
-      return window.location.origin + this.$route.path + '?country=' + this.selectedCountry.countryCode + '&id=' + competition.id
-    },
-    /**
-     * When a compcard is clicked, It updates the currently active competition.
-     */
-    activateComp() {
-      if (this.isSnippetStore) return
-      if (this.competition == this.activeComp) return
-
-      // Updates the current active comp with this competition.
-      this.activeComp = this.competition
-      this.isActive = true
-    },
-    /**
-     * This function is called whenever the location button is clicked.
-     */
-    locationClick() {
-      this.activateComp() // activates this compoetition.
-      if (this.listDropdownState) {
-        if (this.screenSize < 960) {
-          this.listDropdownState = false // Closes the list dropdown if its open.
-        }
-      }
-    },
   },
 }
 </script>
 
 <style scoped>
+.marker-card-container {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  width: 275px !important;
+  margin: 10px !important;
+  margin-bottom: 25px !important;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px !important;
+  border-radius: 2px;
+}
+
 .compcard {
   width: 100%;
   margin: 10px;
