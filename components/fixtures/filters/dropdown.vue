@@ -39,7 +39,18 @@
           v-model="selectedCountry"
           hide-selected
           outlined
-        ></v-select>
+        >
+          <!-- HTML that describe how select should render selected items -->
+          <template v-slot:selection="data">
+            <country-flag :country="data.item.countryCode.toLowerCase()" size="normal" />
+            {{ data.item.countryCode }}
+          </template>
+          <!-- HTML that describe how select should render items when the select is open -->
+          <template v-slot:item="data">
+            <country-flag :country="data.item.countryCode.toLowerCase()" size="normal" />
+            {{ data.item.countryCode }}
+          </template>
+        </v-select>
       </v-col>
     </v-row>
     <!-- Layout for fixture page view -->
@@ -77,15 +88,31 @@
           v-model="selectedCountry"
           hide-selected
           outlined
-        ></v-select>
+        >
+          <!-- HTML that describe how select should render selected items -->
+          <template v-slot:selection="data">
+            <country-flag :country="data.item.countryCode.toLowerCase()" size="normal" />
+            {{ data.item.countryCode }}
+          </template>
+          <!-- HTML that describe how select should render items when the select is open -->
+          <template v-slot:item="data">
+            <country-flag :country="data.item.countryCode.toLowerCase()" size="normal" />
+            {{ data.item.countryCode }}
+          </template>
+        </v-select>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import CountryFlag from 'vue-country-flag'
+
 export default {
   name: 'dropdown',
+  components: {
+    CountryFlag,
+  },
   props: {
     countries: {
       type: Array,
@@ -189,5 +216,11 @@ export default {
 
 .select-container {
   padding-bottom: 0px;
+}
+
+/* Overwriting vue-country-flag css */
+.flag {
+  margin-left: -15px;
+  margin-right: -10px;
 }
 </style>
