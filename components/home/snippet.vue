@@ -15,7 +15,7 @@
       <v-container fluid class="mt-8">
         <v-row align="center">
           <!-- Select Sport -->
-          <v-col class="d-flex py-0" cols="12" sm="6">
+          <v-col class="d-flex snippet-select" cols="12" sm="6">
             <v-select
               v-model="selectedSport"
               :items="sports"
@@ -29,7 +29,7 @@
             ></v-select>
           </v-col>
           <!-- Default Country. -->
-          <v-col class="d-flex py-0" cols="12" sm="6">
+          <v-col class="d-flex snippet-select" cols="12" sm="6">
             <v-select
               v-model="selectedCountry"
               :items="countries"
@@ -166,6 +166,13 @@ export default {
 
 .snippet-preview > iframe {
   border: none;
+}
+
+@media only screen and (min-width: 960px) {
+  .snippet-select {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
 }
 
 /* Overwriting Vuetify select box height. */
