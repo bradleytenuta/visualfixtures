@@ -30,6 +30,9 @@
       <p>No Competitions found!</p>
     </div>
 
+    <!-- List Whitespace - Created so mobile bottom navbars dont hide bottom of list -->
+    <div class="comp-calendar-whitespace-filler"></div>
+
     <!-- Global Snackbar -->
     <v-snackbar v-model="snackbar" timeout="2000">
       Copied to clipboard.
@@ -154,6 +157,13 @@ export default {
 .no-comp-container {
   text-align: center;
   font-size: 30px;
+}
+
+.comp-calendar-whitespace-filler {
+  width: 100%;
+  height: 100px;
+  min-height: 100px;
+  background-color: transparent;
 }
 
 /* width */
