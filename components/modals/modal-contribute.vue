@@ -13,7 +13,7 @@
         <v-card-text>
           Do you have some knowledge in writing code in Vue.js? Visual-Fixtures is an open source project on
           <a href="https://github.com/bradleytenuta/visualfixtures">github</a>. If you want to help improve this website then head over to
-          github and view the wiki to help get you started.
+          github and view the <a href="https://github.com/bradleytenuta/visualfixtures/wiki">wiki</a> to help get you started.
         </v-card-text>
 
         <!-- Request Feature -->
