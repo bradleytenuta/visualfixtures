@@ -12,7 +12,7 @@
           <v-row justify="center">
             <!-- One Column for each logo -->
             <v-col cols="auto">
-              <a href="https://opentrack.run/" title="Opentrack">
+              <a target="_blank" href="https://opentrack.run/" title="Opentrack">
                 <v-img
                   max-height="300"
                   max-width="300"

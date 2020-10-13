@@ -11,8 +11,8 @@
         <!-- Question -->
         <v-card-title class="headline">Have a queston?</v-card-title>
         <v-card-text>
-          Head over to our <a href="https://github.com/bradleytenuta/visualfixtures/issues">issues section</a> on github and create a new
-          issue. Make sure to add the tag 'Question'. This lets me know the difference between genunie issues and questions.
+          Head over to our <a target="_blank" href="https://github.com/bradleytenuta/visualfixtures/issues">issues section</a> on github and
+          create a new issue. Make sure to add the tag 'Question'. This lets me know the difference between genunie issues and questions.
         </v-card-text>
       </v-card>
     </v-dialog>

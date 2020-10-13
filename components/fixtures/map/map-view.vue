@@ -27,24 +27,24 @@
 
     <!-- Marker card container -->
     <!-- Contains information about the currently selected competition, only in mobile view -->
-    <marker-card
+    <map-marker-card
       v-if="activeComp && screenSize < 960 && activeComp.latitude && activeComp.longitude"
       :competition="activeComp"
-    ></marker-card>
+    ></map-marker-card>
   </div>
 </template>
 
 <script>
 // All map styles are saved in a seperate file.
 import { retro } from '~/static/mapStyles'
-import markerCard from '~/components/fixtures/map/marker-card'
+import markerCard from '~/components/fixtures/map/map-marker-card'
 import mapContainer from '~/components/fixtures/map/map-container'
 import mapMarker from '~/components/fixtures/map/map-marker'
 
 export default {
   name: 'map-view',
   components: {
-    'marker-card': markerCard,
+    'map-marker-card': markerCard,
     'map-container': mapContainer,
     'map-marker': mapMarker,
   },

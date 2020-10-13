@@ -6,28 +6,8 @@
     :ripple="false"
     :class="{ 'compcard-active': isActive }"
   >
-    <!-- Header Text -->
-    <v-list-item>
-      <!-- Calendar Style Date -->
-      <v-list-item-avatar class="comp-date-container" color="grey lighten-3">
-        <div>
-          <span class="comp-date-day">
-            {{ formatDate(competition.date, 'DD') }}
-          </span>
-          <br />
-          <span class="comp-date-month">
-            {{ formatDate(competition.date, 'MMM') }}
-          </span>
-        </div>
-      </v-list-item-avatar>
-
-      <!-- Competition Title Info -->
-      <v-list-item-content class="comp-title-container">
-        <v-list-item-subtitle class="comp-title">
-          {{ competition.full_name }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
+    <!-- Card Info -->
+    <card-info :competition="competition"></card-info>
 
     <!-- Competition Extra Information -->
     <v-chip-group column class="px-6">
@@ -100,20 +80,8 @@
 
     <!-- Action Buttons -->
     <v-card-actions class="pt-0">
-      <!-- View Button -->
-      <template>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
-              <!-- Button with Link -->
-              <v-btn v-if="competition.entry_link" color="primary" :href="competition.entry_link" text>Visit Site</v-btn>
-              <!-- Disabled button - no link -->
-              <v-btn v-else color="primary" :href="competition.default_entry_link" text> Visit Site </v-btn>
-            </div>
-          </template>
-          <span>View competition and entry information (External Site)</span>
-        </v-tooltip>
-      </template>
+      <!-- Card Action Button -->
+      <card-action-button :competition="competition"></card-action-button>
 
       <!-- Spacer -->
       <v-spacer></v-spacer>
@@ -154,6 +122,8 @@
 <script>
 import cardChip from '~/components/fixtures/list/card-chip.vue'
 import cardText from '~/components/fixtures/list/card-text.vue'
+import cardInfo from '~/components/fixtures/list/card-info.vue'
+import cardActionButton from '~/components/fixtures/list/card-action-button.vue'
 import moment from 'moment'
 
 export default {
@@ -161,6 +131,8 @@ export default {
   components: {
     'card-chip': cardChip,
     'card-text': cardText,
+    'card-info': cardInfo,
+    'card-action-button': cardActionButton,
   },
   props: {
     competition: {
@@ -341,37 +313,6 @@ export default {
 
 .compcard .v-chip-group .v-chip {
   cursor: default;
-}
-
-.comp-date-container > div {
-  margin: 0px;
-  line-height: 0.75;
-}
-
-.comp-date-day {
-  font-size: 25px;
-}
-
-.comp-date-month {
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.comp-title-container {
-  width: 100%;
-  height: 32px;
-  margin-bottom: 11px;
-  margin-top: 13px;
-  padding: 0px;
-}
-
-.comp-title {
-  height: 100%;
-  white-space: normal;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-weight: bolder;
 }
 
 .comp-button-address {
