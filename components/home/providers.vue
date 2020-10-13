@@ -1,7 +1,7 @@
 <template>
   <v-container class="providers-outer-container text-center mb-16 py-16">
     <!-- Providers Text -->
-    <v-row align="center" data-aos="fade-up">
+    <v-row align="center">
       <v-col cols="12" sm="6">
         <h1>The data providers who bring this project alive</h1>
       </v-col>
