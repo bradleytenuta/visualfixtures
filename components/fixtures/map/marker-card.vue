@@ -81,11 +81,10 @@
               <!-- Button with Link -->
               <v-btn v-if="competition.entry_link" color="primary" :href="competition.entry_link" text>Visit Site</v-btn>
               <!-- Disabled button - no link -->
-              <v-btn v-else :disabled="!competition.entry_link" color="primary" href="#" text> Visit Site </v-btn>
+              <v-btn v-else color="primary" :href="competition.default_entry_link" text> Visit Site </v-btn>
             </div>
           </template>
-          <span v-if="competition.entry_link">View competition and entry information (External Site)</span>
-          <span v-else>No external site available</span>
+          <span>View competition and entry information (External Site)</span>
         </v-tooltip>
       </template>
     </v-card-actions>
