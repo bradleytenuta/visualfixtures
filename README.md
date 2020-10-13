@@ -24,6 +24,8 @@
 <ul>
   <li>
     <a href="https://github.com/bradleytenuta/visualfixtures/wiki">Wiki</a>
+  </li>
+  <li>
     <a href="https://app.circleci.com/pipelines/github/bradleytenuta">CircleCi</a>
   </li>
 </ul>
