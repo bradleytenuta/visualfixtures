@@ -14,9 +14,9 @@
     "@nuxtjs/pwa": "^3.0.2",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "google-maps-api-loader": "^1.1.1",
     "moment": "^2.29.0",
     "nuxt": "^2.14.5",
-    "nuxt-gmaps": "^1.2.10",
     "vue-country-flag": "^2.0.1"
   },
   "devDependencies": {

@@ -34,14 +34,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    // https://www.npmjs.com/package/nuxt-gmaps & https://gitlab.com/broj42/nuxt-gmaps/
-    [
-      'nuxt-gmaps',
-      {
-        key: 'AIzaSyAptX1_Xcjtarop4EQ2b-TmMzW8eyWbKmM',
-        //you can use libraries: ['places']
-      },
-    ],
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

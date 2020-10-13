@@ -1,9 +1,9 @@
 <template>
   <div class="map-outer-container">
-    <GMap
-      ref="GMap"
+    <!-- 28,000 free map loads a month - £0.007 per load afterwards -->
+    <map-container
+      ref="vfmap"
       language="en"
-      :center="londonPosition"
       :options="{
         fullscreenControl: false,
         streetViewControl: false,
@@ -12,21 +12,18 @@
         gestureHandling: 'greedy',
         styles: mapStyle,
       }"
-      :zoom="8"
     >
       <template v-for="viewableBranch in viewableBranches.slice(0, scrollCounter)">
-        <GMapMarker
-          ref="markers"
+        <map-marker
           v-for="competition in viewableBranch.competitions"
           v-if="competition.latitude && competition.longitude"
           :key="competition.id"
           :position="{ lat: competition.latitude, lng: competition.longitude }"
           :options="{ icon: competition == activeComp ? pins.selected : pins.notSelected }"
           @click="activateComp(competition)"
-        >
-        </GMapMarker>
+        ></map-marker>
       </template>
-    </GMap>
+    </map-container>
 
     <!-- Marker card container -->
     <!-- Contains information about the currently selected competition, only in mobile view -->
@@ -41,11 +38,15 @@
 // All map styles are saved in a seperate file.
 import { retro } from '~/static/mapStyles'
 import markerCard from '~/components/fixtures/map/marker-card'
+import mapContainer from '~/components/fixtures/map/map-container'
+import mapMarker from '~/components/fixtures/map/map-marker'
 
 export default {
   name: 'map-view',
   components: {
     'marker-card': markerCard,
+    'map-container': mapContainer,
+    'map-marker': mapMarker,
   },
   props: {
     viewableBranches: {
@@ -66,10 +67,6 @@ export default {
           'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=8cedc93f-f09c-4ed9-9adf-e394591f74f5',
       },
       mapStyle: retro,
-      londonPosition: {
-        lat: 51.5287718,
-        lng: -0.2416804,
-      },
       screenSize: 0,
     }
   },
@@ -110,7 +107,7 @@ export default {
      */
     async viewableBranches() {
       await this.$nextTick() // Waits for a tick for the children to be added to the map element.
-      this.$refs.GMap.initMap()
+      this.$refs.vfmap.initChildren()
 
       // Sets the centre for the map based on the currently active comp, or the first comp in the list.
       if (this.activeComp) {
@@ -132,7 +129,7 @@ export default {
      */
     async scrollCounter() {
       await this.$nextTick() // Waits for a tick for the children to be added to the map element.
-      this.$refs.GMap.initChildren()
+      this.$refs.vfmap.initChildren()
     },
     /**
      * Watches for the active competition to change. When it does, recentre the map onto
@@ -159,7 +156,7 @@ export default {
     setCentre(competition) {
       if (competition.latitude && competition.longitude) {
         if (competition) {
-          this.$refs.GMap.map.setCenter({
+          this.$refs.vfmap.map.setCenter({
             lat: competition.latitude,
             lng: competition.longitude,
           })
@@ -186,12 +183,12 @@ export default {
   z-index: 1;
 }
 
-/* Overwriting Styling inside GMap */
-.GMap {
+.vfmap {
   width: 100% !important;
   height: 100% !important;
 }
-.GMap__Wrapper {
+
+.vfmap-wrapper {
   width: 100% !important;
   height: 100% !important;
 }
