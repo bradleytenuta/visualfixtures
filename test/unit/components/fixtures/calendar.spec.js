@@ -30,7 +30,7 @@ describe('calendar', () => {
     resetVuex: jest.fn(),
   }
   const store = new Vuex.Store({
-    state: { selectedMonth: null, selectedCountry: null, isSnippet: false, displayAll: true },
+    state: { selectedMonth: null, selectedCountry: null, isSnippetStore: false, displayAll: true },
     actions: mockActions,
   })
 

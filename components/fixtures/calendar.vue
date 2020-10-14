@@ -64,6 +64,15 @@ export default {
   },
   watch: {
     async selectedCountry() {
+      // Updates the countrycode in the url.
+      if (this.$route.query.country != this.selectedCountry.countryCode) {
+        // Adds a query parameter to the list query object without replacing the
+        // query parameters already in the object.
+        this.$router.replace({
+          query: Object.assign({}, this.$route.query, { country: this.selectedCountry.countryCode }),
+        })
+      }
+
       // Gathers the competitions from the JSON data.
       var competitions = await jsonRetriever.buildCompetitionData(this.selectedCountry)
 

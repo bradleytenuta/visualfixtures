@@ -30,6 +30,7 @@
           <!-- Default Country. -->
           <v-col class="d-flex" cols="12" sm="6">
             <v-select
+              return-object
               v-model="selectedCountry"
               :items="countries"
               item-text="countryCode"
@@ -37,7 +38,6 @@
               outlined
               class="snippet-select-box"
               label="Default Country"
-              hide-selected
             >
               <!-- HTML that describe how select should render selected items -->
               <template v-slot:selection="data">

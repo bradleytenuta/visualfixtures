@@ -2,7 +2,7 @@
   <v-card
     class="compcard my-5"
     :flat="true"
-    @click="!isSnippetStore ? activateComp() : null"
+    @click="!isSnippet ? activateComp() : null"
     :ripple="false"
     :class="{ 'compcard-active': isActive }"
   >
@@ -97,7 +97,7 @@
       </v-tooltip>
 
       <!-- Location Button -->
-      <v-tooltip bottom v-if="!isSnippetStore && competition.latitude && competition.longitude">
+      <v-tooltip bottom v-if="!isSnippet && competition.latitude && competition.longitude">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" @click="locationClick()">
             <v-icon>mdi-map-marker</v-icon>
@@ -107,7 +107,7 @@
       </v-tooltip>
 
       <!-- Share Button -->
-      <v-tooltip bottom v-if="!isSnippetStore">
+      <v-tooltip bottom v-if="!isSnippet">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(getShareUrl(competition))">
             <v-icon>mdi-share-variant</v-icon>
@@ -152,7 +152,7 @@ export default {
     selectedCountry() {
       return this.$store.state.selectedCountry
     },
-    isSnippetStore: {
+    isSnippet: {
       get() {
         return this.$store.state.isSnippet
       },
@@ -189,7 +189,7 @@ export default {
      * active competition is this one or not.
      */
     activeComp() {
-      if (this.isSnippetStore) return
+      if (this.isSnippet) return
 
       if (this.competition == this.activeComp) {
         this.isActive = true
@@ -203,7 +203,7 @@ export default {
    * active competition is this one, if it is, then it sets this card as active.
    */
   mounted() {
-    if (this.isSnippetStore) return
+    if (this.isSnippet) return
 
     if (this.competition == this.activeComp) {
       this.isActive = true
@@ -268,7 +268,7 @@ export default {
      * When a compcard is clicked, It updates the currently active competition.
      */
     activateComp() {
-      if (this.isSnippetStore) return
+      if (this.isSnippet) return
       if (this.competition == this.activeComp) return
 
       // Updates the current active comp with this competition.

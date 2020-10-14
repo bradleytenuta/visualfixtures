@@ -127,7 +127,7 @@ export default {
 }
 
 .sport-menu-button-active {
-  border-bottom: 4px var(--v-primary);
+  border-bottom: 4px solid green;
 }
 
 .menu-list {

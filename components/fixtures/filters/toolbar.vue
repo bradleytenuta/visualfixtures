@@ -20,7 +20,7 @@
     </v-btn>
 
     <!-- Open/Close list button -->
-    <template v-if="!isSnippetStore">
+    <template v-if="!isSnippet">
       <v-divider class="vertical-divider" vertical></v-divider>
       <v-btn class="filter-top-bar-list-toggle-button ml-2" small text @click="toggleListMenu()">
         <span>Map</span>
@@ -55,7 +55,7 @@ export default {
         this.$store.dispatch('changeDropdownState', newValue)
       },
     },
-    isSnippetStore: {
+    isSnippet: {
       get() {
         return this.$store.state.isSnippet
       },
@@ -79,7 +79,7 @@ export default {
      */
     listDropdownState() {
       // If a snippet then leave function.
-      if (this.isSnippetStore) return
+      if (this.isSnippet) return
 
       // If the list is closed.
       if (!this.listDropdownState) {
@@ -97,7 +97,7 @@ export default {
      */
     toggleListMenu() {
       // If a snippet then leave function.
-      if (this.isSnippetStore) return
+      if (this.isSnippet) return
 
       this.listDropdownState = !this.listDropdownState
     },
@@ -143,15 +143,15 @@ export default {
   .v-messages {
     display: none;
   }
+}
 
-  .filter-top-bar-filter-button-desktop {
-    display: none;
-    color: rgba(0, 0, 0, 0.54) !important; /* Same colour as icon buttons */
-  }
+.filter-top-bar-filter-button-desktop {
+  display: none;
+  color: rgba(0, 0, 0, 0.54) !important; /* Same colour as icon buttons */
+}
 
-  .vertical-divider {
-    display: inline;
-  }
+.vertical-divider {
+  display: inline;
 }
 
 @media only screen and (min-width: 960px) {

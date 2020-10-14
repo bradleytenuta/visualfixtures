@@ -5,9 +5,9 @@
   >
     <!-- Filters the search results -->
     <!-- Layout for snippet view -->
-    <v-row align="center" v-if="isSnippetStore">
+    <v-row align="center" v-if="isSnippet">
       <!-- Search Bar -->
-      <v-col id="comp-search-bar" class="d-flex select-container" cols="12" md="3" lg="5">
+      <v-col id="comp-search-bar-snippets" class="d-flex select-container" cols="12" md="3" lg="5">
         <v-text-field
           hide-details
           clearable
@@ -21,23 +21,30 @@
 
       <!-- Month Select -->
       <v-col class="d-flex select-container" cols="12" md="3" lg="3">
-        <v-select id="select-month" :items="months" label="Month" v-model="selectedMonth" outlined :disabled="displayAll"></v-select>
+        <v-select
+          id="select-month-snippets"
+          :items="months"
+          label="Month"
+          v-model="selectedMonth"
+          outlined
+          :disabled="displayAll"
+        ></v-select>
       </v-col>
 
       <!-- Sort By Select -->
       <v-col class="d-flex select-container" cols="7" md="3" lg="2">
-        <v-select id="select-sort" :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
+        <v-select id="select-sort-snippets" :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
       </v-col>
 
       <!-- Country Select -->
       <v-col class="d-flex select-container" cols="5" md="3" lg="2">
         <v-select
-          id="select-country"
+          id="select-country-snippets"
+          return-object
           :items="countries"
           item-text="countryCode"
           label="Country"
           v-model="selectedCountry"
-          hide-selected
           outlined
         >
           <!-- HTML that describe how select should render selected items -->
@@ -56,7 +63,7 @@
     <!-- Layout for fixture page view -->
     <v-row align="center" v-else>
       <!-- Search Bar -->
-      <v-col id="comp-search-bar" class="d-flex select-container" cols="12">
+      <v-col id="comp-search-bar-fixtures" class="d-flex select-container" cols="12">
         <v-text-field
           hide-details
           clearable
@@ -70,23 +77,30 @@
 
       <!-- Month Select -->
       <v-col class="d-flex select-container" cols="12">
-        <v-select id="select-month" :items="months" label="Month" v-model="selectedMonth" outlined :disabled="displayAll"></v-select>
+        <v-select
+          id="select-month-fixtures"
+          :items="months"
+          label="Month"
+          v-model="selectedMonth"
+          outlined
+          :disabled="displayAll"
+        ></v-select>
       </v-col>
 
       <!-- Sort By Select -->
       <v-col class="d-flex select-container" cols="7">
-        <v-select id="select-sort" :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
+        <v-select id="select-sort-fixtures" :items="sortOptions" label="Sort By" v-model="selectedSort" outlined></v-select>
       </v-col>
 
       <!-- Country Select -->
       <v-col class="d-flex select-container" cols="5">
         <v-select
-          id="select-country"
+          id="select-country-fixtures"
+          return-object
           :items="countries"
           item-text="countryCode"
           label="Country"
           v-model="selectedCountry"
-          hide-selected
           outlined
         >
           <!-- HTML that describe how select should render selected items -->
@@ -147,7 +161,7 @@ export default {
     dropdownState() {
       return this.$store.state.dropdownState
     },
-    isSnippetStore() {
+    isSnippet() {
       return this.$store.state.isSnippet
     },
     selectedMonth: {

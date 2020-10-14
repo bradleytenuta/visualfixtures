@@ -24,9 +24,18 @@ describe('dropdown', () => {
     changeDisplayAll: jest.fn(),
     changeDropdownState: jest.fn(),
     changeSearchText: jest.fn(),
+    changeIsSnippet: jest.fn(),
   }
   const store = new Vuex.Store({
-    state: { selectedMonth: null, selectedCountry: null, selectedSort: 1, displayAll: false, dropdownState: false, searchText: '' },
+    state: {
+      selectedMonth: null,
+      selectedCountry: null,
+      selectedSort: 1,
+      displayAll: false,
+      dropdownState: false,
+      searchText: '',
+      isSnippet: false,
+    },
     actions: mockActions,
   })
 
@@ -51,7 +60,7 @@ describe('dropdown', () => {
     const wrapper = shallowMount(dropdown, wrapperData)
     wrapper.setData({ selectedCountry: null })
 
-    wrapper.find('#select-country').trigger('click')
+    wrapper.find('#select-country-fixtures').trigger('click')
 
     expect(mockActions.changeSelectedCountry).toHaveBeenCalled()
   })
@@ -60,7 +69,7 @@ describe('dropdown', () => {
     const wrapper = shallowMount(dropdown, wrapperData)
     wrapper.setData({ selectedMonth: null })
 
-    wrapper.find('#select-country').trigger('click')
+    wrapper.find('#select-month-fixtures').trigger('click')
 
     expect(mockActions.changeSelectedMonth).toHaveBeenCalled()
   })
@@ -81,7 +90,7 @@ describe('dropdown', () => {
       ],
     })
 
-    wrapper.find('#select-country').trigger('click')
+    wrapper.find('#select-sort-fixtures').trigger('click')
 
     expect(mockActions.changeSelectSort).toHaveBeenCalled()
   })
@@ -91,7 +100,7 @@ describe('dropdown', () => {
     wrapper.setData({ searchText: '' })
 
     // Adds text to the search bar and checks to see if Vuex action has been triggered.
-    var searchBarElement = wrapper.find('#comp-search-bar')
+    var searchBarElement = wrapper.find('#comp-search-bar-fixtures')
     searchBarElement.element.value = 'test'
     searchBarElement.trigger('input')
 
