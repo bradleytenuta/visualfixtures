@@ -25,7 +25,7 @@ export default {
     language: {},
     zoom: {
       type: Number,
-      default: 8,
+      default: 6,
     },
     // Default center is London.
     center: {
@@ -126,3 +126,15 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.vfmap {
+  width: 100%;
+  height: 100%;
+}
+
+.vfmap-wrapper {
+  width: 100%;
+  height: 100%;
+}
+</style>

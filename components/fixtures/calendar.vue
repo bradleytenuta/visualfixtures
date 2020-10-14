@@ -309,7 +309,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .calendar-outer-container {
   height: 100%;
   display: flex;

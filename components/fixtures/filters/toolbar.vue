@@ -131,27 +131,27 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .filter-top-bar {
   padding: 12px;
   display: flex;
-}
 
-.filter-top-bar .v-input__slot {
-  margin: 0px;
-}
+  .v-input__slot {
+    margin: 0px;
+  }
 
-.filter-top-bar .v-messages {
-  display: none;
-}
+  .v-messages {
+    display: none;
+  }
 
-.filter-top-bar-filter-button-desktop {
-  display: none;
-  color: rgba(0, 0, 0, 0.54) !important; /* Same colour as icon buttons */
-}
+  .filter-top-bar-filter-button-desktop {
+    display: none;
+    color: rgba(0, 0, 0, 0.54) !important; /* Same colour as icon buttons */
+  }
 
-.vertical-divider {
-  display: inline;
+  .vertical-divider {
+    display: inline;
+  }
 }
 
 @media only screen and (min-width: 960px) {
@@ -159,6 +159,13 @@ export default {
     display: none;
   }
   .vertical-divider {
+    display: none;
+  }
+  .filter-top-bar-filter-button-desktop {
+    margin: 0px !important;
+    display: flex;
+  }
+  .filter-top-bar-filter-button-mobile {
     display: none;
   }
 }
@@ -177,15 +184,5 @@ export default {
 
 .map-toggle-icon {
   margin-right: -10px;
-}
-
-@media only screen and (min-width: 960px) {
-  .filter-top-bar-filter-button-desktop {
-    margin: 0px !important;
-    display: flex;
-  }
-  .filter-top-bar-filter-button-mobile {
-    display: none;
-  }
 }
 </style>

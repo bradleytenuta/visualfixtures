@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /* Overwriting Vuetify Grid. */
 @media (min-width: 1264px) {
   .providers-outer-container {

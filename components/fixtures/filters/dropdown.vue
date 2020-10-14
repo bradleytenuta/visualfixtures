@@ -186,7 +186,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .filter-dropdown-container {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -195,9 +195,14 @@ export default {
   height: 0px;
   display: flex;
   transition: all 0.5s ease-in-out;
+
+  .v-text-field {
+    height: 86px;
+  }
 }
 
 /* A set dropdown height for when the map is shown - only used when not a snippet */
+
 .filter-dropdown-container-open-no-snippet {
   max-height: 294px !important;
   height: 294px !important;
@@ -213,10 +218,6 @@ export default {
     max-height: 98px;
     height: 98px;
   }
-}
-
-.filter-dropdown-container .v-text-field {
-  height: 86px;
 }
 
 .select-container {

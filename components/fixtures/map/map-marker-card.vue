@@ -123,7 +123,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .map-marker-card-container {
   position: absolute;
   bottom: 0;
@@ -141,6 +141,21 @@ export default {
   height: fit-content;
   overflow: hidden;
   cursor: default;
+
+  .v-icon {
+    line-height: 0 !important;
+  }
+
+  .v-chip-group .v-chip {
+    cursor: default;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .compcard {
+    max-width: 344px;
+    min-width: 344px;
+  }
 }
 
 .compcard-active {
@@ -149,14 +164,6 @@ export default {
 
 .v-card--link:focus:before {
   opacity: 0 !important;
-}
-
-.compcard .v-icon {
-  line-height: 0 !important;
-}
-
-.compcard .v-chip-group .v-chip {
-  cursor: default;
 }
 
 .comp-button-address {
@@ -183,39 +190,31 @@ export default {
   /* Firefox scrollbar styling - webkit scrollbar works for all other browsers */
   scrollbar-width: thin;
   scrollbar-color: #cdcdcd transparent;
-}
-/* Compeititon Info Card Text Scroll Bar */
-/* width */
-.comp-info-card-text::-webkit-scrollbar {
-  height: 5px;
-  background-color: transparent;
-}
 
-/* Track */
-.comp-info-card-text::-webkit-scrollbar-track {
-  background-color: transparent;
-}
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px;
+    background-color: transparent;
+  }
 
-/* Handle */
-.comp-info-card-text::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: rgba(230, 230, 230, 0.9);
-}
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
-/* Handle on hover */
-.comp-info-card-text::-webkit-scrollbar-thumb:hover {
-  background: lightgray;
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(230, 230, 230, 0.9);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: lightgray;
+  }
 }
-/* End of Compeititon Info Card Text Scroll Bar */
 
 .comp-hor-divider {
   margin: 8px 16px;
-}
-
-@media only screen and (min-width: 550px) {
-  .compcard {
-    max-width: 344px;
-    min-width: 344px;
-  }
 }
 </style>

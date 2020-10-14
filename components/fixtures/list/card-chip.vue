@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .comp-chip-icon {
   font-size: 12px !important;
 }

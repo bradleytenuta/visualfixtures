@@ -46,10 +46,12 @@ export default {
 }
 </script>
 
-<style scoped>
-.comp-date-container > div {
-  margin: 0px;
-  line-height: 0.75;
+<style lang="scss" scoped>
+.comp-date-container {
+  > div {
+    margin: 0px;
+    line-height: 0.75;
+  }
 }
 
 .comp-date-day {

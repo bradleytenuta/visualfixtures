@@ -122,7 +122,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .comp-calendar {
   display: flex;
   flex-direction: column;
@@ -133,6 +133,28 @@ export default {
   scrollbar-width: thin;
   scrollbar-color: #cdcdcd transparent;
   padding: 12px;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(230, 230, 230, 0.9);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: lightgray;
+  }
 }
 
 .comp-month-header {
@@ -164,27 +186,5 @@ export default {
   height: 100px;
   min-height: 100px;
   background-color: transparent;
-}
-
-/* width */
-.comp-calendar::-webkit-scrollbar {
-  width: 12px;
-  background-color: transparent;
-}
-
-/* Track */
-.comp-calendar::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-/* Handle */
-.comp-calendar::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: rgba(230, 230, 230, 0.9);
-}
-
-/* Handle on hover */
-.comp-calendar::-webkit-scrollbar-thumb:hover {
-  background: lightgray;
 }
 </style>

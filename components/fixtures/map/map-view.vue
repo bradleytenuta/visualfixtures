@@ -175,21 +175,11 @@ export default {
 </script>
 
 <!-- Style is not scoped -->
-<style>
+<style lang="scss" scoped>
 .map-outer-container {
   display: flex;
   width: 100%;
   height: 100%;
   z-index: 1;
-}
-
-.vfmap {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.vfmap-wrapper {
-  width: 100% !important;
-  height: 100% !important;
 }
 </style>

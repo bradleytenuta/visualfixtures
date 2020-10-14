@@ -165,7 +165,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .snippet-preview-container {
   background-color: #f5f5f5;
 }
@@ -175,10 +175,10 @@ export default {
   height: 640px;
   max-width: 360px;
   max-height: 640px;
-}
 
-.snippet-preview > iframe {
-  border: none;
+  > iframe {
+    border: none;
+  }
 }
 
 /* Overwriting Vuetify select box height. */
