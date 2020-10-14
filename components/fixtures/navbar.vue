@@ -105,7 +105,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .fixture-navbar {
   height: 56px !important;
   display: flex;
@@ -118,16 +118,16 @@ export default {
   margin: 2px;
   height: 50px;
   width: 50px;
-}
 
-.sport-menu-button i {
-  height: 30px;
-  font-size: 30px;
-  width: 30px;
+  i {
+    height: 30px;
+    font-size: 30px;
+    width: 30px;
+  }
 }
 
 .sport-menu-button-active {
-  border-bottom: 4px green solid;
+  border-bottom: 4px solid green;
 }
 
 .menu-list {
@@ -138,10 +138,10 @@ export default {
   display: block;
   height: 62px;
   background-color: #ff804d;
-}
 
-.menu-buymecoffee > img {
-  height: 60px !important;
-  width: 217px !important;
+  > img {
+    height: 60px !important;
+    width: 217px !important;
+  }
 }
 </style>

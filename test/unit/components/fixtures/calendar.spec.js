@@ -26,10 +26,11 @@ describe('calendar', () => {
     changeSelectedMonth: jest.fn(),
     changeSelectedCountry: jest.fn(),
     changeIsSnippet: jest.fn(),
+    changeDisplayAll: jest.fn(),
     resetVuex: jest.fn(),
   }
   const store = new Vuex.Store({
-    state: { selectedMonth: null, selectedCountry: null, isSnippet: false },
+    state: { selectedMonth: null, selectedCountry: null, isSnippetStore: false, displayAll: true },
     actions: mockActions,
   })
 
@@ -69,10 +70,10 @@ describe('calendar', () => {
     expect(mockActions.changeSelectedCountry).toHaveBeenCalled()
   })
 
-  /* TODO: Fix these tests
   test('If the competitions get sorted in ascending order', () => {
     const wrapper = shallowMount(calendar, wrapperData)
     wrapper.setData({ competitionTree: [...mockCompetitionTree] })
+
     expect(wrapper.vm.viewableBranches[0].competitions).toEqual(mockCompetitionTree[0].competitions)
   })
 
@@ -103,5 +104,4 @@ describe('calendar', () => {
 
     expect(wrapper.vm.viewableBranches).toEqual(mockCompetitionTree)
   })
-  */
 })

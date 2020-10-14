@@ -12,17 +12,18 @@
         <v-card-title class="headline">Help Develop?</v-card-title>
         <v-card-text>
           Do you have some knowledge in writing code in Vue.js? Visual-Fixtures is an open source project on
-          <a href="https://github.com/bradleytenuta/visualfixtures">github</a>. If you want to help improve this website then head over to
-          github and view the wiki to help get you started.
+          <a target="_blank" href="https://github.com/bradleytenuta/visualfixtures">github</a>. If you want to help improve this website
+          then head over to github and view the <a target="_blank" href="https://github.com/bradleytenuta/visualfixtures/wiki">wiki</a> to
+          help get you started.
         </v-card-text>
 
         <!-- Request Feature -->
         <v-card-title class="headline">Feature requests?</v-card-title>
         <v-card-text>
           Is Visual-Fixtures missing a useful feature? If so, head over to our
-          <a href="https://github.com/bradleytenuta/visualfixtures/issues">issues section</a> on github and create a new issue. When
-          creating this issue, include the tag 'Feature Request'. This lets me know the difference between genunie issues and feature
-          requests.
+          <a target="_blank" href="https://github.com/bradleytenuta/visualfixtures/issues">issues section</a> on github and create a new
+          issue. When creating this issue, include the tag 'Feature Request'. This lets me know the difference between genunie issues and
+          feature requests.
         </v-card-text>
       </v-card>
     </v-dialog>

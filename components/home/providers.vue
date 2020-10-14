@@ -1,7 +1,7 @@
 <template>
   <v-container class="providers-outer-container text-center mb-16 py-16">
     <!-- Providers Text -->
-    <v-row align="center" data-aos="fade-up">
+    <v-row align="center">
       <v-col cols="12" sm="6">
         <h1>The data providers who bring this project alive</h1>
       </v-col>
@@ -12,7 +12,7 @@
           <v-row justify="center">
             <!-- One Column for each logo -->
             <v-col cols="auto">
-              <a href="https://opentrack.run/" title="Opentrack">
+              <a target="_blank" href="https://opentrack.run/" title="Opentrack">
                 <v-img
                   max-height="300"
                   max-width="300"
@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /* Overwriting Vuetify Grid. */
 @media (min-width: 1264px) {
   .providers-outer-container {

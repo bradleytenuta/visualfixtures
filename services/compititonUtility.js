@@ -84,6 +84,7 @@ export default {
           contact_details: competition.contact_details,
           latitude: competition.latitude,
           longitude: competition.longitude,
+          default_entry_link: `https://data.opentrack.run/x/${competition.year}/${competition.country}/${competition.slug}`,
         }
         cleanCompetitions.push(cleanComp)
       })

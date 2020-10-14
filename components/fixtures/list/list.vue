@@ -30,6 +30,9 @@
       <p>No Competitions found!</p>
     </div>
 
+    <!-- List Whitespace - Created so mobile bottom navbars dont hide bottom of list -->
+    <div class="comp-calendar-whitespace-filler"></div>
+
     <!-- Global Snackbar -->
     <v-snackbar v-model="snackbar" timeout="2000">
       Copied to clipboard.
@@ -119,7 +122,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .comp-calendar {
   display: flex;
   flex-direction: column;
@@ -130,6 +133,28 @@ export default {
   scrollbar-width: thin;
   scrollbar-color: #cdcdcd transparent;
   padding: 12px;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(230, 230, 230, 0.9);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: lightgray;
+  }
 }
 
 .comp-month-header {
@@ -156,25 +181,10 @@ export default {
   font-size: 30px;
 }
 
-/* width */
-.comp-calendar::-webkit-scrollbar {
-  width: 12px;
+.comp-calendar-whitespace-filler {
+  width: 100%;
+  height: 100px;
+  min-height: 100px;
   background-color: transparent;
-}
-
-/* Track */
-.comp-calendar::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-/* Handle */
-.comp-calendar::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: rgba(230, 230, 230, 0.9);
-}
-
-/* Handle on hover */
-.comp-calendar::-webkit-scrollbar-thumb:hover {
-  background: lightgray;
 }
 </style>

@@ -17,7 +17,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: '@/plugins/aos', ssr: false }],
+  plugins: [],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -34,14 +34,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    // https://www.npmjs.com/package/nuxt-gmaps & https://gitlab.com/broj42/nuxt-gmaps/
-    [
-      'nuxt-gmaps',
-      {
-        key: 'AIzaSyAptX1_Xcjtarop4EQ2b-TmMzW8eyWbKmM',
-        //you can use libraries: ['places']
-      },
-    ],
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -49,7 +41,6 @@ export default {
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
       themes: {

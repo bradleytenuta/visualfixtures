@@ -30,6 +30,7 @@
           <!-- Default Country. -->
           <v-col class="d-flex" cols="12" sm="6">
             <v-select
+              return-object
               v-model="selectedCountry"
               :items="countries"
               item-text="countryCode"
@@ -37,7 +38,6 @@
               outlined
               class="snippet-select-box"
               label="Default Country"
-              hide-selected
             >
               <!-- HTML that describe how select should render selected items -->
               <template v-slot:selection="data">
@@ -71,7 +71,7 @@
     </v-container>
 
     <!-- Preview -->
-    <v-container fluid class="snippet-preview-container py-16" data-aos="fade-up">
+    <v-container fluid class="snippet-preview-container py-16">
       <h2>Snippet preview</h2>
       <p class="pb-8">This is how you can expect your Visual-Fixtures snippet to look on your website.</p>
       <v-card class="snippet-preview d-inline-flex">
@@ -165,7 +165,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .snippet-preview-container {
   background-color: #f5f5f5;
 }
@@ -175,10 +175,10 @@ export default {
   height: 640px;
   max-width: 360px;
   max-height: 640px;
-}
 
-.snippet-preview > iframe {
-  border: none;
+  > iframe {
+    border: none;
+  }
 }
 
 /* Overwriting Vuetify select box height. */

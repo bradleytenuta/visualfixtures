@@ -44,23 +44,25 @@ export default {
 }
 </script>
 
-<style scoped>
-.logo-title-container p {
-  font-size: 25px;
-  color: black;
-  vertical-align: bottom;
+<style lang="scss" scoped>
+.logo-title-container {
+  p {
+    font-size: 25px;
+    color: black;
+    vertical-align: bottom;
+  }
 }
 
 .title-main-text-container {
   color: black;
-}
 
-.title-main-text-container h1 {
-  font-size: 45px;
-}
+  h1 {
+    font-size: 45px;
+  }
 
-.title-main-text-container p {
-  margin: auto;
-  max-width: 400px;
+  p {
+    margin: auto;
+    max-width: 400px;
+  }
 }
 </style>

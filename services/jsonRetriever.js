@@ -20,13 +20,19 @@ export default {
 
       // Runs each inner promise, then once all inner promises are complete,
       // send a message to let the code waiting know the outer promise is done.
-      Promise.all(innerPromises).then(function (results) {
-        results.forEach(function (response) {
-          // Gets the json data and adds it to the list of competitions.
-          competitions.push(response.data)
+      Promise.all(innerPromises)
+        .then((results) => {
+          results.forEach(function (response) {
+            // Gets the json data and adds it to the list of competitions.
+            if (response.data) {
+              competitions.push(response.data)
+            }
+          })
+          resolve('done')
         })
-        resolve('done')
-      })
+        .catch((error) => {
+          console.log('No competitions found for this country!')
+        })
     })
 
     // The code waits here for the outer promise to finish before continueing.

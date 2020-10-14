@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .comp-info-card-text-container {
   display: inline-flex;
   white-space: nowrap;

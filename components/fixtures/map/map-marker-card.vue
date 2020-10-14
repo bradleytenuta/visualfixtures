@@ -1,27 +1,7 @@
 <template>
-  <v-card class="compcard marker-card-container">
-    <!-- Header Text -->
-    <v-list-item>
-      <!-- Calendar Style Date -->
-      <v-list-item-avatar class="comp-date-container" color="grey lighten-3">
-        <div>
-          <span class="comp-date-day">
-            {{ formatDate(competition.date, 'DD') }}
-          </span>
-          <br />
-          <span class="comp-date-month">
-            {{ formatDate(competition.date, 'MMM') }}
-          </span>
-        </div>
-      </v-list-item-avatar>
-
-      <!-- Competition Title Info -->
-      <v-list-item-content class="comp-title-container">
-        <v-list-item-subtitle class="comp-title">
-          {{ competition.full_name }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
+  <v-card class="compcard map-marker-card-container">
+    <!-- Card Info -->
+    <card-info :competition="competition"></card-info>
 
     <!-- Competition Extra Information -->
     <v-chip-group column class="px-6">
@@ -73,21 +53,8 @@
 
     <!-- Action Buttons -->
     <v-card-actions class="pt-0">
-      <!-- View Button -->
-      <template>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
-              <!-- Button with Link -->
-              <v-btn v-if="competition.entry_link" color="primary" :href="competition.entry_link" text>Visit Site</v-btn>
-              <!-- Disabled button - no link -->
-              <v-btn v-else :disabled="!competition.entry_link" color="primary" href="#" text> Visit Site </v-btn>
-            </div>
-          </template>
-          <span v-if="competition.entry_link">View competition and entry information (External Site)</span>
-          <span v-else>No external site available</span>
-        </v-tooltip>
-      </template>
+      <!-- Card Action Button -->
+      <card-action-button :competition="competition"></card-action-button>
     </v-card-actions>
   </v-card>
 </template>
@@ -95,13 +62,17 @@
 <script>
 import cardChip from '~/components/fixtures/list/card-chip.vue'
 import cardText from '~/components/fixtures/list/card-text.vue'
+import cardInfo from '~/components/fixtures/list/card-info.vue'
+import cardActionButton from '~/components/fixtures/list/card-action-button.vue'
 import moment from 'moment'
 
 export default {
-  name: 'marker-card',
+  name: 'map-marker-card',
   components: {
     'card-chip': cardChip,
     'card-text': cardText,
+    'card-info': cardInfo,
+    'card-action-button': cardActionButton,
   },
   props: {
     competition: {
@@ -152,8 +123,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.marker-card-container {
+<style lang="scss" scoped>
+.map-marker-card-container {
   position: absolute;
   bottom: 0;
   left: 0px;
@@ -170,6 +141,21 @@ export default {
   height: fit-content;
   overflow: hidden;
   cursor: default;
+
+  .v-icon {
+    line-height: 0 !important;
+  }
+
+  .v-chip-group .v-chip {
+    cursor: default;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .compcard {
+    max-width: 344px;
+    min-width: 344px;
+  }
 }
 
 .compcard-active {
@@ -178,45 +164,6 @@ export default {
 
 .v-card--link:focus:before {
   opacity: 0 !important;
-}
-
-.compcard .v-icon {
-  line-height: 0 !important;
-}
-
-.compcard .v-chip-group .v-chip {
-  cursor: default;
-}
-
-.comp-date-container > div {
-  margin: 0px;
-  line-height: 0.75;
-}
-
-.comp-date-day {
-  font-size: 25px;
-}
-
-.comp-date-month {
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.comp-title-container {
-  width: 100%;
-  height: 32px;
-  margin-bottom: 11px;
-  margin-top: 13px;
-  padding: 0px;
-}
-
-.comp-title {
-  height: 100%;
-  white-space: normal;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-weight: bolder;
 }
 
 .comp-button-address {
@@ -243,39 +190,31 @@ export default {
   /* Firefox scrollbar styling - webkit scrollbar works for all other browsers */
   scrollbar-width: thin;
   scrollbar-color: #cdcdcd transparent;
-}
-/* Compeititon Info Card Text Scroll Bar */
-/* width */
-.comp-info-card-text::-webkit-scrollbar {
-  height: 5px;
-  background-color: transparent;
-}
 
-/* Track */
-.comp-info-card-text::-webkit-scrollbar-track {
-  background-color: transparent;
-}
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px;
+    background-color: transparent;
+  }
 
-/* Handle */
-.comp-info-card-text::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: rgba(230, 230, 230, 0.9);
-}
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
-/* Handle on hover */
-.comp-info-card-text::-webkit-scrollbar-thumb:hover {
-  background: lightgray;
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(230, 230, 230, 0.9);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: lightgray;
+  }
 }
-/* End of Compeititon Info Card Text Scroll Bar */
 
 .comp-hor-divider {
   margin: 8px 16px;
-}
-
-@media only screen and (min-width: 550px) {
-  .compcard {
-    max-width: 344px;
-    min-width: 344px;
-  }
 }
 </style>
