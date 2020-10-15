@@ -88,6 +88,8 @@ export default {
       ...this.options,
     })
 
+    this.initChildren()
+
     // Registers events.
     this.events.forEach((event) => {
       this.map.addListener(event, (e) => {
