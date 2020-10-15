@@ -25,6 +25,14 @@ export default {
      * a given marker to the map.
      */
     init() {
+      // TODO: Works but find a better approach.
+      //    If google is undefined, exit.
+      //    This occurs when this function is called before map-container mount function
+      //    has finished running.
+      if (this.$parent.google == null) {
+        return
+      }
+
       // Initalises variables
       this.marker = null
       this.markerLoaded = false
