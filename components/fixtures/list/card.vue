@@ -89,7 +89,15 @@
       <!-- Contact Button -->
       <v-tooltip bottom v-if="competition.contact_details">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(competition.contact_details)">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            @click="
+              copyToClipboard(competition.contact_details)
+              recordAnalytics($options.cardContactEventName)
+            "
+          >
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
         </template>
@@ -99,7 +107,15 @@
       <!-- Location Button -->
       <v-tooltip bottom v-if="!isSnippet && competition.latitude && competition.longitude">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="locationClick()">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            @click="
+              locationClick()
+              recordAnalytics($options.cardLocationEventName)
+            "
+          >
             <v-icon>mdi-map-marker</v-icon>
           </v-btn>
         </template>
@@ -109,7 +125,15 @@
       <!-- Share Button -->
       <v-tooltip bottom v-if="!isSnippet">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" @click="copyToClipboard(getShareUrl(competition))">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            @click="
+              copyToClipboard(getShareUrl(competition))
+              recordAnalytics($options.cardShareEventName)
+            "
+          >
             <v-icon>mdi-share-variant</v-icon>
           </v-btn>
         </template>
@@ -124,6 +148,7 @@ import cardChip from '~/components/fixtures/list/card-chip.vue'
 import cardText from '~/components/fixtures/list/card-text.vue'
 import cardInfo from '~/components/fixtures/list/card-info.vue'
 import cardActionButton from '~/components/fixtures/list/card-action-button.vue'
+import { cardShareEventName, cardContactEventName, cardLocationEventName } from '~/services/analyticsEvents.js'
 import moment from 'moment'
 
 export default {
@@ -134,6 +159,9 @@ export default {
     'card-info': cardInfo,
     'card-action-button': cardActionButton,
   },
+  cardShareEventName,
+  cardContactEventName,
+  cardLocationEventName,
   props: {
     competition: {
       type: Object,
@@ -285,6 +313,17 @@ export default {
           this.listDropdownState = false // Closes the list dropdown if its open.
         }
       }
+    },
+    /**
+     * This function records a given button click within a card.
+     */
+    recordAnalytics(eventName) {
+      // Firebase Analytics Logs the selected country.
+      this.$fireAnalytics.logEvent(eventName, {
+        competition_id: this.competition.id,
+        country_code: this.selectedCountry.countryCode,
+        sport_name: this.sport,
+      })
     },
   },
 }

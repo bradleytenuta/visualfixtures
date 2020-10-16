@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { listDropdownEventName, filterDropdownEventName } from '~/services/analyticsEvents.js'
+
 export default {
   name: 'toolbar',
   /**
@@ -87,6 +89,20 @@ export default {
       } else {
         document.getElementById('calendar-main-container').style.maxHeight = '100%'
       }
+
+      // Firebase Analytics Logs the list dropdown state.
+      this.$fireAnalytics.logEvent(listDropdownEventName, {
+        dropdown_state: this.listDropdownState,
+      })
+    },
+    /**
+     * Watches the dropdownState. When a change is detected, its reported to analytics.
+     */
+    dropdownState() {
+      // Firebase Analytics Logs the filter dropdown state.
+      this.$fireAnalytics.logEvent(filterDropdownEventName, {
+        dropdown_state: this.dropdownState,
+      })
     },
   },
   methods: {

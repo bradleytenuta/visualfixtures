@@ -79,6 +79,7 @@
           target="_blank"
           class="menu-buymecoffee"
           style="display: block; height: 62px; background-color: #ff804d"
+          @click="recordAnalytics()"
         >
           <img src="https://cdn.buymeacoffee.com/buttons/v2/default-orange.png" alt="Buy Me A Coffee" />
         </a>
@@ -90,6 +91,7 @@
 <script>
 import modalHelp from '~/components/modals/modal-help'
 import modalContribute from '~/components/modals/modal-contribute'
+import { buyMeACoffeeEventName } from '~/services/analyticsEvents.js'
 
 export default {
   name: 'nav-bar',
@@ -98,8 +100,20 @@ export default {
     'modal-contribute': modalContribute,
   },
   methods: {
+    /**
+     * Checks to see which sport menu item is currently the active one.
+     * This id decided based on the page name provided.
+     */
     isActive(pageName) {
       return this.$route.path.toLowerCase().includes(pageName.toLowerCase())
+    },
+    /**
+     * This function is called when the user clicks to view bradley's
+     * buymeacoffee page.
+     */
+    recordAnalytics() {
+      // Firebase Analytics Log.
+      this.$fireAnalytics.logEvent(buyMeACoffeeEventName)
     },
   },
 }

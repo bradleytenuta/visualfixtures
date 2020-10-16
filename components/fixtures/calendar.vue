@@ -26,6 +26,7 @@ import list from '~/components/fixtures/list/list.vue'
 import mapView from '~/components/fixtures/map/map-view.vue'
 import jsonRetriever from '~/services/jsonRetriever.js'
 import compititonUtility from '~/services/compititonUtility.js'
+import { selectedCountryEventName, selectedCompetitionEventName } from '~/services/analyticsEvents.js'
 import moment from 'moment'
 
 export default {
@@ -73,6 +74,12 @@ export default {
         })
       }
 
+      // Firebase Analytics Logs the selected country.
+      this.$fireAnalytics.logEvent(selectedCountryEventName, {
+        country_code: this.selectedCountry.countryCode,
+        sport_name: this.sport,
+      })
+
       // Gathers the competitions from the JSON data.
       var competitions = await jsonRetriever.buildCompetitionData(this.selectedCountry)
 
@@ -107,6 +114,13 @@ export default {
       // Also if the url also already contains this id, then do nothing.
       if (this.isSnippetStore) return
       if (this.$route.query.id == this.activeComp.id) return
+
+      // Firebase Analytics Logs the selected competition.
+      this.$fireAnalytics.logEvent(selectedCompetitionEventName, {
+        competition_id: this.activeComp.id,
+        country_code: this.selectedCountry.countryCode,
+        sport_name: this.sport,
+      })
 
       // Adds a query parameter to the list query object without replacing the
       // query parameters already in the object.
