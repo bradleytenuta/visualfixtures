@@ -78,6 +78,7 @@ export default {
    */
   created() {
     if (process.browser) {
+      this.screenSize = window.innerWidth // Initialises the screen size on creation.
       window.addEventListener('resize', this.myEventHandler)
     }
   },
