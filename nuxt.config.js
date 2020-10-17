@@ -35,6 +35,7 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/firebase',
+    'nuxt-leaflet',
   ],
 
   // Firebase Module configuration (https://firebase.nuxtjs.org/)

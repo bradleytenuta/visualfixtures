@@ -33,9 +33,17 @@ describe('mapView', () => {
       viewableBranches: [...mockCompetitionTree],
       scrollCounter: 1,
     },
+    mocks: {
+      $nuxt: {
+        $L: jest.fn(),
+      },
+    },
   }
 
   it('should render the mapView component', () => {
-    expect(shallowMount(mapView, wrapperData)).toBeTruthy()
+    const wrapper = shallowMount(mapView, wrapperData)
+    //wrapper.vm.$L = L
+
+    expect(wrapper).toBeTruthy()
   })
 })

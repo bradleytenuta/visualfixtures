@@ -1,3 +1,7 @@
+<!-- 
+This component should only be rendered on the clinet side. 
+In order to do this, wrap this component within '<client-only>' tags.
+-->
 <template>
   <div class="filter-top-bar">
     <!-- Select All Checkbox -->
@@ -132,17 +136,13 @@ export default {
    * Creates a watch listener on the screen resize.
    */
   created() {
-    if (process.browser) {
-      window.addEventListener('resize', this.myEventHandler)
-    }
+    window.addEventListener('resize', this.myEventHandler)
   },
   /**
    * when this is destroyed, it also destroies the screen size listener.
    */
   destroyed() {
-    if (process.browser) {
-      window.removeEventListener('resize', this.myEventHandler)
-    }
+    window.removeEventListener('resize', this.myEventHandler)
   },
 }
 </script>

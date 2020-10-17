@@ -4,18 +4,24 @@
       <!-- Filters Menu -->
       <div class="d-flex filter-container">
         <!-- Toolbar Component -->
-        <toolbar />
+        <client-only>
+          <toolbar />
+        </client-only>
 
         <!-- Dropdown Component -->
         <dropdown :countries="countries" :months="months" />
       </div>
 
       <!-- Fixture List -->
-      <list :viewableBranches="viewableBranches" :scrollCounter="scrollCounter" v-on:updateScrollCounter="updateScrollCounter" />
+      <client-only>
+        <list :viewableBranches="viewableBranches" :scrollCounter="scrollCounter" v-on:updateScrollCounter="updateScrollCounter" />
+      </client-only>
     </div>
 
     <!-- Map Component -->
-    <map-view v-if="!isSnippet" :viewableBranches="viewableBranches" :scrollCounter="scrollCounter"></map-view>
+    <client-only>
+      <map-view v-if="!isSnippet" :viewableBranches="viewableBranches" :scrollCounter="scrollCounter"></map-view>
+    </client-only>
   </div>
 </template>
 
