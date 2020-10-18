@@ -31,12 +31,22 @@
 </template>
 
 <script>
+import { modalContributeEventName } from '~/services/analyticsEvents.js'
+
 export default {
   name: 'modal-contribute',
   data() {
     return {
       dialog: false,
     }
+  },
+  watch: {
+    dialog() {
+      if (this.dialog == true) {
+        // Firebase Analytics Logs the click of contribute modal.
+        this.$fireAnalytics.logEvent(modalContributeEventName)
+      }
+    },
   },
 }
 </script>

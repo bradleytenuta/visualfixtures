@@ -40,6 +40,7 @@ describe('calendar', () => {
     store,
     stubs: {
       NuxtLink: true,
+      'client-only': { template: '<div><slot /></div>' },
     },
     propsData: {
       countries: mockedCountries,

@@ -1,29 +1,30 @@
+<!-- 
+This component should only be rendered on the clinet side. 
+In order to do this, wrap this component within '<client-only>' tags.
+
+This is made with: vue2-leaflet (https://vue2-leaflet.netlify.app/).
+This itself wraps leaflet.js into vue components.
+Its then wrapped in another module to work with Nuxt: nuxt-leaflet (https://github.com/schlunsen/nuxt-leaflet).
+
+Use this website to choose a leaflet tile provider: http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+Some providers are free for development buy require payment when in production: (https://github.com/leaflet-extras/leaflet-providers)
+
+To Access the Leaflet map object: 'this.$refs.lMap.mapObject'
+-->
 <template>
   <div class="map-outer-container">
-    <!-- 28,000 free map loads a month - £0.007 per load afterwards -->
-    <map-container
-      ref="vfmap"
-      language="en"
-      :options="{
-        fullscreenControl: false,
-        streetViewControl: false,
-        mapTypeControl: false,
-        zoomControl: true,
-        gestureHandling: 'greedy',
-        styles: mapStyle,
-      }"
-    >
+    <l-map ref="lMap" :zoom="8" :center="[defaultCenter.lat, defaultCenter.lng]" :options="{ zoomControl: false }">
       <template v-for="viewableBranch in viewableBranches.slice(0, scrollCounter)">
-        <map-marker
+        <l-marker
           v-for="competition in viewableBranch.competitions"
           v-if="competition.latitude && competition.longitude"
           :key="competition.id"
-          :position="{ lat: competition.latitude, lng: competition.longitude }"
-          :options="{ icon: competition == activeComp ? pins.selected : pins.notSelected }"
+          :lat-lng="[competition.latitude, competition.longitude]"
+          :icon="competition == activeComp ? customIcons.selected : customIcons.notSelected"
           @click="activateComp(competition)"
-        ></map-marker>
+        ></l-marker>
       </template>
-    </map-container>
+    </l-map>
 
     <!-- Marker card container -->
     <!-- Contains information about the currently selected competition, only in mobile view -->
@@ -36,17 +37,12 @@
 
 <script>
 // All map styles are saved in a seperate file.
-import { retro } from '~/static/mapStyles'
 import markerCard from '~/components/fixtures/map/map-marker-card'
-import mapContainer from '~/components/fixtures/map/map-container'
-import mapMarker from '~/components/fixtures/map/map-marker'
 
 export default {
   name: 'map-view',
   components: {
     'map-marker-card': markerCard,
-    'map-container': mapContainer,
-    'map-marker': mapMarker,
   },
   props: {
     viewableBranches: {
@@ -60,13 +56,22 @@ export default {
   },
   data() {
     return {
-      pins: {
-        selected:
-          'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker-active.png?alt=media&token=e3671736-43b6-48c9-9478-a311f40208d3',
-        notSelected:
-          'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=8cedc93f-f09c-4ed9-9adf-e394591f74f5',
+      // Contains a custom selected image and a custom non selected image.
+      customIcons: {
+        selected: new this.$L.Icon({
+          iconUrl:
+            'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker-active.png?alt=media&token=e3671736-43b6-48c9-9478-a311f40208d3',
+        }),
+        notSelected: new this.$L.Icon({
+          iconUrl:
+            'https://firebasestorage.googleapis.com/v0/b/visualfixtures.appspot.com/o/map%2Fmap-marker.png?alt=media&token=8cedc93f-f09c-4ed9-9adf-e394591f74f5',
+        }),
       },
-      mapStyle: retro,
+      // Default Center is london.
+      defaultCenter: {
+        lat: 51.5287718,
+        lng: -0.2416804,
+      },
       screenSize: 0,
     }
   },
@@ -87,49 +92,62 @@ export default {
    * Creates a watch listener on the screen resize.
    */
   created() {
-    if (process.browser) {
-      window.addEventListener('resize', this.myEventHandler)
-    }
+    window.addEventListener('resize', this.myEventHandler)
   },
   /**
    * when this is destroyed, it also destroies the screen size listener.
    */
   destroyed() {
-    if (process.browser) {
-      window.removeEventListener('resize', this.myEventHandler)
-    }
+    window.removeEventListener('resize', this.myEventHandler)
+  },
+  async mounted() {
+    // Waits for map component to load.
+    await this.$nextTick()
+
+    // Creates a tile layer to display within the map object.
+    //This was copied from the leaflet tile provider website.
+    var stadiaTileLayer = this.$L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    })
+
+    // Adds the tile to the map.
+    stadiaTileLayer.addTo(this.$refs.lMap.mapObject)
+
+    // Initialises the screen size on creation.
+    this.screenSize = window.innerWidth
   },
   watch: {
     /**
-     * Whenever viewable branches updates it waits a tick then updates the map markers.
-     * We wait a tick for the child elements of the map to be added. Then the map centre is
-     * given based on a selected competition or the first in the list.
+     * Watches for changes in viewablebranches. If a change is detected then
+     * update the maps center based on the currently active comp or the first comp
+     * in the list.
      */
     async viewableBranches() {
-      await this.$nextTick() // Waits for a tick for the children to be added to the map element.
-      this.$refs.vfmap.initChildren()
+      var firstCompWithLocation = null
+      var activeCompFound = false
 
-      // Sets the centre for the map based on the currently active comp, or the first comp in the list.
-      if (this.activeComp) {
-        this.setCentre(this.activeComp)
-      } else {
-        for (let branch of this.viewableBranches) {
-          for (let competition of branch.competitions) {
-            if (competition.latitude && competition.longitude) {
-              this.setCentre(competition)
-              break
-            }
+      // Loops through each branch and competition.
+      for (let branch of this.viewableBranches) {
+        for (let competition of branch.competitions) {
+          // If the currently active competition was found.
+          if (this.activeComp == competition) {
+            this.setCentre(this.activeComp)
+            activeCompFound = true
+            break
+          }
+
+          // If the competition has a valid location and a first comp has not been set yet.
+          if (competition.latitude && competition.longitude && firstCompWithLocation == null) {
+            firstCompWithLocation = competition
           }
         }
       }
-    },
-    /**
-     * When scroll counter updates, runs the init function to produce more markers.
-     * This only runs when displaying all.
-     */
-    async scrollCounter() {
-      await this.$nextTick() // Waits for a tick for the children to be added to the map element.
-      this.$refs.vfmap.initChildren()
+
+      // Sets the first comp if an active comp wasnt found in the comp list.
+      if (firstCompWithLocation && !activeCompFound) {
+        this.setCentre(firstCompWithLocation)
+      }
     },
     /**
      * Watches for the active competition to change. When it does, recentre the map onto
@@ -155,12 +173,7 @@ export default {
      */
     setCentre(competition) {
       if (competition.latitude && competition.longitude) {
-        if (competition) {
-          this.$refs.vfmap.map.setCenter({
-            lat: competition.latitude,
-            lng: competition.longitude,
-          })
-        }
+        this.$refs.lMap.mapObject.panTo(new this.$L.LatLng(competition.latitude, competition.longitude))
       }
     },
     /**

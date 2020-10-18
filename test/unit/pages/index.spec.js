@@ -18,6 +18,7 @@ describe('index', () => {
     localVue,
     stubs: {
       NuxtLink: true,
+      'client-only': { template: '<div><slot /></div>' },
     },
   }
 

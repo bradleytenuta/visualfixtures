@@ -127,12 +127,14 @@ export default {
 .map-marker-card-container {
   position: absolute;
   bottom: 0;
-  left: 0px;
-  width: 275px !important;
+  left: 0;
+  right: 0;
+  width: auto !important;
   margin: 10px !important;
-  margin-bottom: 25px !important;
+  margin-bottom: 50px !important;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px !important;
   border-radius: 2px;
+  z-index: 1000;
 }
 
 .compcard {

@@ -1,3 +1,7 @@
+<!-- 
+This component should only be rendered on the clinet side. 
+In order to do this, wrap this component within '<client-only>' tags.
+-->
 <template>
   <v-container fluid class="text-center px-0 py-16">
     <v-container class="snippet-tool-outer-container">
@@ -128,9 +132,7 @@ export default {
      */
     copyPasteCodeUrl() {
       var url = 'https://www.visual-fixtures.com/snippets'
-      if (process.browser) {
-        url = window.location.origin + '/snippets'
-      }
+      url = window.location.origin + '/snippets'
 
       // Gets the desired sport.
       url = url + '/' + this.selectedSport.name.toLowerCase()

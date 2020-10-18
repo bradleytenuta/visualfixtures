@@ -3,10 +3,10 @@ export const mockCompeitions = [
   {
     id: '1877b684-479c-4e17-a776-53b2474325d6',
     is_demo: false,
-    date: '2030-12-04',
+    date: '2060-12-04',
     full_name: 'South London Athletic Network Open Meeting',
     num_competitors: 233,
-    finish_date: '2030-12-04',
+    finish_date: '2060-12-04',
     type: 'INDOOR',
     age_groups: '',
     address: 'David Weir Arena Middleton Road Carshalton Surrey',
@@ -15,14 +15,16 @@ export const mockCompeitions = [
     latitude: null,
     longitude: null,
     dirtyProperty: 'Should be cleaned',
+    country: 'NOR',
+    country_id: 'NOR',
   },
   {
     id: '56d94401-1c2a-47a2-9118-cdcce65a3f48',
     is_demo: false,
-    date: '2030-12-05',
+    date: '2060-12-05',
     full_name: 'Buckinghamshire Cross Country Championships',
     num_competitors: 295,
-    finish_date: '2030-12-05',
+    finish_date: '2060-12-05',
     type: 'CROSSCOUNTRY',
     age_groups: '',
     address: 'Shuttleworth, Old Warden Park, Biggleswade',
@@ -31,6 +33,8 @@ export const mockCompeitions = [
     latitude: 52.0851,
     longitude: -0.3267,
     dirtyProperty: 'Should be cleaned',
+    country: 'NOR',
+    country_id: 'NOR',
   },
 ]
 
@@ -38,10 +42,10 @@ export const mockCompeitions = [
 export const mockCompetition = {
   id: '1877b684-479c-4e17-a776-53b2474325d6',
   is_demo: false,
-  date: '2020-01-04',
+  date: '2060-01-04',
   full_name: 'South London Athletic Network Open Meeting',
   num_competitors: 233,
-  finish_date: '2020-01-04',
+  finish_date: '2060-01-04',
   type: 'INDOOR',
   age_groups: '',
   address: 'David Weir Arena Middleton Road Carshalton Surrey',
@@ -50,6 +54,8 @@ export const mockCompetition = {
   latitude: null,
   longitude: null,
   dirtyProperty: 'Should be cleaned',
+  country: 'NOR',
+  country_id: 'NOR',
 }
 
 // Mock of country array
@@ -75,6 +81,6 @@ export const mockedSport = 'athletics'
 export const mockCompetitionTree = [
   {
     competitions: mockCompeitions,
-    month: 'January 2020',
+    month: 'January 2060',
   },
 ]

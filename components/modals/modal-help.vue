@@ -20,12 +20,22 @@
 </template>
 
 <script>
+import { modalHelpEventName } from '~/services/analyticsEvents.js'
+
 export default {
   name: 'modal-help',
   data() {
     return {
       dialog: false,
     }
+  },
+  watch: {
+    dialog() {
+      if (this.dialog == true) {
+        // Firebase Analytics Logs the click of help modal.
+        this.$fireAnalytics.logEvent(modalHelpEventName)
+      }
+    },
   },
 }
 </script>

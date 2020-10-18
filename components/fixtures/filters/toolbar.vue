@@ -1,3 +1,7 @@
+<!-- 
+This component should only be rendered on the clinet side. 
+In order to do this, wrap this component within '<client-only>' tags.
+-->
 <template>
   <div class="filter-top-bar">
     <!-- Select All Checkbox -->
@@ -33,6 +37,8 @@
 </template>
 
 <script>
+import { listDropdownEventName, filterDropdownEventName } from '~/services/analyticsEvents.js'
+
 export default {
   name: 'toolbar',
   /**
@@ -87,6 +93,20 @@ export default {
       } else {
         document.getElementById('calendar-main-container').style.maxHeight = '100%'
       }
+
+      // Firebase Analytics Logs the list dropdown state.
+      this.$fireAnalytics.logEvent(listDropdownEventName, {
+        dropdown_state: this.listDropdownState,
+      })
+    },
+    /**
+     * Watches the dropdownState. When a change is detected, its reported to analytics.
+     */
+    dropdownState() {
+      // Firebase Analytics Logs the filter dropdown state.
+      this.$fireAnalytics.logEvent(filterDropdownEventName, {
+        dropdown_state: this.dropdownState,
+      })
     },
   },
   methods: {
@@ -116,17 +136,13 @@ export default {
    * Creates a watch listener on the screen resize.
    */
   created() {
-    if (process.browser) {
-      window.addEventListener('resize', this.myEventHandler)
-    }
+    window.addEventListener('resize', this.myEventHandler)
   },
   /**
    * when this is destroyed, it also destroies the screen size listener.
    */
   destroyed() {
-    if (process.browser) {
-      window.removeEventListener('resize', this.myEventHandler)
-    }
+    window.removeEventListener('resize', this.myEventHandler)
   },
 }
 </script>

@@ -34,7 +34,27 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/firebase',
+    'nuxt-leaflet',
   ],
+
+  // Firebase Module configuration (https://firebase.nuxtjs.org/)
+  // TODO: Replace with visual-fixtures webapp once happy.
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyCo9oVpYp0IN-Jw3VwU0KHODouIbCaSC6o',
+      authDomain: 'visualfixturestest.firebaseapp.com',
+      databaseURL: 'https://visualfixturestest.firebaseio.com',
+      projectId: 'visualfixturestest',
+      storageBucket: 'visualfixturestest.appspot.com',
+      messagingSenderId: '323461236085',
+      appId: '1:323461236085:web:8c9a3d9582459f1f617f3c',
+      measurementId: 'G-70ZJVPNL2L',
+    },
+    services: {
+      analytics: true,
+    },
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},

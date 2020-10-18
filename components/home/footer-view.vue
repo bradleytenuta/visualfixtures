@@ -3,11 +3,11 @@
     <v-row justify="center" no-gutters>
       <!-- Footer Buttons -->
       <modal-help>
-        <v-btn color="white" text rounded class="my-2">Help</v-btn>
+        <v-btn id="modalHelpButton" color="white" text rounded class="my-2">Help</v-btn>
       </modal-help>
 
       <modal-contribute>
-        <v-btn color="white" text rounded class="my-2">Contribute</v-btn>
+        <v-btn id="modalContributeButton" color="white" text rounded class="my-2">Contribute</v-btn>
       </modal-contribute>
 
       <!-- Footer Credits -->

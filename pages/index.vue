@@ -4,7 +4,9 @@
     <title-view></title-view>
 
     <!-- Snippets -->
-    <snippet></snippet>
+    <client-only>
+      <snippet></snippet>
+    </client-only>
 
     <!-- Providers -->
     <providers></providers>
