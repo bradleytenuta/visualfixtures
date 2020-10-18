@@ -24,6 +24,7 @@ commands:
 
 # A list of all the possible jobs to run.
 jobs:
+  # This job sets up the project and installs all the npm packages and saves them to cache.
   setup:
     executor:
       name: node_executor
@@ -32,13 +33,31 @@ jobs:
       - restore_npm_cache
       - run: npm install
       - save_npm_cache
-  test:
+  # This job runs all the unit tests within the project.
+  test_unit:
     executor:
       name: node_executor
     steps:
       - checkout
       - restore_npm_cache
-      - run: npm run test
+      - run: npm run test test/unit
+  # This job runs all the integration tests within the project.
+  # This requires generating and deploying to the test website first before
+  # running the integration tests.
+  # TODO: Test this job and then add to workflows.
+  test_integration:
+    executor:
+      name: node_executor
+    steps:
+      - checkout
+      - restore_npm_cache
+      - run: npm run generate
+      - run: ./node_modules/.bin/firebase deploy -P default --token "$FIREBASE_TOKEN"
+      - run: cp .env.example .env
+      - run: sed -i 's/BROWSERSTACK_USERNAME=/BROWSERSTACK_USERNAME=$BROWSERSTACK_USERNAME/g' .env
+      - run: sed -i 's/BROWSERSTACK_AUTOMATE_KEY=/BROWSERSTACK_AUTOMATE_KEY=$BROWSERSTACK_AUTOMATE_KEY/g' .env
+      - run: npm run test test/integration
+  # This job deploys the project to the production website.
   deploy:
     executor:
       name: node_executor
@@ -53,12 +72,12 @@ workflows:
   commit:
     jobs:
       - setup
-      - test:
+      - test_unit:
           requires:
             - setup
       - deploy:
           requires:
-            - test
+            - test_unit
           filters:
             branches:
               only:
@@ -73,6 +92,6 @@ workflows:
                 - master
     jobs:
       - setup
-      - test:
+      - test_unit:
           requires:
             - setup

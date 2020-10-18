@@ -7,6 +7,7 @@ This itself wraps leaflet.js into vue components.
 Its then wrapped in another module to work with Nuxt: nuxt-leaflet (https://github.com/schlunsen/nuxt-leaflet).
 
 Use this website to choose a leaflet tile provider: http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+Some providers are free for development buy require payment when in production: (https://github.com/leaflet-extras/leaflet-providers)
 
 To Access the Leaflet map object: 'this.$refs.lMap.mapObject'
 -->
@@ -105,10 +106,9 @@ export default {
 
     // Creates a tile layer to display within the map object.
     //This was copied from the leaflet tile provider website.
-    var stadiaTileLayer = this.$L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
-      maxZoom: 20,
-      attribution:
-        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    var stadiaTileLayer = this.$L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     })
 
     // Adds the tile to the map.
