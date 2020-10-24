@@ -53,6 +53,7 @@ export default {
     },
     services: {
       analytics: true,
+      performance: true,
     },
   },
 
