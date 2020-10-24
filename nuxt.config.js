@@ -38,21 +38,34 @@ export default {
     'nuxt-leaflet',
   ],
 
+  /*
+  Firebase Test site configuration.
+
+  apiKey: 'AIzaSyCo9oVpYp0IN-Jw3VwU0KHODouIbCaSC6o',
+  authDomain: 'visualfixturestest.firebaseapp.com',
+  databaseURL: 'https://visualfixturestest.firebaseio.com',
+  projectId: 'visualfixturestest',
+  storageBucket: 'visualfixturestest.appspot.com',
+  messagingSenderId: '323461236085',
+  appId: '1:323461236085:web:8c9a3d9582459f1f617f3c',
+  measurementId: 'G-70ZJVPNL2L',
+  */
+
   // Firebase Module configuration (https://firebase.nuxtjs.org/)
-  // TODO: Replace with visual-fixtures webapp once happy.
   firebase: {
     config: {
-      apiKey: 'AIzaSyCo9oVpYp0IN-Jw3VwU0KHODouIbCaSC6o',
-      authDomain: 'visualfixturestest.firebaseapp.com',
-      databaseURL: 'https://visualfixturestest.firebaseio.com',
-      projectId: 'visualfixturestest',
-      storageBucket: 'visualfixturestest.appspot.com',
-      messagingSenderId: '323461236085',
-      appId: '1:323461236085:web:8c9a3d9582459f1f617f3c',
-      measurementId: 'G-70ZJVPNL2L',
+      apiKey: 'AIzaSyC_hgrcbDAwOXukox20HaIFVljuPIlnchE',
+      authDomain: 'visualfixtures.firebaseapp.com',
+      databaseURL: 'https://visualfixtures.firebaseio.com',
+      projectId: 'visualfixtures',
+      storageBucket: 'visualfixtures.appspot.com',
+      messagingSenderId: '406569430797',
+      appId: '1:406569430797:web:b6cba3834ed7946684ca44',
+      measurementId: 'G-KQ28094T12',
     },
     services: {
       analytics: true,
+      performance: true,
     },
   },
 

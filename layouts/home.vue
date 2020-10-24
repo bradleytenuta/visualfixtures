@@ -7,6 +7,19 @@
 <script>
 export default {
   name: 'home',
+  head() {
+    return {
+      titleTemplate: 'Visual-Fixtures',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Whether you compete with a club or flying solo, Visual Fixtures makes it easy to find competitions wherever you are and anytime of year.',
+        },
+      ],
+    }
+  },
   // TODO: Revert mounted styling back to CSS once Nuxt 3 is released.
   mounted() {
     document.getElementById('__nuxt').removeAttribute('style')

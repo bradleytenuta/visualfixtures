@@ -1,7 +1,9 @@
 <template>
   <v-app id="app">
     <!-- Fixtures Navbar -->
-    <nav-bar />
+    <client-only>
+      <nav-bar v-if="!isSnippet" />
+    </client-only>
 
     <!-- Page Content -->
     <nuxt />
@@ -14,6 +16,16 @@ export default {
   name: 'fixtures',
   components: {
     'nav-bar': navbar,
+  },
+  head() {
+    return {
+      titleTemplate: '%s - Visual-Fixtures',
+    }
+  },
+  computed: {
+    isSnippet() {
+      return this.$store.state.isSnippet
+    },
   },
   // TODO: Revert mounted styling back to CSS once Nuxt 3 is released.
   mounted() {

@@ -106,13 +106,17 @@ export default {
 
     // Creates a tile layer to display within the map object.
     //This was copied from the leaflet tile provider website.
-    var stadiaTileLayer = this.$L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    var newTileLayer = this.$L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
+      attribution:
+        'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      subdomains: 'abcd',
+      minZoom: 0,
+      maxZoom: 18,
+      ext: 'png',
     })
 
     // Adds the tile to the map.
-    stadiaTileLayer.addTo(this.$refs.lMap.mapObject)
+    newTileLayer.addTo(this.$refs.lMap.mapObject)
 
     // Initialises the screen size on creation.
     this.screenSize = window.innerWidth
@@ -128,7 +132,7 @@ export default {
       var activeCompFound = false
 
       // Loops through each branch and competition.
-      for (let branch of this.viewableBranches) {
+      for (let branch of this.viewableBranches.slice(0, this.scrollCounter)) {
         for (let competition of branch.competitions) {
           // If the currently active competition was found.
           if (this.activeComp == competition) {
