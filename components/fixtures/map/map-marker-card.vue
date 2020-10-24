@@ -22,7 +22,7 @@
     </v-chip-group>
 
     <!-- Competition Info - No Action -->
-    <v-card-text class="py-0">
+    <v-card-text class="py-0" v-if="!isFinishDateSame(competition) || competition.type || competition.age_groups">
       <div class="comp-info-card-text pb-2">
         <!-- Finish Date if on different to start date -->
         <card-text
